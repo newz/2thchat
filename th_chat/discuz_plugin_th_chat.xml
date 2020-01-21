@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X3.4]]></item>
+	<item id="Time"><![CDATA[2012-4-19 00:00]]></item>
+	<item id="From"><![CDATA[2TH Chat (https://necz.net/projects/2th_chat)]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[Chat X]]></item>
+			<item id="identifier"><![CDATA[th_chat]]></item>
+			<item id="description"><![CDATA[Chatroom for Discuz!]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[th_chat/]]></item>
+			<item id="copyright"><![CDATA[newz]]></item>
+			<item id="version"><![CDATA[1.12]]></item>
+			<item id="__modules">
+				<item id="0">
+					<item id="name"><![CDATA[chat]]></item>
+					<item id="menu"><![CDATA[]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[11]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+				</item>
+				<item id="1">
+					<item id="name"><![CDATA[chat_full]]></item>
+					<item id="menu"><![CDATA[Chatbox]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[5]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+					<item id="navtitle"><![CDATA[]]></item>
+					<item id="navicon"><![CDATA[]]></item>
+					<item id="navsubname"><![CDATA[]]></item>
+					<item id="navsuburl"><![CDATA[]]></item>
+				</item>
+			</item>
+		</item>
+		<item id="version"><![CDATA[X3.4]]></item>
+		<item id="license"><![CDATA[1. เนื้อหาซอฟแวร์ของเราดาวน์โหลดฟรีได้ที่ https://necz.net/projects/2th_chat
+2. คุณไม่มีสิทธิ์ ลบหรือดัดแปลง ลิ้งก์ และเนื่อหาในส่วน copyright ไม่ว่าจะดัดแปลง เนื้อหาซอฟแวร์ไปเพียงใดก็ตาม]]></item>
+		<item id="installfile"><![CDATA[install.php]]></item>
+		<item id="uninstallfile"><![CDATA[uninstall.php]]></item>
+		<item id="var">
+			<item id="0">
+				<item id="displayorder"><![CDATA[6]]></item>
+				<item id="title"><![CDATA[การแสดงข้อความในแชท]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[chat_type]]></item>
+				<item id="type"><![CDATA[select]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[1 = ข้อความใหม่อยู่ด้านบน
+2 = ข้อความใหม่อยู่ด้านล่าง]]></item>
+			</item>
+			<item id="1">
+				<item id="displayorder"><![CDATA[2]]></item>
+				<item id="title"><![CDATA[จำนวนข้อความที่จะแสดงเริ่มต้น]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[chat_init]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[30]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="2">
+				<item id="displayorder"><![CDATA[3]]></item>
+				<item id="title"><![CDATA[จำนวน log ที่จะเก็บไว้สูงสุด]]></item>
+				<item id="description"><![CDATA[ไม่ควรแก้ไขถ้าคุณเข้าใจมันคืออะไร!]]></item>
+				<item id="variable"><![CDATA[chat_log]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[100]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="3">
+				<item id="displayorder"><![CDATA[4]]></item>
+				<item id="title"><![CDATA[ที่อยู่ภาพพื้นหลัง]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[chat_bg]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="4">
+				<item id="displayorder"><![CDATA[5]]></item>
+				<item id="title"><![CDATA[ตำแหน่งพื้นหลัง]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[chat_bgpos]]></item>
+				<item id="type"><![CDATA[select]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[1 = บนซ้าย
+2 = บน
+3 = บนขวา
+4 = กลางซ้าย
+5 = กลาง
+6 = กลางขวา
+7 = ล่างซ้าย
+8 = ล่าง
+9 = ล่างขวา]]></item>
+			</item>
+			<item id="5">
+				<item id="displayorder"><![CDATA[6]]></item>
+				<item id="title"><![CDATA[การทำซ้ำพื้นหลัง]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[chat_bgrepeat]]></item>
+				<item id="type"><![CDATA[select]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[1 = ไม่ทำซ้ำ
+2 = ทำซ้ำแนวนอน
+3 = ทำซ้ำแนวตั้ง
+4 = ทำซ้ำแนวนอนและแนวตั้ง]]></item>
+			</item>
+			<item id="6">
+				<item id="displayorder"><![CDATA[6]]></item>
+				<item id="title"><![CDATA[ระบบ chatpoint]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[chat_point]]></item>
+				<item id="type"><![CDATA[select]]></item>
+				<item id="value"><![CDATA[0]]></item>
+				<item id="extra"><![CDATA[0 = ปิดใช้งาน
+1 = ใช้ extcredits1
+2 = ใช้ extcredits2
+3 = ใช้ extcredits3
+4 = ใช้ extcredits4
+5 = ใช้ extcredits5
+6 = ใช้ extcredits6
+7 = ใช้ extcredits7
+8 = ใช้ extcredits8]]></item>
+			</item>
+			<item id="7">
+				<item id="displayorder"><![CDATA[7]]></item>
+				<item id="title"><![CDATA[ดีเลย์ในแชท (ป้องกันคนฟลัด)]]></item>
+				<item id="description"><![CDATA[หน่วยเป็นมิลลิวินาที (1000 = 1 วินาที ,2000 = 2 วินาที)]]></item>
+				<item id="variable"><![CDATA[chat_delay]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[1000]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="8">
+				<item id="displayorder"><![CDATA[8]]></item>
+				<item id="title"><![CDATA[ความยาวข้อความสูงสุด]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[chat_strlen]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[500]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="9">
+				<item id="displayorder"><![CDATA[9]]></item>
+				<item id="title"><![CDATA[UID ที่ห้ามใช้งานห้องแชท]]></item>
+				<item id="description"><![CDATA[คั่นด้วย , เช่น 221,223,119 หรือสามารถพิมพ์ /ban ตามด้วย UID เพื่อแบนได้จาก Chatbox]]></item>
+				<item id="variable"><![CDATA[chat_ban]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="10">
+				<item id="displayorder"><![CDATA[10]]></item>
+				<item id="title"><![CDATA[ใช้งาน HTML]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[usehtml]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[0]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="11">
+				<item id="displayorder"><![CDATA[11]]></item>
+				<item id="title"><![CDATA[ใช้งานตัวยิ้ม]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[useemo]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="12">
+				<item id="displayorder"><![CDATA[12]]></item>
+				<item id="title"><![CDATA[ใช้งาน Discuz! Code]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[usedzc]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="13">
+				<item id="displayorder"><![CDATA[13]]></item>
+				<item id="title"><![CDATA[ใช้งานรูปภาพ]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[useimg]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="14">
+				<item id="displayorder"><![CDATA[13]]></item>
+				<item id="title"><![CDATA[ตรวจสอบ url อัตโนมัติ]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[autourl]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="15">
+				<item id="displayorder"><![CDATA[2]]></item>
+				<item id="title"><![CDATA[ประกาศ]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[welcometext]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[ยินดีต้อนรับสู่ห้องแชท]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="16">
+				<item id="displayorder"><![CDATA[7]]></item>
+				<item id="title"><![CDATA[เวลารีโหลดแชท]]></item>
+				<item id="description"><![CDATA[หน่วยเป็นมิลลิวินาที (1000 = 1 วินาที ,2000 = 2 วินาที) ยิ่งน้อยยิ่งเร็ว แต่จะยิ่งทำให้ server ทำงานหนัก]]></item>
+				<item id="variable"><![CDATA[chat_reload]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[5000]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="17">
+				<item id="displayorder"><![CDATA[8]]></item>
+				<item id="title"><![CDATA[ข้อความที่แสดงสำหรับผู้ที่ไม่ได้เข้าสู่ระบบ]]></item>
+				<item id="description"><![CDATA[สามารถใช้ html ได้, ถ้าปล่อยว่างไว้จะแสดงข้อความแชทปกติ]]></item>
+				<item id="variable"><![CDATA[guest_show]]></item>
+				<item id="type"><![CDATA[textarea]]></item>
+				<item id="value"><![CDATA[<center style="margin:20px 0;">
+<b>กรุณาสมัครสมาชิกหรือเข้าสู่ระบบก่อนนะจ๊ะ ^_^</b>
+<br />
+<a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href)">เข้าสู่ระบบ</a> หรือ <a href="member.php?mod=register" onclick="showWindow('register', this.href)">สมัครสมาชิก</a>
+</center>]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="18">
+				<item id="displayorder"><![CDATA[14]]></item>
+				<item id="title"><![CDATA[แสดง Icon OS ผู้ใช้งาน]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[showos]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[0]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="19">
+				<item id="displayorder"><![CDATA[3]]></item>
+				<item id="title"><![CDATA[การ clear ข้อมูลเก่า]]></item>
+				<item id="description"><![CDATA[ถ้ามีไม่มีการ clear ข้อมูล log ของการ chat ทั้งหมดจะถูกเก็บไว้ และอาจจะกระตุกเมื่อ log มีจำนวนมาก (ต้อง reload page ใหม่)
+ถ้ามีการ clear ข้อมูล chat จะรักษาจำนวนแถวไว้ตามจำนวนแถวที่แสดงเริ่มต้น
+*** ถ้ามีการ clear fade affect จะไม่สามารถใช้ได้]]></item>
+				<item id="variable"><![CDATA[typechatrow]]></item>
+				<item id="type"><![CDATA[select]]></item>
+				<item id="value"><![CDATA[0]]></item>
+				<item id="extra"><![CDATA[0 = ไม่มีการ clear ข้อมูลเก่า
+1 = มีการ clear ข้อมูลเก่า]]></item>
+			</item>
+			<item id="20">
+				<item id="displayorder"><![CDATA[4]]></item>
+				<item id="title"><![CDATA[ที่อยู่ไฟล์เสียง pm]]></item>
+				<item id="description"><![CDATA[เว้นว่างไว้ถ้าไม่ต้องการ]]></item>
+				<item id="variable"><![CDATA[pm_sound]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[source/plugin/th_chat/images/msn.mp3]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+		</item>
+	</item>
+</root>
