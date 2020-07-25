@@ -283,7 +283,7 @@ tr.nzchatrow td {}
     padding: 2px 3px;
     display: inline-block;
     border: 1px solid #999;
-    background: #E5E5E5 url(static/image/common/pn.png) repeat-x 0 0;
+    background: #E5E5E5 url('../../../../static/image/common/pn.png') repeat-x 0 0;
     -moz-box-shadow: 0 1px 0 #E5E5E5;
     -webkit-box-shadow: 0 1px 0 #E5E5E5;
     box-shadow: 0 1px 0 #E5E5E5;
@@ -440,7 +440,7 @@ tr.nzchatrow td {}
     width: 24px;
     height: 24px;
 	margin-right: 2px;
-    background: url('/source/plugin/th_chat/images/img.png');
+    background: url('../../../../source/plugin/th_chat/images/img.png');
 	border: 1px solid #ccc;
 	border-radius: 2px;
 	padding-right: 2px;
@@ -455,7 +455,7 @@ tr.nzchatrow td {}
     cursor: pointer;
     width: 24px;
     height: 24px;
-    background: url('/source/plugin/th_chat/images/emoji.png');
+    background: url('../../../../source/plugin/th_chat/images/emoji.png');
 	border: 1px solid #ccc;
 	border-radius: 2px;
 }
@@ -498,14 +498,14 @@ tr.nzchatrow td {}
 .nzcancel {
 	height: 16px;
 	width: 16px;
-	background: url(/source/plugin/th_chat/images/cancel.png);
+	background: url('../../../../source/plugin/th_chat/images/cancel.png');
 	cursor: pointer;
 	margin-left: 3px;
 	flex-shrink: 0;
 }
 
 .nzcancel:hover {
-	background: url(/source/plugin/th_chat/images/cancel_h.png);
+	background: url('../../../../source/plugin/th_chat/images/cancel_h.png');
 }
 
 .nztag {

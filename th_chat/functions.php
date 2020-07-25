@@ -1,4 +1,4 @@
-<?
+<?php
 function getat($attextn){
 	global $config;
 	if(preg_match_all('/@(.*?)(\s|\z)/',$attextn,$atmatch)) {
