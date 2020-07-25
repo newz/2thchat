@@ -9,6 +9,9 @@ include 'functions.php';
 if($uid<1){
 	die(json_encode(array('type'=>1,'error'=>''.lang('plugin/th_chat', 'jdj_th_chat_text_php_05').'')));
 }
+if(!in_array($_G['groupid'],unserialize($config['allow_group']))){
+	die(json_encode(array('type'=>1,'error'=>'คุณไม่มีสิทธิ')));
+}
 $banned = DB::query("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
 $banned = DB::fetch($banned);
 eval("\$banned = array({$banned['value']});");
@@ -21,14 +24,12 @@ if (get_magic_quotes_gpc()) {
 else {
 	$text = $_POST['text'];
 }
-$f = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/discuz.htm');
 $id = intval($_POST['lastid']);
-$touid = intval($_POST['touid']);
+$touid = 0;
 $quota = intval($_POST['quota']);
 $command = $_POST['command'];
 $color = str_replace(array('\'','\\','"','<','>'),'',$_POST['color']);
-$ip = $_SERVER['REMOTE_ADDR'];
-$a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
+$ip = $is_mod?'':$_SERVER['REMOTE_ADDR'];
 	if(substr($text,0,4)=="!del" && $is_mod){
 		$id = intval(substr($text,4));
 		DB::query("DELETE FROM ".DB::table('newz_data')." WHERE id=$id LIMIT 1");
@@ -119,50 +120,6 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 			$banned = implode(',',$banned_new);
 			DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$banned}' WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
 		}
-	}elseif(substr($text,0,6)=="!point"&&$config['chat_point']){
-		$point = explode('|',substr($text,6));
-		$uid_point = intval($point[0]);
-		$res = $point[2];
-		$point = intval($point[1]);
-		if($uid_point&&($point==1||$point==-1)&&($uid_point!=$uid)||$uid==1){
-			$re = DB::query("SELECT uid,point_time FROM ".DB::table('newz_nick')." WHERE uid='{$uid}'");
-			if($re = DB::fetch($re)){
-				if($time-$re['point_time']<$config['point_time']){
-					die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_12'))));
-				}else{
-					DB::query("UPDATE ".DB::table('newz_nick')." SET point_time='{$time}' WHERE uid='{$uid}' LIMIT 1");
-				}
-			}else{
-				DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,point_time) VALUES ('{$uid}','{$time}')");
-			}
-			if($point>0){
-				$point = '+'.$point;
-			}
-			if($touid!=$uid_point){
-				$touid=0;
-			}
-			$this_username_name = DB::query("SELECT username FROM ".DB::table('common_member')." WHERE uid='{$uid_point}' LIMIT 1");
-			$this_username_name = DB::fetch($this_username_name);
-			if($config['chat_point']!='9'){
-				DB::query("UPDATE ".DB::table('common_member_count')." SET extcredits{$config['chat_point']}=extcredits{$config['chat_point']}{$point} WHERE uid='{$uid_point}' LIMIT 1");
-				$username_point = DB::query("SELECT extcredits{$config['chat_point']} AS point FROM ".DB::table('common_member_count')." WHERE uid='{$uid_point}' LIMIT 1");
-				$username_point = DB::fetch($username_point);
-			}else{
-				DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,name,point_total) VALUES ('{$uid_point}','{$this_username_name['username']}',{$point}) ON DUPLICATE KEY UPDATE point_total=point_total{$point}");
-				$username_point = DB::query("SELECT point_total AS point FROM ".DB::table('newz_nick')." WHERE uid='{$uid_point}' LIMIT 1");
-				$username_point = DB::fetch($username_point);
-			}
-			$total_point = $username_point['point'];
-			if($point>0||$point==0){
-				$point='[color=green]'.$point.'[/color]';
-			}else{
-				$point='[color=red]'.$point.'[/color]';
-			}
-			$icon = 'alert';
-			$touid = 0;
-			$text = '@'.$this_username_name['username'].' '.$point.' = '.$total_point.' '.$res;
-			$quota = 0;
-		}
 	}
 	if($command=="notice"&&$is_mod){
 		$icon = 'alert';
@@ -186,7 +143,6 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 		$ip = 'edit';
 		$icon = $editid;
 	}
-if(strpos($f,'&copy; <a href="http://2th.me/" target="_blank">2th Chat</a>')===false||strpos($a,'&copy; <a href="http://2th.me/" target="_blank">2th Chat</a>')===false)die();
 $txtlen = strlen($text);
 if($txtlen>$config['chat_strlen']){
 	$text = '... '.substr($text,$txtlen-$config['chat_strlen']);
@@ -198,7 +154,6 @@ include(DISCUZ_ROOT.'/source/function/function_discuzcode.php');
 $config['useemo'] = $config['useemo']?0:1;
 $config['usedzc'] = $config['usedzc']?0:1;
 $config['useunshowdzc'] = $config['useunshowdzc']?0:1;
-if(strpos($f,'&copy; <a href="http://2th.me">2th</a>')===false)die();
 if($config['autourl']){
 	$text= preg_replace('#(^|\s)([a-z]+://([^\s\w/]?[\w/])*)#is', '\\1[url]\\2[/url]', $text);
 	$text = preg_replace('#(^|\s)((www|ftp)\.([^\s\w/]?[\w/])*)#is', '\\1[url]\\2[/url]', $text);
@@ -246,51 +201,16 @@ if($quota>0 && $config['quota'] && $ip != 'clear'){
 		$text = '[quota]'.paddslashes($quo['text']).' // [/quota]'.$text;
 	}
 }
-
-	/**
-	 * Log chat within txt files
-	 * @add Jaieejung007
-	 *
-	 * @since 2.04.2
-	 *
-	 * @param string $logf   Config your path of log files.
-	 * @param string $tab  Add a tab between the characters in the file.
-	 */
-$logf = DISCUZ_ROOT.'./data/thzaa_log/'.date('d-m-Y');
-dmkdir($logf);
-	$f = fopen($logf . '/all.txt', 'a');
-	if (get_magic_quotes_gpc()) {
-		$oldtext = stripslashes($_POST['text']);
-	} else {
-		$oldtext = $_POST['text'];
-	}
-	$tab .= "\t";
-	$msg = $uid . ( $touid ? ' To ' . $touid : '' ) . ''.$tab.'Say: ' . $oldtext . ''.$tab.'Time: ' . time() . ''.$tab.'Time(Simple): '.date('d-m-Y H:i:s').''.$tab.'IP: ' . $_SERVER['REMOTE_ADDR'];
-	
-	if($ip == "clear"&&$is_mod) {
-		$msg .= ' Cmd: Clear';
-	} elseif(substr($text, 0, 4) == "/ban"&&$is_mod) {
-		$msg .= ' Cmd: Ban ' . intval(substr($text, 4));
-	} elseif(substr($text, 0, 6) == "/unban"&&$is_mod) {
-		$msg .= ' Cmd: Un Ban ' . intval(substr($text, 6));
-	}
-	
-	$msg .= "\r\n";
-
-	fwrite($f, $msg);
-	fclose($f);
-	
-	if($touid) {
-		$sort = array($uid, $touid); asort($sort);
-		$logfile = $logf . '/' . implode('-', $sort) . '.txt';
-		
-		$f = fopen($logfile, 'a');
-		fwrite($f, $msg);
-		fclose($f);
-	}
-
 $icon==''?$icon=checkOs():$icon=$icon;
-DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','$touid','$icon','$text','".time()."','$ip')");
+$flag='';
+if($config['flag']&&filter_var($ip, FILTER_VALIDATE_IP)){
+	include('geoiploc.php');
+	$flag=strtolower(getCountryFromIP($ip, "code"));
+	if (!file_exists('source/plugin/th_chat/images/flag/'.$flag.'.png')) {
+		$flag='00';
+	}
+}
+DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,flag,text,time,ip) VALUES ('$uid','$touid','$icon','$flag','$text','".time()."','$ip')");
 
 /*RESEND*/
 
@@ -347,8 +267,18 @@ $c['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '$1', $c['text']);
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
 	if(!$config['showos']&&$c['icon']!='alert')$c['icon']='';
-	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
-	if($c['ip']=='clear'){
+	$willbreak=false;
+	if(!filter_var($ip, FILTER_VALIDATE_IP)){
+		$c['ip'] = '';
+		if($c['ip']=='clear'){
+			$willbreak=true;
+		}
+	}
+	if($_G['groupid']!=1){
+		$c['ip'] =  !empty($c['ip'])?substr($c['ip'], 0, strrpos($c['ip'], '.')).'.***':'';
+	}
+	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status'],$c['flag'],$c['ip']);
+	if($willbreak){
 		break;
 	}
 }

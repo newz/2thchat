@@ -17,38 +17,8 @@ function getat($attextn){
 	}
 	return $attextn;
 }
-function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is_init,$icon,$mod,$status){
+function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is_init,$icon,$mod,$status,$flag,$ip){
 	global $uid,$config,$_G;
-
-	/**
-	 * Show the verified icon when to enabled only
-	 * @add Jaieejung007
-	 *
-	 * @since 2.04.2
-	 *
-	 * @param string $thzaa_verify   Config value for showing the verified icon.
-	 * @param string $uid_p  Meaning to Member UID of online status.
-	 */
-	$thzaa_verify = $verifyuids = $authorids = $grouptids = $rushtids = array();
-		if(isset($_G['setting']['verify']['enabled']) && $_G['setting']['verify']['enabled']) {
-			$verifyuids[$uid_p] = $uid_p;
-		}
-
-	if($_G['setting']['verify']['enabled'] && $verifyuids) {
-		foreach(C::t('common_member_verify')->fetch_all($verifyuids) as $value) {
-			foreach($_G['setting']['verify'] as $vid => $vsetting) {
-				if($vsetting['available'] && $vsetting['showicon'] && $value['verify'.$vid] == 1) {
-					$srcurl = '';
-						if(!empty($vsetting['icon'])) {
-							$srcurl = $vsetting['icon'];
-						}
-					$thzaa_verify[$uid_p] .= "<a href=\"home.php?mod=spacecp&ac=profile&op=verify&vid=$vid\" target=\"_blank\">".(!empty($srcurl) ? '<img src="'.$srcurl.'" class="vm" alt="'.$vsetting['title'].'" title="'.$vsetting['title'].'" />' : $vsetting['title']).'</a>';
-				}
-			}
-
-		}
-	}
-// End Show the verified icon when to enabled only
 
 	if($icon=='alert')
 	{
@@ -72,8 +42,8 @@ function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is
 	$status = htmlspecialchars_decode($status);
 	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'inline\');" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'none\');">
 <td class="nzavatart"><a href="'.avatar($uid_p,'big',1).'" target="_blank"><img src="'.avatar($uid_p,'small',1).'" alt="avatar" class="nzchatavatar" onError="this.src=\'uc_server/images/noavatar_small.gif\';" /></a></td>
-<td class="nzcontentt"><div class="nzinnercontent-before" style="'.$type.'"></div><div class="nzinnercontent" style="'.$type2.'"><span id="nzchatquota'.$id.'" class="nzcq">'.($uid!=$uid_p?'<a href="javascript:void(0);" onClick="nzAt(\''.$oldusername.'\');">@</a> ':'').'<a href="javascript:void(0);" onClick="nzQuota('.$id.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'</a>'.($uid!=$uid_p?' <a href="javascript:void(0);" onClick="nzTouid('.$uid_p.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_01').'</a>':'').(($config['chat_point']&&($uid!=$uid_p))?' <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',1);" style="color:green">+1</a> <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',-1);" style="color:red">-1</a>':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_08').'</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_43').'</a>':'').'</span>
-<span><a href="home.php?mod=space&uid='.$uid_p.'" class="nzca" target="_blank"><font color="'.$color.'">'.$icon.'<span class="nzuname_'.$uid_p.'">'.$username.'</span></font></a>'.(($config['verifyicon_contentchat']==1)?''.$thzaa_verify[$uid_p].'':'').' <span id="nzstatus" class="nzustatus_'.$uid_p.'">'.$status.'</span> ('.get_date($time).')</span><br />
+<td class="nzcontentt"><div class="nzinnercontent-before" style="'.$type.'"></div><div class="nzinnercontent" style="'.$type2.'"><span id="nzchatquota'.$id.'" class="nzcq">'.($uid!=$uid_p?'<a href="javascript:void(0);" onClick="nzAt(\''.$oldusername.'\');">@</a> ':'').'<a href="javascript:void(0);" onClick="nzQuota('.$id.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'</a>'.($uid!=$uid_p?'':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_08').'</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_43').'</a>':'').'</span>
+<span><a href="home.php?mod=space&uid='.$uid_p.'" class="nzca" target="_blank"><font color="'.$color.'"><span class="nzuname_'.$uid_p.'">'.$username.'</span></font></a>'.$icon.($config['flag']&&!empty($flag)?' <img src="source/plugin/th_chat/images/flag/'.$flag.'.png" title="'.$ip.'">':$ip).' <span id="nzstatus" class="nzustatus_'.$uid_p.'">'.$status.'</span> ('.get_date($time).')</span><br />
 '.$text.'</span>'.($is_init?'':($touid?'<script></script>':'<script></script>')).'</div></td>
 </tr>';
 }
@@ -442,7 +412,7 @@ function detect_os() {
 		$title = 'Palm webOS';
 		$code = 'palm';
 	} elseif (preg_match('/Windows/i', $_SERVER['HTTP_USER_AGENT']) || preg_match('/WinNT/i', $_SERVER['HTTP_USER_AGENT']) || preg_match('/Win32/i', $_SERVER['HTTP_USER_AGENT'])) {
-		if (preg_match('/Windows NT 6.4/i', $_SERVER['HTTP_USER_AGENT'])) {
+		if (preg_match('/Windows NT 10.0/i', $_SERVER['HTTP_USER_AGENT'])) {
 			$title = 'Windows 10';
 			$code = 'win-5';
 		} elseif (preg_match('/Windows NT 6.3/i', $_SERVER['HTTP_USER_AGENT'])) {
@@ -557,7 +527,7 @@ function get_platform() {
 }
 function img($code, $type, $title) {
 	$src = $type . $code;
-	$img = "<img src=\"source/plugin/th_chat/images{$src}.png\" id=\"nzosicon\" alt=\"{$title}\" title=\"{$title}\">";
+	$img = " <img src=\"source/plugin/th_chat/images{$src}.png\" id=\"nzosicon\" alt=\"{$title}\" title=\"{$title}\">";
 	return $img;
 }
 ?>

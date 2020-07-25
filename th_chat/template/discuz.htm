@@ -3,6 +3,12 @@
 <!--{if $chat['guest_show']&&!$_G['uid']}-->
 {$chat['guest_show']}
 <div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="http://2th.me">2th</a></span></div>
+<!--{elseif $permission&&$_G['uid']}-->
+<center style="margin:20px 0;">
+<b>คุณไม่มีสิทธิที่จะใช้ห้องแชทนี้</b>
+<br>
+กรุณา <a href="plugin.php?id=utopup:utopup">เติมเงิน</a> เพื่อใช้งานห้องแชท
+</center>
 <!--{else}--> 
 <script src="source/plugin/th_chat/js/jquery-1.6.4.min.js" type="text/javascript"></script> 
 <script src="source/plugin/th_chat/js/jba.js" type="text/javascript"></script>
@@ -527,7 +533,7 @@ width: 198px;
 height: 27px;
 color: #ffffff;
 background-color: #5bc0de;
-border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.11</strong></span></span></td>
+border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="{$_G[siteurl]}" target="_blank">$_G['setting']['bbname']</a> <strong>2.11b</strong></span></span></td>
       </tr>
     </table>
   </div>

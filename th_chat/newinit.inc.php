@@ -3,6 +3,12 @@ if(!defined('IN_DISCUZ')) { exit('Access Denied'); }
 loadcache('plugin');
 $config = $_G['cache']['plugin']['th_chat'];
 $uid = $_G['uid'];
+if($uid<1){
+	die(json_encode(array('type'=>1,'error'=>''.lang('plugin/th_chat', 'jdj_th_chat_text_php_05').'')));
+}
+if(!in_array($_G['groupid'],unserialize($config['allow_group']))){
+	die(json_encode(array('type'=>1,'error'=>'คุณไม่มีสิทธิ')));
+}
 $is_mod = in_array($_G['adminid'],array(1,2,3));
 include 'functions.php';
 $re = DB::query("SELECT n.*,m.username AS name,mt.username AS toname,g.color,gt.color AS tocolor,ni.name AS nick,nt.name AS tonick 
@@ -46,8 +52,18 @@ while($c = DB::fetch($re)){
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
 	if(!$config['showos']&&$c['icon']!='alert')$c['icon']='';
-	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],1,$c['icon'],$is_mod,$c['status']);
-	if($c['ip']=='clear'){
+	$willbreak=false;
+	if(!filter_var($ip, FILTER_VALIDATE_IP)){
+		$c['ip'] = '';
+		if($c['ip']=='clear'){
+			$willbreak=true;
+		}
+	}
+	if($_G['groupid']!=1){
+		$c['ip'] =  !empty($c['ip'])?substr($c['ip'], 0, strrpos($c['ip'], '.')).'.***':'';
+	}
+	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],1,$c['icon'],$is_mod,$c['status'],$c['flag'],$c['ip']);
+	if($willbreak){
 		break;
 	}
 }

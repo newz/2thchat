@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `pre_newz_data` (
 `text` mediumtext NOT NULL,
 `time` int(10) unsigned NOT NULL,
 `ip` varchar(25) NOT NULL,
+`flag` varchar(2) NULL,
 PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
@@ -31,8 +32,6 @@ CREATE TABLE IF NOT EXISTS `pre_newz_nick` (
   `name` mediumtext NOT NULL,
   `total` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `time` int(10) unsigned NOT NULL DEFAULT '0',
-  `point_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `point_total` smallint(3) NOT NULL DEFAULT '0',
   `sound_1` int(1) NOT NULL DEFAULT '0',
   `sound_2` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`uid`)

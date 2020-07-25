@@ -13,12 +13,6 @@ ALTER TABLE  `pre_newz_nick` ADD  `sound_1` INT(1) NOT NULL DEFAULT 0, ADD  `sou
 EOF;
 	runquery($sql);
 }
-if ($_GET['fromversion'] <= "2.10") {
-	$sql = <<<EOF
-ALTER TABLE  `pre_newz_nick` CHANGE  `point_total`  `point_total` SMALLINT(3) NOT NULL DEFAULT 0;
-EOF;
-	runquery($sql);
-}
 
 $finish = TRUE;
 ?>
