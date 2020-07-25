@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+﻿<?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
 	<item id="Version"><![CDATA[X3.1]]></item>
@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[th_chat/]]></item>
 			<item id="copyright"><![CDATA[newz]]></item>
-			<item id="version"><![CDATA[2.02]]></item>
+			<item id="version"><![CDATA[2.03]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[chat]]></item>

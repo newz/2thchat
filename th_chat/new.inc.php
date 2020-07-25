@@ -33,7 +33,7 @@ while($c = DB::fetch($re)){
 	}
 	if($config['namemode']==1){$c['status'] = $c['nick'];}
 	if((strval($c['nick'])===''&&$config['namemode']==2)||$config['namemode']!=2){$c['nick'] = $c['name'];}
-	if((strval($c['nick'])===''&&$config['namemode']==2)||$config['namemode']!=2){$c['tonick'] = $c['toname'];}
+	if((strval($c['tonick'])===''&&$config['namemode']==2)||$config['namemode']!=2){$c['tonick'] = $c['toname'];}
 	$c['tonick'] = htmlspecialchars_decode($c['tonick']);
 	if($c['ip']=='clear'){
 $seedd = $time.'_'.$uid.'_'.rand(1,999);

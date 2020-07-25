@@ -29,31 +29,33 @@ if($_POST['sound_1']!=""&&$_POST['sound_2']!="")
 <tr height="20"></tr>
 <tr>
 <td><input type="submit" value="<?=lang('plugin/th_chat', 'jdj_th_chat_text_php_24');?>" style="
-font-weight: 500;
+font-size: 14px;
 text-align: center;
 border: 1px solid transparent;
-border-radius: 4px;
+border-radius: 2px;
 margin-top: 2px;
-width:100%;
+width:90px;
+height: 29px;
 cursor:pointer;
-color: #ffffff;
 background-color: #5cb85c;
-border-color: #5cb85c;"></td>
+border-color: #5cb85c;
+color: #fff;"></td>
 <td><input type="button" value="<?=lang('plugin/th_chat', 'jdj_th_chat_text_php_31');?>" style="
-font-weight: 500;
+font-size: 14px;
 text-align: center;
 border: 1px solid transparent;
-border-radius: 4px;
+border-radius: 2px;
 margin-top: 2px;
-width:100%;
+width:90px;
+height: 29px;
 cursor:pointer;
-color: #ffffff;
-background-color: #5bc0de;
-border-color: #5bc0de;" onClick="window.close();"></td>
+background-color: #ff0000;
+border-color: #ff0000;
+color: #fff;" onClick="window.close();"></td>
 </tr>
 </table>
 </form>
-<br/><br/><br/>
+<br/><br/>
 &copy; <a href="http://2th.me/" target="_blank">2th Chat</a> & <a href="http://www.weza.in/" target="_blank">Weza</a>
 </center>
 </body>

@@ -75,6 +75,11 @@ while($r = DB::fetch($re)){
 	if(in_array($r['uid'],$banned)){
 		$r['name']  = '<strike>'.$r['name'].'</strike>';
 	}
+	if($r['groupid']>9){$r['groupid'] = 100-$r['groupid'];}
+	else if(in_array($r['groupid'],array(4,5,6,9))){$r['groupid'] = 100;}
+	else if($r['groupid']==7){$r['groupid'] = 99;}
+	else if($r['groupid']==8){$r['groupid'] = 98;}
+	$r['groupid'] += $time-$r['lastactivity']>$timeout?$time-$r['lastactivity']>$timeout2?200:100:0;
 	if($uid==$r['uid']){
 		$body_onlinein[0] .= '<li class="nzolac"><p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width:180px;">
 		<img src="'.avatar($r['uid'],'small',1).'" alt="" align="absmiddle" class="nzavsm" onError="this.src=\'uc_server/images/noavatar_small.gif\';" style="border-right: 3px #0c0 solid"/>
@@ -89,7 +94,7 @@ while($r = DB::fetch($re)){
 	}
 
 	if(in_array($_G['adminid'],array(1,2,3))&&!($uid==$r['uid'])){
-		$body_onlineex[$r['groupid']] .= ($config['namemode']==1?'':'<a href="javascript:void(0);" onClick=\'nzCommand("name","'.$r['uid'].'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_32').'</a>').'<br> '.(in_array($r['gourpid'],array(1,2,3))?'':(!in_array($r['uid'],$banned)?'<a href="javascript:void(0);" onClick=\'nzCommand("ban","'.$r['uid'].'");\'>แบน</a>':'<a href="javascript:void(0);" onClick=\'nzCommand("unban","'.$r['uid'].'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_28').'</a>')).'</div>';
+		$body_onlineex[$r['groupid']] .= ($config['namemode']==0?'':'<a href="javascript:void(0);" onClick=\'nzCommand("name","'.$r['uid'].'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_32').'</a><br>').(in_array($r['gourpid'],array(1,2,3))?'':(!in_array($r['uid'],$banned)?'<a href="javascript:void(0);" onClick=\'nzCommand("ban","'.$r['uid'].'");\'>แบน</a>':'<a href="javascript:void(0);" onClick=\'nzCommand("unban","'.$r['uid'].'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_28').'</a>')).'</div>';
 	}else{
 		$body_onlineex[$r['groupid']] .= '</div>';
 	}

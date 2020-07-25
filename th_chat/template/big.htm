@@ -189,8 +189,6 @@ function nzScrollChat(){
 var objDiv = document.getElementById("nzchatcontent");
 objDiv.scrollTop = objDiv.scrollHeight;
 }
-
-
 function nzLoadText(){
 nzchatobj.post("plugin.php?id=th_chat:new", {'lastid':nzlastid},function(data) {
 if(data!='not'){
@@ -245,7 +243,7 @@ return;
 }
 function nzAt(i){
 nzTouid(0);
-nzchatobj("#nztouid").html("(@<a href='home.php?mod=space&uid="+i+"' class='nzca' target='_blank'>"+nzchatobj(".nzuname_"+i).last().parent().parent().html()+"</a> (UID:"+i+") <a href='javascript:void(0);' onClick='nzTouid(0)'>{lang th_chat:jdj_th_chat_text_htm_25}</a>)");
+nzchatobj("#nztouid").html("(@<a href='home.php?mod=space&uid="+i+"' class='nzca' target='_blank'>"+nzchatobj(".nzuname_"+i).last().parent().parent().html()+"</a> (UID: "+i+") <a href='javascript:void(0);' onClick='nzTouid(0)'>{lang th_chat:jdj_th_chat_text_htm_25}</a>)");
 nzat = i;
 nzmoreadd = nzchatobj(".nzuname_"+i).last().text().length+2;
 nzCharleft();
@@ -525,9 +523,11 @@ border: 1px solid transparent;
 border-radius: 2px;
 padding:1px;
 width: 198px;
+height: 27px;
+margin-top: 2px;
 color: #ffffff;
 background-color: #5bc0de;
-border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> & <a href="http://www.weza.in/" target="_blank">Weza</a> <strong>2.02</strong></span></span></td>
+border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> & <a href="http://www.weza.in/" target="_blank">Weza</a> <strong>2.03</strong></span></span></td>
       </tr>
     </table>
   </div>
