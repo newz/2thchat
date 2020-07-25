@@ -1,124 +1,123 @@
 <!--{block return}-->
-<!-- begin 2th chat -->
-<!--{if $chat['guest_show']&&!$_G['uid']}-->
-{$chat['guest_show']}
-<div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="https://necz.net/projects/2th_chat">2TH Chat</a></span></div>
-<!--{else}-->
-<script src="source/plugin/th_chat/jquery.1.6.4.min.js" type="text/javascript"></script>
-<script src="source/plugin/th_chat/jba.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 var nzchatobj = jQuery.noConflict();
 </script>
 <div style="width:100%;margin:0 auto;">
 <style type="text/css"> 
 table#nzchattable{
-width:99%;
-border-collapse:collapse;
-border:none;
-margin:0 auto;
+	width:99%;
+	border-collapse:collapse;
+	border:none;
+	margin:0 auto;
 }
 table#nzchattable td{
-vertical-align:top;
+	vertical-align:top;
 }
 #nzchatonline{
-width:200px;
-padding:5px 0 0 5px;
+	width:200px;
+	padding:5px 0 0 5px;
 }
 .nzchatanno{
-border: #D4D4D4 1px solid;
-color: #515151;
-clear: both;
-padding: 8px;
-background: #F1F6EC;
-border-radius: 6px;
--moz-border-radius: 6px;
--webkit-border-radius: 6px;
+	padding:5px;
+	border:dashed 1px #090;
+	color:#090;
+height:20px;
 }
 #nzchatbd{
-margin:5px 0;
-border:1px solid #e3edf5;
-padding:5px;
-background:#ebf2f8;
+	margin:5px 0;
+	border:1px solid #e3edf5;
+	padding:5px;
+	background:#ebf2f8;
 }
 #nzchatcontent{
-height:330px;
-{$chat['bgcss']}
-border:#7fcae2 1px solid;
-padding:4px;
-overflow-y:scroll;
-overflow-x:hidden;
+	height:330px;
+	{$chat['bgcss']}
+	border:#7fcae2 1px solid;
+	padding:4px;
+	overflow-y:scroll;
+	overflow-x:hidden;
 }
 #nzchatolcontent{
-height:336px;
-padding:7px;
-border:#7fcae2 1px solid;
-overflow-y:scroll;
+	height:336px;
+	padding:7px;
+	border:#7fcae2 1px solid;
+	overflow-y:scroll;
 }
 #nzchatmessage{
-padding:2px;
-width:99%;
+	padding:2px;
+	width:99%;
 }
 .nzchatavatar{
-height:25px;width:25px;padding:2px;border:#dddbd3 1px solid;margin-top:3px;margin-right:4px;
+	height:25px;width:25px;padding:2px;border:#dddbd3 1px solid;margin-top:3px;margin-right:4px;
 }
 .nzchatrow,#afterme{
-width:704px;
+	width:704px;
 }
 .nzcq{
-display:none;
-float:right;
+	display:none;
+	float:right;
 }
+
 a.nzca{
-font-weight:bold;
+	font-weight:bold;
 }
+
 a.nzca:hover{
-text-decoration:underline;
+	text-decoration:underline;
 }
 table.nzcallrow{
-border:none;
-border-collapse:collapse;
-padding:0;
-margin:0;
-width:99%;
+	border:none;
+	border-collapse:collapse;
+	padding:0;
+	margin:0;
+	width:99%;
 }
+
 table.nzcallrow tr,table.nzcallrow td{
-border:none;
+	border:none;
 }
+
 .nzavatart{
-width:35px;
+	width:35px;
 }
+
 .nzolac{
-background:#eaeaea;
+	background:#eaeaea;
 }
+
 .nzolrow{
-list-style:none;
+	list-style:none;
 }
+
 .nzavsm{
-width:15px;
-height:15px;
+	width:15px;
+	height:15px;
 }
+
 .nzchatpro{
-width:150px;background:#FFF;border:1px solid #dddbd3;text-align:center;padding-top:12px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;-moz-box-shadow:5px 5px 5px #ccc;-webkit-box-shadow:5px 5px 5px #ccc;box-shadow:5px 5px 5px #ccc
+	width:150px;background:#FFF;border:1px solid #c2d5e3;text-align:center;padding-top:12px;
 }
+
 #nzchat{
-text-align:left;
-margin-bottom:8px;
+	text-align:left;
+	margin-bottom:8px;
 }
 tr.nzchatrow td{
-padding:2px 0;
-border-bottom:1px dashed #E1E1E1;
+	padding:2px 0;
+	border-bottom:1px dashed #E1E1E1;
 }
 #nzchatolcontent li{
-list-style:none;
+	list-style:none;
 }
 #nzchatolcontent img.nzavsm{
-margin-right:3px;
+	margin-right:3px;
 }
 #nzchat a.nzbtn{
 padding: 2px 3px;
 display:inline-block;
 border: 1px solid #999;
-background: #E5E5E5 url(static/image/common/pn.png) repeat-x 0 0;
+background: #E5E5E5 url(/static/image/common/pn.png) repeat-x 0 0;
 -moz-box-shadow: 0 1px 0 #E5E5E5;
 -webkit-box-shadow: 0 1px 0 #E5E5E5;
 box-shadow: 0 1px 0 #E5E5E5;
@@ -137,33 +136,46 @@ var nztime2 = 0;
 var nztouid=0;
 var nzlastid=0;
 var nzcolor = '';
+
 nzchatobj(function() {
+
 nzchatobj("#nzchatmessage").keydown(function(event){ if (event.keyCode == '13') {
-nzSend();
+		nzSend();
 }
 });
+
 nzLoadTextInit();
+
 });
+
 function nzChatBig(){
+
 if(nzchatheight<830){
 nzchatheight+=50;
 nzchatobj("#nzchatcontent").animate({height:nzchatheight}, 200 );
 nzchatobj("#nzchatolcontent").animate({height:nzchatheight+6}, 200 );
 }
+
 }
 function nzChatSmall(){
+
 if(nzchatheight>130){
 nzchatheight-=50;
 nzchatobj("#nzchatcontent").animate({height:nzchatheight}, 200 );
 nzchatobj("#nzchatolcontent").animate({height:nzchatheight+6}, 200 );
 }
+
 }
+
 function nzChatReset(){
 nzchatheight=330;
 nzchatobj("#nzchatcontent").animate({height:nzchatheight}, 200 );
 nzchatobj("#nzchatolcontent").animate({height:nzchatheight+6}, 200 );
 }
+
+
 function nzSend(){
+
 var data=nzchatobj.trim(nzchatobj("#nzchatmessage").val());
 if(data===''){
 return false;
@@ -173,132 +185,85 @@ if(nztime1>nztime2){
 nzchatobj("#nzchatmessage").val('');
 nzcolor = nzchatobj('#nzchatskin').val();
 nztime2 = nztime1 + {$chat['delay']};
-nzchatobj.post("plugin.php?id=th_chat:post", {'text':escape(escape(data)),'color':nzcolor,'lastid':nzlastid,'touid':nztouid},function(data) {
-data = nzchatobj.parseJSON(data);
-if(data.type==1){
-alert(data.error);
-if(data.script_add==1){
-eval(data.script);
-}
-}else{
-var listmess = sortObject(data);
-nzchatobj.each(listmess, function(k, v) {
-k=parseInt(k);
-if(k>nzlastid){
-<!--{if $chat['sort']==1}-->
-nzlastid=k;
-nzchatobj("#afterme").after(v);
-<!--{else}-->
-nzlastid=k;
-nzchatobj("#afterme").before(v);
-nzScrollChat();
-<!--{/if}-->
-}
-});
-<!--{if $chat['iscleardata']==1}-->
-var nzchatrr = nzchatobj(".nzchatrow");
-if(nzchatrr.size()>{$chat['chatrowmax']}){
-<!--{if $chat['sort']==1}-->
-nzchatrr.last().remove();
-<!--{else}-->
-nzchatrr.first().remove();
-<!--{/if}-->
-}
-<!--{/if}-->
-}
+
+nzchatobj.post("plugin.php?id=th_chat:post", {'text':data,'color':nzcolor,'lastid':nzlastid,'touid':nztouid},function(data) {
+	data = nzchatobj.parseJSON(data);
+	if(data.type==1){
+		alert(data.error);
+		if(data.script_add==1){
+			eval(data.script);
+		}
+	}else{
+		nzchatobj.each(data, function(k, v) {
+			if(k>nzlastid){
+				nzchatobj("#afterme").after(v);
+				nzlastid=k;
+			}
+		});
+	}
 });
 }else{
 alert('ส่งข้อความบ่อยไป');
 }
 return;
+
 }
 
-function nzDelete(pid){
-if(confirm('Do you want to delete?')==true)
-{
-nzchatobj.post("plugin.php?id=th_chat:delete",{'pid':pid},function(data) {
-alert(data);
-nzchatobj("#nzrows_"+pid).fadeOut(200);
-});
-}
-}
+
 
 function nzLoadTextInit(){
-nzchatobj.post("plugin.php?id=th_chat:newinit",function(data){
+nzchatobj.post("plugin.php?id=th_chat:newinit",{'uid':discuz_uid},function(data){
 data = nzchatobj.parseJSON(data);
 nzlastid=data.lastid;
-<!--{if $chat['sort']==1}-->
 nzchatobj("#nzchatcontent").html('<table class="nzcallrow"><tr id="afterme" style="height:0px;"><td class="nzavatart"></td><td class="nzcontentt"></td></tr>'+data.datahtml+'</table>');
-<!--{else}-->
-nzchatobj("#nzchatcontent").html('<table class="nzcallrow">'+data.datahtml+'<tr id="afterme" style="height:0px;"><td class="nzavatart"></td><td class="nzcontentt"></td></tr></table>');
-nzScrollChat();
-<!--{/if}-->
 nzchatobj("#nzchatolcontent").html(data.datachatonline);
 nzchatobj("#nzoltotal").html(data.chat_online_total);
-setTimeout(nzLoadText,{$chat['reload']});
+setTimeout(nzLoadText,5000);
 });
-}
-function nzScrollChat(){
-var objDiv = document.getElementById("nzchatcontent");
-objDiv.scrollTop = objDiv.scrollHeight;
-}
 
+}
 
 function nzLoadText(){
-nzchatobj.post("plugin.php?id=th_chat:new", {'lastid':nzlastid},function(data) {
-if(data!='not'){
-data = nzchatobj.parseJSON(data);
-var listmess = sortObject(data.chat_row);
-nzchatobj.each(listmess, function(k, v) {
-k=parseInt(k);
-if(k>nzlastid){
-<!--{if $chat['sort']==1}-->
-nzlastid=k;
-nzchatobj("#afterme").after(v);
-<!--{else}-->
-nzlastid=k;
-nzchatobj("#afterme").before(v);
-nzScrollChat();
-<!--{/if}-->
-}
-});
-<!--{if $chat['iscleardata']==1}-->
-var nzchatrr = nzchatobj(".nzchatrow");
-if(nzchatrr.size()>{$chat['chatrowmax']}){
-<!--{if $chat['sort']==1}-->
-nzchatrr.last().remove();
-<!--{else}-->
-nzchatrr.first().remove();
-<!--{/if}-->
-}
-<!--{/if}-->
-nzchatobj("#nzchatolcontent").html(data.chat_online);
+nzchatobj.post("plugin.php?id=th_chat:new", {'lastid':nzlastid,'sid':nzsid,'uid':discuz_uid},function(data) {
+	if(data!='not'){
+		data = nzchatobj.parseJSON(data);
+		nzchatobj.each(data.chat_row, function(k, v) {
+			if(k>nzlastid){
+				nzchatobj("#afterme").after(v);
+				nzlastid=k;
+			}
+ 	 	});
+		nzchatobj("#nzchatolcontent").html(data.chat_online);
 nzchatobj("#nzoltotal").html(data.chat_online_total);
-}
+	}
 });
-setTimeout(nzLoadText,{$chat['reload']});
+
+setTimeout(nzLoadText,5000);
 }
 
 function nzQuota(i){
-nzchatobj("#nzchatmessage").val(nzchatobj("#nzchatcontent"+i).text()+" // ");
-nzchatobj("#nzchatmessage").focus();
-return;
+	nzchatobj("#nzchatmessage").val(nzchatobj("#nzchatcontent"+i).text()+" // ");
+	nzchatobj("#nzchatmessage").focus();
+	return;
 }
+
 function nzName(){
-var n=prompt("ใส่ชื่อใหม่","");
-if(nzchatobj.trim(n)==''){
-return;
-}
-nzchatobj.post("plugin.php?id=th_chat:name", {'new':n},function(data) {
-if(data=='ok'){
-alert('เปลี่ยนชื่อใหม่แล้ว!');
-nzReload();
-}else{
-alert(data);
-return;
-}
+	var n=prompt("ใส่ชื่อใหม่","");
+	if(nzchatobj.trim(n)==''){
+		return;
+	}
+	nzchatobj.post("plugin.php?id=th_chat:name", {'new':n},function(data) {
+	if(data=='ok'){
+		alert('เปลี่ยนชื่อใหม่แล้ว!');
+		nzReload();
+	}else{
+		alert(data);
+		return;
+	}
 });
+
 }
+
 function nzTouid(i){
 if(i>0){
 nzchatobj("#nztouid").html("(กระซิบ: <span id='nztouidpro' onMouseOver='showMenu(this.id)'>"+nzchatobj("#nzolpro_"+i).html()+"</span> <a href='javascript:void(0);' onClick='nzTouid(0)'>ยกเลิก</a>)");
@@ -310,27 +275,27 @@ nzchatobj("#nztouidpro_menu").html("");
 nztouid = 0;
 }
 }
+
 function nzReload(){
 nzchatobj("#nzchatolcontent").html('');
-nzchatobj("#nzchatcontent").html('<br /><br /><br /><br /><br /><br /><center><img src="source/plugin/th_chat/images/loader.gif" alt="Load" /></center>');
-nzchatobj.post("plugin.php?id=th_chat:newinit",function(data){
+nzchatobj("#nzchatcontent").html('<br /><br /><br /><br /><br /><br /><center><img src="http://2th.me/nzchat/images/loader.gif" alt="Load" /></center>');
+nzchatobj.post("plugin.php?id=th_chat:newinit",{'uid':discuz_uid},function(data){
 data = nzchatobj.parseJSON(data);
 nzlastid=data.lastid;
-<!--{if $chat['sort']==1}-->
 nzchatobj("#nzchatcontent").html('<table class="nzcallrow"><tr id="afterme" style="height:0px;"><td class="nzavatart"></td><td class="nzcontentt"></td></tr>'+data.datahtml+'</table>');
-<!--{else}-->
-nzchatobj("#nzchatcontent").html('<table class="nzcallrow">'+data.datahtml+'<tr id="afterme" style="height:0px;"><td class="nzavatart"></td><td class="nzcontentt"></td></tr></table>');
-nzScrollChat();
-<!--{/if}-->
 nzchatobj("#nzchatolcontent").html(data.datachatonline);
 });
+
 }
+
 function nzOpenChat(i){
 window.open('nzchat/touser.php?u='+i,'popUpWindow','height=350,width=440,resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no');
 }
+
 function nzClean(){
 nzchatobj(".nzchatrow").fadeOut('slow');
 }
+
 function nzCheckImg(i){
 var maxheight=240;
 var maxwidth= 500;
@@ -355,12 +320,13 @@ i.style.cursor="pointer";
 i.onclick = function( )
 { 
 var iw = window.open ( this.src, 'ImageViewer','resizable=1' );
-iw.focus();
+iw.focus( );
 };
 i.width = ( maxheight / h ) * w;
 i.height = maxheight;
 }
 }
+
 function nzPlusone(nz_uid,nz_type){
 var nz_res = prompt('เหตุผล');
 if(nz_res==null){
@@ -368,28 +334,19 @@ nz_res="";
 }
 nzchatobj('#nzchatmessage').val('/point '+nz_uid+'|'+nz_type+'|'+nz_res);nzchatobj('#nzchatmessage').focus();
 }
-function sortObject(a) {
-var b = {},
-c,d = [];
-for (c in a) {
-if (a.hasOwnProperty(c)) {
-d.push(c);
+
+function nzShowcredit(){
+window.open('http://necz.net/project/2th_chat/credit_1.6.htm','popUpWindow','height=390,width=380,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no');
 }
-}
-d.sort();
-for (c = 0; c < d.length; c++) {
-b[d[c]] = a[d[c]]
-}
-return b;
-}
+
 </script>
 <div id="nzchat">
 <table id="nzchattable">
 <tr><td>
-<div class="nzchatanno">{$chat[welcometext]} <a href="javascript:void(0);" onclick="nzChatBig();">ขยาย</a> <a href="javascript:void(0);" onclick="nzChatSmall();">ย่อ</a> <a href="javascript:void(0);" onclick="nzChatReset();">คืนค่า</a></td>
+<div class="nzchatanno">ยินดีต้อนรับสู่ {$_SERVER['HTTP_HOST']} <a href="javascript:void(0);" onclick="nzChatBig();">ขยาย</a> <a href="javascript:void(0);" onclick="nzChatSmall();">ย่อ</a> <a href="javascript:void(0);" onclick="nzChatReset();">คืนค่า</a></td>
 <td>
 <div class="nzchatanno">
-<img src="source/plugin/th_chat/images/useron.gif" alt=""  align="absmiddle" /><span id="nzoltotal"></span> Online
+<img src="http://2th.me/nzchat/images/useron_2.gif" alt=""  align="absmiddle" /> <span id="nzoltotal"></span> Online
 </div>
 </td>
 </tr>
@@ -397,62 +354,65 @@ return b;
 <tr><td colspan="2" style="background:#eaeaea; border:#CCC 1px dashed">
 <script src="static/js/seditor.js" type="text/javascript"></script>
 <input id="nzchatmessage" name="mtname" type="text" x-webkit-speech />
-<span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="nztouid"></span><br /><span id="n_copyright">&copy; <a href="https://necz.net/projects/2th_chat" target="_blank">2TH Chat</a> <strong>1.12</strong></span></span></span>
+<span style="float:right; margin-top:3px; margin-right:1px;"><span id="nztouid"></span><br /><span title="DO NOT REMOVE OR MODIFY COPYRIGHT!!"><a href="http://2th.me/">2th Chat</a> <strong>1.6</strong> <a href="javascript:void(0);" onClick="nzShowcredit()">License</a> &copy; 2011-2099 <a href="http://necz.net/project/2th_chat/donate.htm" title="บริจาคช่วยเหลือ" target="_blank">&raquo; Donate :)</a></span></span>
 <div class="fpd" style="padding:4px;"> 
 <p style="float:left;"><button type="submit" name="commentsubmit_btn" onClick="nzSend();" value="true" id="commentsubmit_btn" class="pn"><strong>Chat</strong></button></p>
-{$chat['editor']}
+<a href="javascript:void(0);" title="ตัวหนา" class="fbld" onclick="seditor_insertunit('nzchat', '[b]', '[/b]')">B</a>
+<a href="javascript:void(0);" title="ตัวเอียง" style="background-position: -20px 0px;" onclick="seditor_insertunit('nzchat', '[i]', '[/i]')">I</a>
+<a href="javascript:void(0);" title="ตัวขีดเส้นใต้" style="background-position: -40px 0px;" onclick="seditor_insertunit('nzchat', '[u]', '[/u]')">U</a>
+<a href="javascript:void(0);" title="สี" class="fclr" id="nzchatforecolor" onclick="showColorBox(this.id, 2, 'nzchat');doane(event)">Color</a>
+<a id="nzchatimg" href="javascript:void(0);" title="ใส่รูป" class="fmg" onclick="seditor_menu('nzchat', 'img')">Image</a>
+<a id="nzchaturl" href="javascript:void(0);" title="เชื่อมโยงลิ้งก์" class="flnk" onclick="seditor_menu('nzchat', 'url')">Link</a>
+<a href="javascript:void(0);" class="fsml" id="nzchatsml" title="ตัวยิ้ม" onclick="showMenu({'ctrlid':this.id,'evt':'click','layer':2});return false;">Smilies</a>
 <a href="javascript:void(0);" title="Reload" onClick="nzReload();" style="width:20px;height:20px;background:url(source/plugin/th_chat/images/reload.png) no-repeat center">Reload</a>
 <a href="plugin.php?id=th_chat:chat_full" title="แชทจอใหญ่" style="width:20px;height:20px;background:url(source/plugin/th_chat/images/zoomin.gif) no-repeat center">Zoom</a>
 <script src="data/cache/common_smilies_var.js?{VERHASH}" type="text/javascript" reload="1"></script>
 <script type="text/javascript" reload="1">smilies_show('nzchatsmiliesdiv', 9, 'nzchat');</script>
 <select id="nzchatskin" style="margin-top:2px;"> 
 <option value="default" selected="selected">Skin Default</option> 
-<option value="000000" style="background-color: #000000">Black</option> 
-<option value="a0522d" style="background-color: #a0522d">Sienna</option>		
-<option value="556b2f" style="background-color: #556b2f">DarkOliveGreen</option> 
-<option value="006400" style="background-color: #006400">DarkGreen</option> 
-<option value="483d8b" style="background-color: #483d8b">DarkSlateBlue</option> 
-<option value="000080" style="background-color: #000080">Navy</option> 
-<option value="4b0082" style="background-color: #4b0082">Indigo</option> 
-<option value="2f4f4f" style="background-color: #2f4f4f">DarkSlateGray</option> 
-<option value="8b0000" style="background-color: #8b0000">DarkRed</option> 
-<option value="ff8c00" style="background-color: #ff8c00">DarkOrange</option> 
-<option value="808000" style="background-color: #808000">Olive</option> 
-<option value="008000" style="background-color: #008000">Green</option> 
-<option value="008080" style="background-color: #008080">Teal</option> 
-<option value="0000ff" style="background-color: #0000ff">Blue</option> 
-<option value="708090" style="background-color: #708090">SlateGray</option> 
-<option value="696969" style="background-color: #696969">DimGray</option> 
-<option value="ff0000" style="background-color: #ff0000">Red</option> 
-<option value="f4a460" style="background-color: #f4a460">SandyBrown</option> 
-<option value="9acd32" style="background-color: #9acd32">YellowGreen</option> 
-<option value="2e8b57" style="background-color: #2e8b57">SeaGreen</option> 
-<option value="48d1cc" style="background-color: #48d1cc">MediumTurquoise</option> 
-<option value="4169e1" style="background-color: #4169e1">RoyalBlue</option> 
-<option value="800080" style="background-color: #800080">Purple</option> 
-<option value="808080" style="background-color: #808080">Gray</option> 
-<option value="ff00ff" style="background-color: #ff00ff">Magenta</option> 
-<option value="ffa500" style="background-color: #ffa500">Orange</option> 
-<option value="ffff00" style="background-color: #ffff00">Yellow</option> 
-<option value="00ff00" style="background-color: #00ff00">Lime</option> 
-<option value="00ffff" style="background-color: #00ffff">Cyan</option> 
-<option value="00bfff" style="background-color: #00bfff">DeepSkyBlue</option>
-<option value="9932cc" style="background-color: #9932cc">DarkOrchid</option> 
-<option value="c0c0c0" style="background-color: #c0c0c0">Silver</option> 
-<option value="ffc0cb" style="background-color: #ffc0cb">Pink</option> 
-<option value="f5deb3" style="background-color: #f5deb3">Wheat</option> 
-<option value="fffacd" style="background-color: #fffacd">LemonChiffon</option> 
-<option value="98fb98" style="background-color: #98fb98">PaleGreen</option> 
-<option value="afeeee" style="background-color: #afeeee">PaleTurquoise</option> 
-<option value="add8e6" style="background-color: #add8e6">LightBlue</option> 
-<option value="dda0dd" style="background-color: #dda0dd">Plum</option> 
+<option value="#000000" style="background-color: #000000">Black</option> 
+<option value="#a0522d" style="background-color: #a0522d">Sienna</option>		
+<option value="#556b2f" style="background-color: #556b2f">DarkOliveGreen</option> 
+<option value="#006400" style="background-color: #006400">DarkGreen</option> 
+<option value="#483d8b" style="background-color: #483d8b">DarkSlateBlue</option> 
+<option value="#000080" style="background-color: #000080">Navy</option> 
+<option value="#4b0082" style="background-color: #4b0082">Indigo</option> 
+<option value="#2f4f4f" style="background-color: #2f4f4f">DarkSlateGray</option> 
+<option value="#8b0000" style="background-color: #8b0000">DarkRed</option> 
+<option value="#ff8c00" style="background-color: #ff8c00">DarkOrange</option> 
+<option value="#808000" style="background-color: #808000">Olive</option> 
+<option value="#008000" style="background-color: #008000">Green</option> 
+<option value="#008080" style="background-color: #008080">Teal</option> 
+<option value="#0000ff" style="background-color: #0000ff">Blue</option> 
+<option value="#708090" style="background-color: #708090">SlateGray</option> 
+<option value="#696969" style="background-color: #696969">DimGray</option> 
+<option value="#ff0000" style="background-color: #ff0000">Red</option> 
+<option value="#f4a460" style="background-color: #f4a460">SandyBrown</option> 
+<option value="#9acd32" style="background-color: #9acd32">YellowGreen</option> 
+<option value="#2e8b57" style="background-color: #2e8b57">SeaGreen</option> 
+<option value="#48d1cc" style="background-color: #48d1cc">MediumTurquoise</option> 
+<option value="#4169e1" style="background-color: #4169e1">RoyalBlue</option> 
+<option value="#800080" style="background-color: #800080">Purple</option> 
+<option value="#808080" style="background-color: #808080">Gray</option> 
+<option value="#ff00ff" style="background-color: #ff00ff">Magenta</option> 
+<option value="#ffa500" style="background-color: #ffa500">Orange</option> 
+<option value="#ffff00" style="background-color: #ffff00">Yellow</option> 
+<option value="#00ff00" style="background-color: #00ff00">Lime</option> 
+<option value="#00ffff" style="background-color: #00ffff">Cyan</option> 
+<option value="#00bfff" style="background-color: #00bfff">DeepSkyBlue</option>
+<option value="#9932cc" style="background-color: #9932cc">DarkOrchid</option> 
+<option value="#c0c0c0" style="background-color: #c0c0c0">Silver</option> 
+<option value="#ffc0cb" style="background-color: #ffc0cb">Pink</option> 
+<option value="#f5deb3" style="background-color: #f5deb3">Wheat</option> 
+<option value="#fffacd" style="background-color: #fffacd">LemonChiffon</option> 
+<option value="#98fb98" style="background-color: #98fb98">PaleGreen</option> 
+<option value="#afeeee" style="background-color: #afeeee">PaleTurquoise</option> 
+<option value="#add8e6" style="background-color: #add8e6">LightBlue</option> 
+<option value="#dda0dd" style="background-color: #dda0dd">Plum</option> 
 </select>
 </div>
 </td></tr>
 </table>
 <div id="nztouidpro_menu" style="display:none;" class="nzchatpro"></div>
-</div>
-</div>
-<!--{/if}-->
-<!-- end 2th chat -->
+</div></div>
 <!--{/block}-->

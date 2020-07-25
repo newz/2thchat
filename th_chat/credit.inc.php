@@ -31,11 +31,15 @@ color:#FFF;
 <body>
 <div id="credit">
 <h2>Name/ชื่อ</h2>
-Chat X
+Shoutbox
 <h2>Version/เวอร์ชั่น</h2>
-1.12
+1.4
+<h2>Owner/เจ้าของ</h2>
+New2th (<a href="http://spaces.discuzthai.com/space-uid-35165.html" target="_blank">Link</a>)
 <h2>Supported with/รองรับการใช้งาน</h2>
-Discuz! X/X2/X3
+Discuz! X2
+<h2>Character encoding/รูปแบบการเข้ารหัสข้อมูล</h2>
+Thai UTF-8
 </div>
 </body>
 </html>
