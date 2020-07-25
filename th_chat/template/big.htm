@@ -6,7 +6,7 @@
 <script src="source/plugin/th_chat/js/jquery-3.4.1.min.js" type="text/javascript"></script>
 <script src="source/plugin/th_chat/js/jquery.timeago.js" type="text/javascript"></script>
 <script src="source/plugin/th_chat/js/emoji-button-2.12.1.min.js" type="module"></script>
-<link rel="stylesheet" type="text/css" href="source/plugin/th_chat/template/common.css" />
+<link rel="stylesheet" type="text/css" href="source/plugin/th_chat/template/th_chat.min.css" />
 <div style="width:100%;margin:0 auto;">
 <style type="text/css">
 #nzchatcontent{
@@ -30,12 +30,12 @@ var nzsetting = {
 	reload: {$chat['reload']}
 };
 </script>
-<script src="source/plugin/th_chat/js/th_chat.js" type="text/javascript"></script>
+<script src="source/plugin/th_chat/js/th_chat.min.js" type="text/javascript"></script>
   <div id="nzchat">
     <table id="nzchattable">
       <tr>
         <td><div class="nzchatanno">
-          <div id="nzchatnotice" style="float:left;">กำลังโหลดประกาศล่าสุด...</div><div style="float:right;"><!--{if in_array($_G['adminid'],array(1,2,3))}--><input type="checkbox" id="nznoticecheck" title="แก้ไข"/> แก้ไข <!--{/if}--><a href="javascript:void(0);" onclick="nzChatBig();">ขยาย</a> <a href="javascript:void(0);" onclick="nzChatSmall();">ย่อ</a> <a href="javascript:void(0);" onclick="nzChatReset();">คืนค่า</a></div></td>
+          <div id="nzchatnotice" style="float:left;">กำลังโหลดประกาศล่าสุด...</div><div style="float:right;"><!--{if in_array($_G['adminid'],array(1,2,3))}--><input type="checkbox" id="nznoticecheck" title="แก้ไข"/><label for="nznoticecheck"> แก้ไข</label> <!--{/if}--><a href="javascript:void(0);" onclick="nzChatBig();">ขยาย</a> <a href="javascript:void(0);" onclick="nzChatSmall();">ย่อ</a> <a href="javascript:void(0);" onclick="nzChatReset();">คืนค่า</a></div></td>
         <td><div class="nzchatanno" style="text-align: center;"> <img src="source/plugin/th_chat/images/message.png" alt=""  align="absmiddle" /> ขณะนี้มีคนออนไลน์ <span id="nzoltotal">N/A</span> คน</div></td>
       </tr>
       <tr>
@@ -72,7 +72,7 @@ border-color: #5bc0de;"><strong> คลิกที่นี่เพื่อ�
 	  <tr>
 	  <td colspan="2">
 	  <div id="nzalertbox"></div>
-	  <div style="margin-bottom: 2px;display: flex;"><input name="mtname" type="text" id="nzchatmessage" maxlength="{$chat['chat_strlen']}" placeholder="กรอกข้อความแล้วกดปุ่ม Enter เพื่อส่งข้อความ"/><button id="nzemoji">🙂</button></div>
+	  <div style="margin-bottom: 2px;display: flex;"><input name="mtname" type="text" id="nzchatmessage" maxlength="{$chat['chat_strlen']}" placeholder="กรอกข้อความแล้วกดปุ่ม Enter เพื่อส่งข้อความ"/><div id="nzimgup" title="อัปโหลดรูปภาพ"></div><!--{if $_G['config']['db']['1']['dbcharset'] == 'utf8mb4'}--><div id="nzemoji" title="Emoji"></div><!--{/if}--></div>
 	  <div style="background:#eaeaea;border: #CCC 1px solid;border-radius:2px;"><table style="width: 100%;">
 	  <tr>
         <td style="vertical-align: middle;padding:4px;padding-bottom: 0px;width:100%;">
@@ -82,11 +82,8 @@ border-color: #5bc0de;"><strong> คลิกที่นี่เพื่อ�
 			<a href="javascript:void(0);" style="background: url(source/plugin/th_chat/images/settings.png) no-repeat 2px 2px;" title="ตั้งค่า" onclick="showWindow('th_chat_setting', 'plugin.php?id=th_chat:setting');return false;">Settings</a>
             <script src="data/cache/common_smilies_var.js?{VERHASH}" type="text/javascript" reload="1"></script> 
             <script type="text/javascript" reload="1">smilies_show('nzchatsmiliesdiv', 9, 'nzchat');</script>
-			<label for="nzimgupload" id="nzimguploadl">
-				อัปโหลดไฟล์ภาพ
-			</label>
 			<input id="nzimgupload" type="file" name="nzimgupload" accept="image/*" data-url="https://www.discuz.in.th/plugin.php?id=th_chat:img">
-            <div id="nzchatcpy"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.16</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></div>
+            <div id="nzchatcpy"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.17</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></div>
           </div></td>
       <tr>
 	  <td colspan="2" style="padding-left: 10px;">

@@ -38,14 +38,6 @@ if($config['chat_point']){
 	}
 }
 $groupcolor = ($r['color']?'style="background-color:'.$r['color'].'" ':'');
-$timeleft = time()-$r['lastactivity'];
-if($timeleft<120 && $timeleft>59){
-	$uid_timecolor = '#ffc107';
-}elseif($timeleft<60){
-	$uid_timecolor = '#4CAF50';
-}else{
-	$uid_timecolor = 'rgb(158, 158, 158)';
-}
 if(in_array($_G['adminid'],array(1,2,3))&&!($uid==$_G['uid'])){
 	$mlist .= (in_array($r['gourpid'],array(1,2,3))?'':(!in_array($uid,$banned)?'<tr><td colspan="2"><a href="javascript:void(0);" onClick=\'nzCommand("ban","'.$uid.'");\'>แบน</a></td></tr>':'<tr><td colspan="2"><a href="javascript:void(0);" onClick=\'nzCommand("unban","'.$uid.'");\'>ปลดแบน</a></td></tr>'));
 }

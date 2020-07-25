@@ -5,7 +5,7 @@ if(!defined('IN_DISCUZ')) {
 loadcache('plugin');
 $chat = array();
 $config = $_G['cache']['plugin']['th_chat'];
-$chat['bgcss'] = 'background:#EEE';
+$chat['bgcss'] = 'background:#eaeaea';
 if($config['chat_bg']){
 	$chat['bgcss'] .= ' url('.$config['chat_bg'].')';
 	switch($config['chat_bgpos']){

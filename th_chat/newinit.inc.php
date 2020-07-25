@@ -38,7 +38,7 @@ while($c = DB::fetch($re)){
 	}elseif($c['uid']==$uid){
 		$c['text'] = '<span style="color:#FF9900">กระซิบกับ <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['toname'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
-	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['time'],$c['touid'],1,$c['icon'],$is_mod);
+	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['time'],$c['touid'],$c['icon'],$is_mod);
 	if($c['ip']=='clear'){
 		break;
 	}
