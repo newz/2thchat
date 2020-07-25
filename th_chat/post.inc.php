@@ -24,7 +24,7 @@ $id = intval($_POST['lastid']);
 $touid = intval($_POST['touid']);
 $quota = intval($_POST['quota']);
 $command = $_POST['command'];
-$ip = $_SERVER['REMOTE_ADDR'];
+$ip = $_G['clientip'];
 $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 	if(substr($text,0,4)=="!del" && $is_mod){
 		$id = intval(substr($text,4));
@@ -171,8 +171,9 @@ if($ip == 'notice'){
 	DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$text}' WHERE variable='welcometext' AND displayorder='1' LIMIT 1");
 	include_once libfile('function/cache');
 	updatecache('plugin');
+	DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','0','alert','$text','".time()."','".$_G['clientip']."')");
 }elseif($ip == 'edit'){
-	$text .=' <span style="color: #F4511E;border: 1px solid #F4511E;border-radius: 20px;padding: 0 4px;" title="'.get_date($time).'">'.$edittext.'</span>';
+	$text .=' <span style="color: #F4511E;border: 1px solid #F4511E;border-radius: 4px;padding: 0 4px;" title="'.get_date($time).'">'.$edittext.'</span>';
 	DB::query("UPDATE ".DB::table('newz_data')." SET text='{$text}' WHERE id='{$icon}' LIMIT 1");
 }
 if($quota>0 && $ip != 'clear'){
@@ -220,9 +221,9 @@ $c['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '$1', $c['text']);
 	}elseif($c['touid']==0){
 		$c['text'] = '<span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==$uid){
-		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">กระซิบถึงคุณ <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">กระซิบว่า <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบ)</a></span>: <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['uid']==$uid){
-		$c['text'] = '<span style="color:#FF9900">กระซิบกับ <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['toname'].'</span></font></a>: </span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = '<span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
 	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['time'],$c['touid'],$c['icon'],$is_mod);
 	if($c['ip']=='clear'){

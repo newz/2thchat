@@ -19,7 +19,7 @@ function getat2($uid){
 	global $config;
 	$atuser = DB::query("SELECT m.uid,m.username,m.groupid,g.color FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid}' LIMIT 1");
 	$atuser = DB::fetch($atuser);
-	$attext = '<a class="nzuserat2 nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atuser['username'].'\');"'.($atuser['color']?' style="color:'.$atuser['color'].'"':'').'>'.$atuser['username'].'</a>';
+	$attext = '<a class="nzuserat2 nzat_'.$atuser['uid'].'" onclick="showWindow(\'th_chat_profile\', \'plugin.php?id=th_chat:profile&uid='.$uid.'\');return false;"'.($atuser['color']?' style="color:'.$atuser['color'].'"':'').'>'.$atuser['username'].'</a>';
 	return $attext;
 }
 function getat3($uid){
@@ -36,31 +36,36 @@ function getquota($quota){
 		$quo = DB::fetch($quo);
 		$quo['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '', $quo['text']);
 		$attext = getat3($quo['uid']);
-		$text = '[quota]'.paddslashes('<blockquote class="nzblockquote">'.$attext.': '.$quo['text'].'</blockquote>').'[/quota]';
+		$text = '[quota]'.paddslashes('<div class="nzblockquote">'.$attext.': '.$quo['text'].'</div>').'[/quota]';
 	}
 	return $text;
 }
 function chatrow($id,$text,$uid_p,$username,$time,$touid,$icon,$mod){
 	global $uid,$config,$_G;
-	if($icon=='alert')	{
-		$icon=$icon?img('alert', '/', 'แจ้งเตือน:').' ':'';
-		$type2='border-color: #F00;';
+	$tag = '';
+	if($icon=='alert'){
+		$tag = '<span class="nztag" style="background:#e53935">แจ้งเตือน</span>';
 	}elseif($icon=='bot'){
-		$icon=$icon?img('bot', '/', 'อัตโนมัติ').' ':'';
-		$type2='border-color: #5C5C5C;';
-	}else{
-		$icons = explode("|", $icon,3);
-		$icon=$icon?img($icons[2], '/'.$icons[0].'/', $icons[1]).' ':'';
+		$tag = '<span class="nztag" style="background:#546E7A">อัตโนมัติ</span>';
 	}
 	if($touid){
-		$type2='border-color: #F90;';
+		if($touid == $_G['uid']){
+			$tag = '<span class="nztag" style="background:#FB8C00;cursor:pointer;" onclick="nzTouid('.$uid_p.')">กระซิบ</span>';
+		}else{
+			$tag = '<span class="nztag" style="background:#FB8C00;border-radius:4px 0 0 4px;margin-right:0;cursor:pointer;" onclick="nzTouid('.$touid.')">กระซิบถึง</span><span class="nztag2">'.getat2($touid).'</span>';
+		}
 	}
-	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').show();" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').hide();">
-<td class="nzavatart"><a href="javascript:void(0);" onclick="showWindow(\'th_chat_profile\', \'plugin.php?id=th_chat:profile&uid='.$uid_p.'\');return false;"><img src="'.avatar($uid_p,'small',1).'" title="'.$username.'" class="nzchatavatar" onError="this.src=\'uc_server/images/noavatar_small.gif\';" /></a></td>
-<td class="nzcontentt"></div><div class="nzinnercontent" style="'.$type2.'">
-'.$text.'</span></div>
-<br>'.getat2($uid_p).'<span class="nztime" title="'.date("c",$time).'">'.get_date($time).'</span> <span id="nzchatquota'.$id.'" class="nzcq"><a href="javascript:void(0);" onClick="nzQuota('.$id.')">อ้างอิง</a>'.((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>แก้ไข</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>ลบ</a>':'').'</span></td>
-</tr><script>nzchatobj("#nzrows_'.$id.' span.nztime").timeago();</script>';
+	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').css(\'opacity\',\'1\');" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').css(\'opacity\',\'0\');">
+<td class="nzavatart">
+	<a href="javascript:void(0);" onclick="showWindow(\'th_chat_profile\', \'plugin.php?id=th_chat:profile&uid='.$uid_p.'\');return false;"><img src="'.avatar($uid_p,'small',1).'" title="'.$username.'" class="nzchatavatar" onError="this.src=\'uc_server/images/noavatar_small.gif\';" /></a>
+</td>
+<td class="nzcontentt">
+	'.getat2($uid_p).'<span class="nztime" title="'.date("c",$time).'">'.get_date($time).'</span> <span id="nzchatquota'.$id.'" class="nzcq"><a href="javascript:void(0);" onClick="nzQuota('.$id.')">อ้างอิง</a>'.($uid!=$uid_p?' <a href="javascript:void(0);" onclick="nzAt(\''.$username.'\')">@</a> <a href="javascript:void(0);" onclick="nzTouid('.$uid_p.')">กระซิบ</a> ':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>แก้ไข</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>ลบ</a>':'').'</span>
+	<br>
+	<div class="nzinnercontent">'.$tag.$text.'</div>
+</td>
+</tr>
+<script>nzchatobj("#nzrows_'.$id.' span.nztime").timeago();</script>';
 }
 function get_date($timestamp) 
 {
@@ -85,9 +90,4 @@ function paddslashes($data) {
 	return $data;
 }
 $time = time();
-function img($code, $type, $title) {
-	$src = $type . $code;
-	$img = "<img src=\"source/plugin/th_chat/images{$src}.png\" id=\"nzosicon\" alt=\"{$title}\" title=\"{$title}\">";
-	return $img;
-}
 ?>

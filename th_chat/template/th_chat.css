@@ -70,16 +70,16 @@ table#nzchattable td {
 
 #nzchatbd {
     border: #CCC 1px solid;
+	position: relative;
 }
 
 #nzchatcontent {
-    padding: 2px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
 .nzblockquote {
-    padding: 0 8px;
+    padding-left: 8px;
     margin-left: 5px;
     border-left: 2px solid #c5c1ad;
     margin-top: 0;
@@ -105,14 +105,14 @@ table#nzchattable td {
 .nzuserat2 {
     font-weight: bold;
     cursor: pointer;
-    padding: 2px 5px;
+    padding-right: 5px;
+	padding-left: 1px;
 }
 
 #nzchatmessage {
     border: 1px solid rgb(204, 204, 204);
     line-height: normal;
-    border-bottom-left-radius: 2px;
-    border-top-left-radius: 2px;
+    border-radius: 2px;
     width: 100%;
     box-sizing: border-box;
     padding: 5px;
@@ -138,15 +138,34 @@ div.child {
     background: #fff;
 }
 
-#afterme {
-    width: 704px;
+.nzquoteboxo {
+	display: none;
+}
+
+.nzquoteboxi {	
+	background: #eaeaea;
+	padding: 5px 10px;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	margin-top: 2px;
+	min-height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between
+}
+
+.nzquoteboxh {
+	font-weight: bold;
+	color: #1E88E5;
+	margin-left: 2px;
 }
 
 .nzcq {
-    display: none;
+    opacity: 0;
     font-size: 11px;
     color: #666;
     padding-right: 5px;
+	transition:opacity 0.3s;
 }
 
 .nztime {
@@ -157,6 +176,7 @@ div.child {
 .nzinnercontent img,
 #nztouid img {
     max-height: 100px;
+	vertical-align: middle;
 }
 
 .nzinnercontent img.zoom {
@@ -187,6 +207,7 @@ table.nzcallrow td {
 .nzavatart {
     width: 35px;
     padding-right: 2px;
+	position: relative;
 }
 
 .nzavsm {
@@ -282,19 +303,16 @@ tr.nzchatrow td {}
 }
 
 .nzcontentt {
-    padding: 2px;
+    padding: 2px 2px 2px 4px;
 }
 
 .nzinnercontent {
-    position: relative;
-    width: auto;
-    height: auto;
-    padding: 0px;
+    box-shadow: 1px 1px 2px #ccc;
     background: #FFF;
-    padding: 4px 10px;
-    border-radius: 13px;
-    display: inline-flex;
-    margin-left: 3px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+	margin-right: 2px;
 }
 
 .nznametop {
@@ -375,16 +393,6 @@ tr.nzchatrow td {}
     color: #fff;
 }
 
-#nzemoji {
-    font-size: 1rem;
-    background: #DDDDDD;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    margin: 0;
-}
 
 #nznewmessage {
     display: none;
@@ -431,24 +439,32 @@ tr.nzchatrow td {}
     cursor: pointer;
     width: 24px;
     height: 24px;
+	margin-right: 2px;
     background: url('/source/plugin/th_chat/images/img.png');
-    position: absolute;
-    margin-left: 906px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	padding-right: 2px;
+}
+
+#nzimgup:hover, #nzemoji:hover {
+	border-color: #09C;
 }
 
 #nzemoji {
+	margin-right: 2px;
     cursor: pointer;
     width: 24px;
     height: 24px;
     background: url('/source/plugin/th_chat/images/emoji.png');
-    position: absolute;
-    margin-left: 933px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
 }
 
 .nzolname {
     background: #fff;
-	border-radius: 20px;
+	border-radius: 4px;
 	padding: 4px;
+	box-shadow: 1px 1px 2px #ccc;
 }
 
 .nzolcon:nth-child(1){
@@ -461,8 +477,52 @@ tr.nzchatrow td {}
 
 .nzavatart .nzchatavatar{
 	margin-left: 2px;
+	position: absolute;
+	bottom: 2px;
 }
 
 .nznametop span {
-    color: #fff !important;
+    color: #fff;
+}
+
+.nznametop span:hover {
+    color: #fff;
+}
+
+.nztoolbar{
+	background:#eaeaea;
+	border: #CCC 1px solid;
+	border-radius:2px;
+}
+
+.nzcancel {
+	height: 16px;
+	width: 16px;
+	background: url(/source/plugin/th_chat/images/cancel.png);
+	cursor: pointer;
+	margin-left: 3px;
+	flex-shrink: 0;
+}
+
+.nzcancel:hover {
+	background: url(/source/plugin/th_chat/images/cancel_h.png);
+}
+
+.nztag {
+	color: #fff;
+	background: #fff3e4;
+	border-radius: 4px;
+	padding: 2px 6px;
+	margin-right: 4px;
+	margin-left: -6px;
+}
+
+.nztag2 {
+	font-weight: bold;
+	color: #fff;
+	background: #fff3e4;
+	margin-right: 4px;
+	border-radius:0 4px 4px 0;
+	border: 1px solid #fb8c00;
+	padding:1px 6px
 }

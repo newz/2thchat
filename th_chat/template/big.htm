@@ -1,7 +1,7 @@
 <!--{subtemplate common/header}-->
 <!--{if $chat['guest_show']&&!$_G['uid']}-->
 {$chat['guest_show']}
-<div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.13</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></div>
+<div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.18</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></div>
 <!--{else}--> 
 <script src="source/plugin/th_chat/js/jquery-3.4.1.min.js" type="text/javascript"></script>
 <script src="source/plugin/th_chat/js/jquery.timeago.js" type="text/javascript"></script>
@@ -10,7 +10,7 @@
 <div style="width:100%;margin:0 auto;">
 <style type="text/css">
 #nzchatcontent{
-	height:446px;
+	height:450px;
 	{$chat['bgcss']}
 }
 #nzchatolcontent{
@@ -72,10 +72,9 @@ border-color: #5bc0de;"><strong> คลิกที่นี่เพื่อ�
 	  <tr>
 	  <td colspan="2">
 	  <div id="nzalertbox"></div>
-	  <div style="margin-bottom: 2px;display: flex;"><input name="mtname" type="text" id="nzchatmessage" maxlength="{$chat['chat_strlen']}" placeholder="กรอกข้อความแล้วกดปุ่ม Enter เพื่อส่งข้อความ"/><div id="nzimgup" title="อัปโหลดรูปภาพ"></div><!--{if $_G['config']['db']['1']['dbcharset'] == 'utf8mb4'}--><div id="nzemoji" title="Emoji"></div><!--{/if}--></div>
-	  <div style="background:#eaeaea;border: #CCC 1px solid;border-radius:2px;"><table style="width: 100%;">
-	  <tr>
-        <td style="vertical-align: middle;padding:4px;padding-bottom: 0px;width:100%;">
+	  <div style="margin-bottom: 2px;display: flex;"><!--{if $showimgup}--><div id="nzimgup" title="อัปโหลดรูปภาพ"></div><!--{/if}--><!--{if $_G['config']['db']['1']['dbcharset'] == 'utf8mb4'}--><div id="nzemoji" title="Emoji"></div><!--{/if}--><input name="mtname" type="text" id="nzchatmessage" maxlength="{$chat['chat_strlen']}" placeholder="กรอกข้อความแล้วกดปุ่ม Enter เพื่อส่งข้อความ"/></div>
+	  <div class="nztoolbar">
+        <div style="height:25px">
 		<script src="static/js/seditor.js" type="text/javascript"></script>
 		<div class="fpd nzchatbbcode">
             {$chat['editor']} <a href="javascript:void(0);" title="โหลดใหม่" onClick="nzReload();" style="background:url(source/plugin/th_chat/images/reload.png) no-repeat center">Reload</a> <a href="plugin.php?id=th_chat:chat_full" title="แชทจอใหญ่" style="background:url(source/plugin/th_chat/images/fullscreen.png) no-repeat center">Zoom</a> 
@@ -83,15 +82,11 @@ border-color: #5bc0de;"><strong> คลิกที่นี่เพื่อ�
             <script src="data/cache/common_smilies_var.js?{VERHASH}" type="text/javascript" reload="1"></script> 
             <script type="text/javascript" reload="1">smilies_show('nzchatsmiliesdiv', 9, 'nzchat');</script>
 			<input id="nzimgupload" type="file" name="nzimgupload" accept="image/*" data-url="https://www.discuz.in.th/plugin.php?id=th_chat:img">
-            <div id="nzchatcpy"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.17</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></div>
-          </div></td>
-      <tr>
-	  <td colspan="2" style="padding-left: 10px;">
-	  <span><span id="nztouid"></span></span>
-        </td>	
-	  </td>
-	  </tr>
-	  </table></div></td>
+            <div id="nzchatcpy"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.18</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></div>
+          </div>
+	</div>
+	  <div style="padding-left: 5px" id="nztouid"></div>
+	  </div></td>
 	  </tr>
     </table>
   </div>

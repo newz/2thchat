@@ -5,18 +5,18 @@ var nztime2 = 0;
 var nztouid = 0;
 var nzquota = 0;
 var nzlastid = 0;
-var nzonol = 'no';
+var nzonol = false;
 var nzcommandz = '';
 var formhash = '';
 var nzChatPopupContent = '';
 var nzscroll = true;
 
 function nzolover() {
-	nzonol = 'yes';
+	nzonol = true;
 }
 
 function nzolout() {
-	nzonol = 'no';
+	nzonol = false;
 }
 
 function nzalert(text) {
@@ -31,23 +31,8 @@ nzchatobj(function () {
 		if (event.keyCode == '13') {
 			nzSend();
 		}
-	});
-	nzchatobj("#nznoticecheck").change(function (event) {
-		if (nzchatobj(this).is(':checked')) {
-			nzcommandz = 'notice';
-			nzchatobj('.nzchatrow').each(function () {
-				if (nzchatobj(this).css('background-color') == 'rgb(255, 187, 187)') {
-					nzchatobj(this).css('background-color', 'unset');
-				}
-			});
-			nzchatobj('#nzchatmessage').val(nzchatobj('#nzchatnotice').text());
-			nzchatobj('#nzchatmessage').focus();
-		} else {
-			if (nzchatobj('#nzchatmessage').val() == nzchatobj('#nzchatnotice').text()) {
-				nzchatobj('#nzchatmessage').val('');
-				nzchatobj('#nzchatmessage').focus();
-			}
-			nzcommandz = '';
+		if (event.keyCode == '27') {
+			nzTouid(0);
 		}
 	});
 	nzchatobj('#nzchatmessage').bind('paste', function (e) {
@@ -141,12 +126,22 @@ nzchatobj(function () {
 	});
 	nzchatobj('#nzchatcontent').scroll(function () {
 		var objDiv = document.getElementById("nzchatcontent");
-		if (objDiv.scrollHeight - objDiv.scrollTop == nzchatheight + 4) {
+		if (objDiv.scrollHeight - objDiv.scrollTop == nzchatheight) {
 			nzchatobj("#nznewmessage").hide();
 			objDiv.scrollTop = objDiv.scrollHeight;
 		}
 	});
 });
+
+function nzNotice() {
+	nzcommandz = 'notice';
+	nzchatobj(".nzquoteboxi").html('<div><span class="nzquoteboxh">แก้ไขประกาศ</span>: ' + nzchatobj('#nzchatnotice').html() + '</div><div class="nzcancel" onclick="nzTouid(0)" title="ยกเลิก"></div>');
+	nzchatobj(".nzquoteboxo").show();
+	nzchatobj("#nzchatcontent").css('height',nzchatheight - nzchatobj(".nzquoteboxo").height() - 2);
+	nzScrollChat(true);
+	nzchatobj('#nzchatmessage').val(nzchatobj('#nzchatnotice').text());
+	nzchatobj('#nzchatmessage').focus();
+}
 
 function nzChatPopup(con) {
 	nzChatPopupContent = nzchatobj(con).next(".nzchatpopuph").html();
@@ -161,7 +156,7 @@ function nzChatBig() {
 			height: nzchatheight
 		}, 200);
 		nzchatobj("#nzchatolcontent").animate({
-			height: nzchatheight + 4
+			height: nzchatheight
 		}, 200);
 	}
 }
@@ -173,7 +168,7 @@ function nzChatSmall() {
 			height: nzchatheight
 		}, 200);
 		nzchatobj("#nzchatolcontent").animate({
-			height: nzchatheight + 4
+			height: nzchatheight
 		}, 200);
 	}
 }
@@ -184,7 +179,7 @@ function nzChatReset() {
 		height: nzchatheight
 	}, 200);
 	nzchatobj("#nzchatolcontent").animate({
-		height: nzchatheight + 4
+		height: nzchatheight
 	}, 200);
 }
 
@@ -204,18 +199,8 @@ function nzSend() {
 			'quota': nzquota,
 			'command': nzcommandz
 		}, function (data) {
-			if (nzcommandz == 'notice') {
-				nzcommandz = '';
-				nzchatobj('#nznoticecheck').removeAttr('checked');
-			} else {
-				nzcommandz = '';
-				nzchatobj('.nzchatrow').each(function () {
-					if (nzchatobj(this).css("background-color") == 'rgb(255, 187, 187)') {
-						nzchatobj(this).css("background-color", "unset");
-					}
-				});
-			}
-			if (nzquota > 0) {
+			
+			if (nzquota > 0 || nzcommandz == 'notice' || nzcommandz.substr(0, 4) == 'edit') {
 				nzTouid(0);
 			}
 			data = JSON.parse(data);
@@ -259,32 +244,16 @@ function nzCommand(command, xid) {
 			var show = 'ลบข้อความ';
 			var showid = ' ' + nzchatobj("#nzchatcontent" + xid).text();
 		} else if (command == 'edit') {
-			var nzsamedit = false;
-			nzchatobj('.nzchatrow').each(function () {
-				if (nzchatobj(this).css("background-color") == 'rgb(255, 187, 187)') {
-					nzchatobj(this).css("background-color", "unset");
-					if (nzchatobj("#nzchatmessage").val() == nzchatobj("#nzchatcontent" + xid).text()) {
-						nzchatobj("#nzchatmessage").val('');
-					}
-					if (nzchatobj(this).attr('id') == 'nzrows_' + xid) {
-						nzcommandz = '';
-						nzsamedit = true;
-						return;
-					}
-				}
-			});
-			if (nzcommandz == 'notice') {
-				nzchatobj('#nznoticecheck').removeAttr('checked');
-			}
-			if (!nzsamedit) {
-				nzcommandz = 'edit ' + xid;
-				nzchatobj('#nzrows_' + xid).css("background-color", "#fbb");
-				nzchatobj("#nzchatmessage").val(nzchatobj("#nzchatcontent" + xid).text());
-				nzchatobj("#nzchatmessage").focus();
-				return;
-			} else {
-				return;
-			}
+			nzTouid(0);
+			nzcommandz = 'edit ' + xid;
+			nzchatobj(".nzquoteboxi").html('<div><div class="nzquoteboxh">แก้ไขข้อความ</div>' + nzchatobj("#nzrows_" + xid + " .nzinnercontent")[0].outerHTML + '</div><div class="nzcancel" onclick="nzTouid(0)" title="ยกเลิก"></div>');
+			nzchatobj(".nzquoteboxi .nzcq").remove();
+			nzchatobj(".nzquoteboxo").show();
+			nzchatobj("#nzchatcontent").css('height',nzchatheight - nzchatobj(".nzquoteboxo").height() - 2);
+			nzScrollChat(true);
+			nzchatobj("#nzchatmessage").val(nzchatobj("#nzchatcontent" + xid).text());
+			nzchatobj("#nzchatmessage").focus();
+			return;
 		} else if (command == 'ban') {
 			var show = 'แบน';
 			var showid = ' ' + nzchatobj("#nzolpro_" + xid).text() + '(UID: ' + xid + ')';
@@ -310,12 +279,12 @@ function nzLoadTextInit() {
 	nzchatobj.post("plugin.php?id=th_chat:newinit", function (data) {
 		data = JSON.parse(data);
 		nzlastid = data.lastid;
-		nzchatobj("#nzchatcontent").html('<table class="nzcallrow">' + data.datahtml + '<tr id="afterme" style="height:0px;"><td class="nzavatart"></td><td class="nzcontentt"></td></tr></table>');
+		nzchatobj("#nzchatcontent").html('<table class="nzcallrow">' + data.datahtml + '<tr id="afterme"><td colspan="2"></td></tr></table>');
 		nzScrollChat(true);
 		nzchatobj('.nzinnercontent img').one('load', function () {
 			nzScrollChat();
 		});
-		if (nzonol == 'no') {
+		if (!nzonol) {
 			nzchatobj("#nzchatolcontent").html(data.datachatonline);
 		}
 		nzchatobj("#nzoltotal").html(data.chat_online_total);
@@ -339,10 +308,14 @@ function nzScrollChat(force = false) {
 
 function nzReadyForScroll() {
 	var objDiv = document.getElementById("nzchatcontent");
-	if (objDiv.scrollHeight - objDiv.scrollTop == nzchatheight + 4) {
+	if(nzchatobj(".nzquoteboxo:visible")){
 		nzscroll = true;
-	} else {
-		nzscroll = false;
+	}else{
+		if (objDiv.scrollHeight - objDiv.scrollTop == nzchatheight) {
+			nzscroll = true;
+		} else {
+			nzscroll = false;
+		}
 	}
 }
 
@@ -372,7 +345,7 @@ function nzLoadText() {
 				}
 			}
 			if (data.chat_online) {
-				if (nzonol == 'no') {
+				if (!nzonol) {
 					nzchatobj("#nzchatolcontent").html(data.chat_online);
 				}
 				nzchatobj("#nzoltotal").html(data.chat_online_total);
@@ -384,7 +357,12 @@ function nzLoadText() {
 
 function nzQuota(i) {
 	nzTouid(0);
-	nzchatobj("#nztouid").html("<span style='color:#3366CC'>อ้างอิง</span>: " + nzchatobj("#nzchatcontent" + i).html() + " <a href='javascript:void(0);' onClick='nzTouid(0)'>(ยกเลิก)</a>");
+	nzchatobj(".nzquoteboxi").html('<div class="nzinnercontent"><div class="nzblockquote">' + nzchatobj("#nzrows_" + i + " .nzuserat2")[0].outerHTML + ': ' + nzchatobj("#nzchatcontent" + i).html() + '</div></div><div class="nzcancel" onclick="nzTouid(0)" title="ยกเลิก"></div>');
+	nzchatobj(".nzquoteboxi .nzcq").remove();
+	nzchatobj(".nzquoteboxi .nzuserat2").toggleClass('nzuserat2 nzuserat');
+	nzchatobj(".nzquoteboxo").show();
+	nzchatobj("#nzchatcontent").css('height',nzchatheight - nzchatobj(".nzquoteboxo").height() - 2);
+	nzScrollChat(true);
 	nzquota = i;
 	nzchatobj("#nzchatmessage").focus();
 }
@@ -397,12 +375,30 @@ function nzAt(i) {
 function nzTouid(i) {
 	if (i > 0) {
 		nzTouid(0);
-		nzchatobj("#nztouid").html("<span style='color:#3366CC'>กระซิบ:</span> <a href='home.php?mod=space&uid=" + i + "' class='nzca' target='_blank'>" + nzchatobj(".nzat_" + i).last()[0].outerHTML + "</a> [" + i + "] <a href='javascript:void(0);' onClick='nzTouid(0)'>(ยกเลิก)</a>");
+		nzchatobj(".nzquoteboxi").html('<div><span class="nzquoteboxh">กระซิบถึง</span> <img src="uc_server/avatar.php?uid=' + i +'&size=small" class="nzchatavatar" width="32" height="32" onerror="this.src=\'uc_server/images/noavatar_small.gif\';" align="absmiddle"> ' + nzchatobj(".nzat_" + i).last()[0].outerHTML + '</div><div class="nzcancel" onclick="nzTouid(0)" title="ยกเลิก"></div>');
+		nzchatobj(".nzquoteboxi .nzcq").remove();
+		nzchatobj(".nzquoteboxi .nzinnercontent").remove();
+		nzchatobj(".nzquoteboxo").show();
+		nzchatobj("#nzchatcontent").css('height',nzchatheight - nzchatobj(".nzquoteboxo").height() - 2);
+		nzScrollChat(true);
 		nztouid = i;
 	} else {
+		nzchatobj("#nzchatcontent").css('height',nzchatheight);
+		if(nzcommandz.substr(0, 4) == 'edit'){
+			if(nzchatobj(".nzquoteboxi .nzinnercontent").text() == nzchatobj('#nzchatmessage').val()){
+				nzchatobj('#nzchatmessage').val('');
+			}
+		}else if(nzcommandz == 'notice'){
+			if (nzchatobj('#nzchatmessage').val() == nzchatobj('#nzchatnotice').text()) {
+				nzchatobj('#nzchatmessage').val('');
+			}
+		}
+		nzchatobj(".nzquoteboxi").html('');
 		nzchatobj("#nztouid").html("");
+		nzchatobj(".nzquoteboxo").hide();
 		nztouid = 0;
 		nzquota = 0;
+		nzcommandz = '';
 	}
 }
 
@@ -413,7 +409,7 @@ function nzReload() {
 	nzchatobj.post("plugin.php?id=th_chat:newinit", function (data) {
 		data = JSON.parse(data);
 		nzlastid = data.lastid;
-		nzchatobj("#nzchatcontent").html('<table class="nzcallrow">' + data.datahtml + '<tr id="afterme" style="height:0px;"><td class="nzavatart"></td><td class="nzcontentt"></td></tr></table>');
+		nzchatobj("#nzchatcontent").html('<table class="nzcallrow">' + data.datahtml + '<tr id="afterme" style="display: none;"><td class="nzavatart"></td><td class="nzcontentt"></td></tr></table>');
 		nzScrollChat(true);
 		nzchatobj('.nzinnercontent img').one('load', function () {
 			nzScrollChat();

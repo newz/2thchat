@@ -33,6 +33,7 @@ $image->setLocation(__DIR__ . "/img_up");
 $image->setName($_G['uid'].'_'.time());
 if($image["pictures"]){
   $upload = $image->upload();
+  header('Content-Type: application/json');
   if($upload){
     echo json_encode(array('url'=>$_G['siteurl'].'source/plugin/th_chat/img_up/'.$image->getName().'.'.$image->getMime())); 
   }else{
