@@ -2,7 +2,7 @@
 <!-- begin 2th chat -->
 <!--{if $chat['guest_show']&&!$_G['uid']}-->
 {$chat['guest_show']}
-<div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="http://2th.me">2th</a> & <a href="http://www.weza.in/" target="_blank">Weza</a></span></div>
+<div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="http://2th.me">2th</a></span></div>
 <!--{else}--> 
 <script src="source/plugin/th_chat/js/jquery-1.6.4.min.js" type="text/javascript"></script> 
 <script src="source/plugin/th_chat/js/jba.js" type="text/javascript"></script>
@@ -13,7 +13,7 @@ var nzchatobj = jQuery.noConflict();
 <div style="width:100%;margin:0 auto;">
 <style type="text/css">
 #nzchatcontent{
-height:400px;
+height:410px;
 {$chat['bgcss']}
 }
 #nzchatolcontent{
@@ -21,7 +21,7 @@ height:418px;
 }
 </style>
 <script type="text/javascript">
-var nzchatheight = 400;
+var nzchatheight = 410;
 var nzsid = getcookie('sid', true);
 var nztime1 = new Date().getTime();
 var nztime2 = 0;
@@ -141,6 +141,7 @@ var nzsamedit = false;
 nzchatobj('.nzchatrow').each(function() {
 if(nzchatobj(this).css("background-color")=='rgb(255, 187, 187)'){
 nzchatobj(this).animate({ backgroundColor: '#FFF' }, 500);
+if(nzchatobj("#nzchatmessage").val()==nzchatobj("#nzchatcontent"+xid).text()){nzchatobj("#nzchatmessage").val('');}
 if(nzchatobj(this).attr('id')=='nzrows_'+xid){nzcommandz='';nzsamedit = true;return;}
 }
 });
@@ -410,8 +411,8 @@ function nzskincolor() {
       <tr>
         <td><div class="nzchatanno">
           <div id="nzchatnotice" style="float:left;">กำลังโหลดประกาศล่าสุด...</div> <!--{if in_array($_G['adminid'],array(1,2,3))}--><input type="checkbox" id="nznoticecheck" onClick="if(nzchatobj(this).is(':checked')){nzcommandz='notice';nzchatobj('.nzchatrow').each(function() {if(nzchatobj(this).css('background-color')=='rgb(255, 187, 187)'){nzchatobj(this).animate({ backgroundColor: '#FFF' }, 500);}});nzchatobj('#nzchatmessage').val(nzchatobj('#nzchatnotice').text());
-nzchatobj('#nzchatmessage').focus();}else{nzcommandz='';}"/> แก้ไข <!--{/if}--><div style="float:right;"><a href="javascript:void(0);" onclick="nzChatBig();">{lang th_chat:jdj_th_chat_text_htm_10}</a> <a href="javascript:void(0);" onclick="nzChatSmall();">{lang th_chat:jdj_th_chat_text_htm_26}</a> <a href="javascript:void(0);" onclick="nzChatReset();">{lang th_chat:jdj_th_chat_text_htm_14}</a></div></td>
-        <td><div class="nzchatanno"> <img src="source/plugin/th_chat/images/useron.gif" alt=""  align="absmiddle" /> {lang th_chat:jdj_th_chat_text_htm_09} <span id="nzoltotal">N/A</span> {lang th_chat:jdj_th_chat_text_htm_11}</div></td>
+nzchatobj('#nzchatmessage').focus();}else{if(nzchatobj('#nzchatmessage').val()==nzchatobj('#nzchatnotice').text()){nzchatobj('#nzchatmessage').val('');nzchatobj('#nzchatmessage').focus();}nzcommandz='';}"/> แก้ไข <!--{/if}--><div style="float:right;"><a href="javascript:void(0);" onclick="nzChatBig();">{lang th_chat:jdj_th_chat_text_htm_10}</a> <a href="javascript:void(0);" onclick="nzChatSmall();">{lang th_chat:jdj_th_chat_text_htm_26}</a> <a href="javascript:void(0);" onclick="nzChatReset();">{lang th_chat:jdj_th_chat_text_htm_14}</a></div></td>
+        <td><div class="nzchatanno" style="text-align: center;"> <img src="source/plugin/th_chat/images/useron.gif" alt=""  align="absmiddle" /> {lang th_chat:jdj_th_chat_text_htm_09} <span id="nzoltotal">N/A</span> {lang th_chat:jdj_th_chat_text_htm_11}</div></td>
       </tr>
       <tr>
         <td><div id="nzchatbd">
@@ -542,14 +543,13 @@ border-radius: 2px;
 padding:1px;
 width: 198px;
 height: 27px;
-margin-top: 2px;
 color: #ffffff;
 background-color: #5bc0de;
-border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> & <a href="http://www.weza.in/" target="_blank">Weza</a> <strong>2.05</strong></span></span></td>
+border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.10</strong></span></span></td>
       </tr>
     </table>
   </div>
 </div>
-<!--{/if}-->
-<!-- end 2th chat -->
+<!--{/if}--> 
+<!-- end 2th chat --> 
 <!--{subtemplate common/footer}-->

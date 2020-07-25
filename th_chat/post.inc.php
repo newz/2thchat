@@ -44,7 +44,7 @@ if($config['oldcommand']==1){
 			}
 			$icon = 'alert';
 			$touid = 0;
-			$username_ban = '[color='.$username_ban['color'].']'.htmlspecialchars_decode($username_banz).'[/color]';
+			$username_ban = empty($username_ban['color'])?htmlspecialchars_decode($username_banz):'[color='.$username_ban['color'].']'.htmlspecialchars_decode($username_banz).'[/color]';
 			$text = '[url=home.php?mod=space&uid='.$uid_ban.'][b]'.$username_ban.'[/b][/url] [color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_23').'[/color]';
 			$banned_new = array();
 			foreach($banned as $uid_banned){
@@ -69,7 +69,7 @@ if($config['oldcommand']==1){
 			}
 			$icon = 'alert';
 			$touid = 0;
-			$username_ban = '[color='.$username_ban['color'].']'.htmlspecialchars_decode($username_banz).'[/color]';
+			$username_ban = empty($username_ban['color'])?htmlspecialchars_decode($username_banz):'[color='.$username_ban['color'].']'.htmlspecialchars_decode($username_banz).'[/color]';
 			$text = '[color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_28').'[/color] [url=home.php?mod=space.php&uid='.$uid_ban.'][b]'.$username_ban.'[/b][/url]';
 			$banned_new = array();
 			foreach($banned as $uid_banned){
@@ -111,6 +111,7 @@ if($config['oldcommand']==1){
 			}else{
 				$point='[color=red]'.$point.'[/color]';
 			}
+			$color = 'default';
 			$icon = 'alert';
 			$touid = 0;
 			$text = ' '.$point.' = '.$total_point.' '.$res;
@@ -166,7 +167,14 @@ $text = str_replace("[/media]", "[/media][/spoil]", $text);
 }else{
 $text = str_replace("[media]", "[media=x,252,189]", $text);
 }
+$query_bw = DB::query("SELECT * FROM ".DB::table('common_word'));
+while ($bw = DB::fetch($query_bw))
+{
+	if($bw['replacement']=='{MOD}'&&$config['spoiler']){$bw['replacement'] = '[spoil]'.$bw['find'].'[/spoil]';}
+	$text = str_replace($bw['find'],$bw['replacement'],$text);
 }
+}
+$text = preg_replace('/\[quota\](.*?)\[\/quota\]/', '[quota]$1[[color=#fff][/color]/quota]', $text);
 $text = paddslashes(discuzcode($text,$config['useemo'],$config['usedzc'],$config['usehtml'],1,1,$config['useimg'],1,0,$config['useunshowdzc'],0, $config['mediacode']));
 if(($is_mod>0)&&$text=='!clear'&&$config['oldcommand']==1){
 $ip = 'clear';
@@ -190,11 +198,8 @@ if($quota>0 && $config['quota'] && $ip != 'clear'){
 	if($quo = DB::query("SELECT text FROM ".DB::table('newz_data')." WHERE id='{$quota}'"))
 	{
 		$quo = DB::fetch($quo);
-		$text = addslashes($quo['text']).' // '.$text;
-		$txtlen = strlen($text);
-		if($txtlen>$config['chat_strlen']){
-			$text = '... '.substr($text,$txtlen-$config['chat_strlen']);
-		}
+		$quo['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '', $quo['text']);
+		$text = '[quota]'.paddslashes($quo['text']).' // [/quota]'.$text;
 	}
 }else if($at>0 && $ip != 'clear'){
 	$user = DB::query("SELECT m.username,m.groupid,g.color,n.name FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$at}' LIMIT 1");
@@ -207,6 +212,49 @@ if($quota>0 && $config['quota'] && $ip != 'clear'){
 	$userz = addslashes(htmlspecialchars_decode($userz));
 	$text = '@<a class="nzca"><font color="'.$user['color'].'">'.$userz.'</font></a> '.$text;
 }
+
+	/**
+	 * Log chat within txt files
+	 * @add Jaieejung007
+	 *
+	 * @since 2.04.2
+	 *
+	 * @param string $logf   Config your path of log files.
+	 * @param string $tab  Add a tab between the characters in the file.
+	 */
+$logf = DISCUZ_ROOT.'./data/thzaa_log/'.date('d-m-Y');
+dmkdir($logf);
+	$f = fopen($logf . '/all.txt', 'a');
+	if (get_magic_quotes_gpc()) {
+		$oldtext = stripslashes($_POST['text']);
+	} else {
+		$oldtext = $_POST['text'];
+	}
+	$tab .= "\t";
+	$msg = $uid . ( $touid ? ' To ' . $touid : '' ) . ''.$tab.'Say: ' . $oldtext . ''.$tab.'Time: ' . time() . ''.$tab.'Time(Simple): '.date('d-m-Y H:i:s').''.$tab.'IP: ' . $_SERVER['REMOTE_ADDR'];
+	
+	if($ip == "clear"&&$is_mod) {
+		$msg .= ' Cmd: Clear';
+	} elseif(substr($text, 0, 4) == "/ban"&&$is_mod) {
+		$msg .= ' Cmd: Ban ' . intval(substr($text, 4));
+	} elseif(substr($text, 0, 6) == "/unban"&&$is_mod) {
+		$msg .= ' Cmd: Un Ban ' . intval(substr($text, 6));
+	}
+	
+	$msg .= "\r\n";
+
+	fwrite($f, $msg);
+	fclose($f);
+	
+	if($touid) {
+		$sort = array($uid, $touid); asort($sort);
+		$logfile = $logf . '/' . implode('-', $sort) . '.txt';
+		
+		$f = fopen($logfile, 'a');
+		fwrite($f, $msg);
+		fclose($f);
+	}
+
 $icon==''?$icon=checkOs():$icon=$icon;
 DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','$touid','$icon','$text','".time()."','$ip')");
 
@@ -230,13 +278,17 @@ WHERE  id>{$id} AND (n.touid='0' OR n.touid='{$uid}' OR n.uid='{$uid}')
 ORDER BY id DESC LIMIT 30");
 $body=array();
 while($c = DB::fetch($re)){
+$c['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '$1', $c['text']);
 	if ($c['ip'] == 'changename'){
-		$body[$c['id']] .= '<script>nzchatobj(".nzu'.$config['namemode']==1?'status':'name'.'_'.$c['uid'].'").html("'.addcslashes(htmlspecialchars_decode($c['text']),'"').'");</script>';
+		$body[$c['id']] .= '<script>nzchatobj(".nzu'.($config['namemode']==1?'status':'name').'_'.$c['uid'].'").html("'.addcslashes(htmlspecialchars_decode($c['text']),'"').'");</script>';
 		continue;
 	}elseif($c['ip'] == 'delete'){
 		$body[$c['id']] .= '<script>nzchatobj("#nzrows_'.$c['text'].'").fadeOut(200);</script>';
 		continue;
 	}elseif($c['ip'] == 'notice'){
+		DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='".addslashes($c['text'])."' WHERE variable='welcometext' AND displayorder='1' LIMIT 1");
+		include_once libfile('function/cache');
+		updatecache('plugin');
 		$body[$c['id']] .= '<script>nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);nzchatobj("#nzchatnotice").html("'.addcslashes($c['text'],'"').'");</script>';
 		continue;
 	}elseif($c['ip'] == 'edit'){
@@ -250,13 +302,13 @@ while($c = DB::fetch($re)){
 	$c['text'] .='<script type="text/javascript">nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);</script>';
 	if($c['ip']=='clear'){
 		$seedd = $time.'_'.$uid.'_'.rand(1,999);
-		$c['text'] = '<span style="color:red" id="del_'.$seedd.'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_46').'<script type="text/javascript">nzchatobj("#del_'.$seedd.'").parent().parent().parent().'.($config['chat_type']==1?'next':'prev').'Until().remove();</script>';
+		$c['text'] = '<span style="color:red" id="del_'.$seedd.'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_46').'<script type="text/javascript">nzchatobj("#del_'.$seedd.'").parent().parent().parent().'.($config['chat_type']==1?'next':'prev').'Until().remove();nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);</script>';
 	}elseif($c['icon']=='alert'){
 		$c['text'] = '<span style="color:red">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==0){
 		$c['text'] = '<span style="color:#3366CC">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_38').'</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==$uid){
-		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">reply</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['uid']==$uid){
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}

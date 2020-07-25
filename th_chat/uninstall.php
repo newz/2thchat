@@ -14,5 +14,4 @@ EOF;
 runquery($sql);
 
 $finish = TRUE;
-@file_get_contents('http://weza.in/project/2th_chat/un_Z3TkRv6z.php?domain='.$_SERVER['HTTP_HOST']);
 ?>

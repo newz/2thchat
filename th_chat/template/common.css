@@ -10,7 +10,7 @@ vertical-align:top;
 }
 #nzchatonline{
 width:200px;
-padding:5px 0 0 5px;
+padding:5px 0 0 1px;
 }
 .nzchatanno{
 border: #D4D4D4 1px solid;
@@ -26,7 +26,6 @@ border-radius: 6px;
 #nzchatbd{
 margin:4px 0;
 border:#7fcae2 1px solid;
-padding:5px;
 background:#ebf2f8;
 }
 #nzchatcontent{
@@ -35,12 +34,12 @@ overflow-y:scroll;
 overflow-x:hidden;
 }
 #nzchatolcontent{
-width:200px;
+width:203px;
 border:#7fcae2 1px solid;
 overflow-y:scroll;
 }
 #nzchatmessage{
-border: 1px solid #bbb;
+border: 1px solid rgb(204, 204, 204);
 line-height: normal;
 border-radius: 2px;
 width: 99%;
@@ -72,7 +71,7 @@ border:none;
 border-collapse:collapse;
 padding:0;
 margin:0;
-width:99%;
+width:100%;
 }
 table.nzcallrow tr,table.nzcallrow td{
 border:none;

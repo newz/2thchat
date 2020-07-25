@@ -46,7 +46,7 @@ $seedd = $time.'_'.$uid.'_'.rand(1,999);
 	}elseif($c['touid']==0){
 		$c['text'] = (($config['pm_sound']&&$sounddata['sound_1'])?'<audio autoplay><source src="'.$config['pm_sound'].'" type="audio/mpeg"></audio>':'').'<span style="color:#3366CC">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_38').'</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==$uid){
-		$c['text'] = (($config['pm_sound']&&$sounddata['sound_2'])?'<audio autoplay><source src="'.$config['pm_sound'].'" type="audio/mpeg"></audio>':'').'<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">reply</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = (($config['pm_sound']&&$sounddata['sound_2'])?'<audio autoplay><source src="'.$config['pm_sound'].'" type="audio/mpeg"></audio>':'').'<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['uid']==$uid){
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}

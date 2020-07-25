@@ -42,6 +42,5 @@ INSERT INTO `pre_newz_data` (`uid`, `touid`, `icon`, `text`, `time`,`ip`) VALUES
 
 EOF;
 runquery($sql);
-@file_get_contents('http://weza.in/project/2th_chat/in_ZHz9kf6a.php?domain='.$_SERVER['HTTP_HOST']);
 $finish = TRUE;
 ?>

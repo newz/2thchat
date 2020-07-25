@@ -55,8 +55,6 @@ color: #fff;" onClick="window.close();"></td>
 </tr>
 </table>
 </form>
-<br/><br/>
-&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> & <a href="http://www.weza.in/" target="_blank">Weza</a>
 </center>
 </body>
 </html>

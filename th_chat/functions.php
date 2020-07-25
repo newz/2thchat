@@ -1,13 +1,14 @@
 <?
 function getat($attextn){
+	global $config;
 	if(preg_match_all('/@(.*?)(\s|\z)/',$attextn,$atmatch)) {
         foreach ($atmatch[1] as $atvalue) {
     		$atuser = DB::query("SELECT m.uid,m.groupid,g.color,n.name FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.username='{$atvalue}' LIMIT 1");
 			$atuser = DB::fetch($atuser);
-			if($atuser && $atuser['name']!==""&&$config['namemode']==2){
-				$attext = '@<a class="nzca"><font color="'.$atuser['color'].'">'.addslashes(htmlspecialchars_decode($atuser['name'])).'</font></a> ';
+			if($atuser&&!empty($atuser['name'])&&$config['namemode']==2){
+				$attext = '<a class="nzca"><font color="'.$atuser['color'].'">'.addslashes(htmlspecialchars_decode($atuser['name'])).'</font></a> ';
 			}else if($atuser){
-				$attext = '@<a class="nzca"><font color="'.$atuser['color'].'">'.$atvalue.'</font></a> ';
+				$attext = '<a class="nzca"><font color="'.$atuser['color'].'">'.$atvalue.'</font></a> ';
 			}else{
 				$attext = '@'.$atvalue;
 			}
@@ -17,7 +18,38 @@ function getat($attextn){
 	return $attextn;
 }
 function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is_init,$icon,$mod,$status){
-	global $uid,$config;
+	global $uid,$config,$_G;
+
+	/**
+	 * Show the verified icon when to enabled only
+	 * @add Jaieejung007
+	 *
+	 * @since 2.04.2
+	 *
+	 * @param string $thzaa_verify   Config value for showing the verified icon.
+	 * @param string $uid_p  Meaning to Member UID of online status.
+	 */
+	$thzaa_verify = $verifyuids = $authorids = $grouptids = $rushtids = array();
+		if(isset($_G['setting']['verify']['enabled']) && $_G['setting']['verify']['enabled']) {
+			$verifyuids[$uid_p] = $uid_p;
+		}
+
+	if($_G['setting']['verify']['enabled'] && $verifyuids) {
+		foreach(C::t('common_member_verify')->fetch_all($verifyuids) as $value) {
+			foreach($_G['setting']['verify'] as $vid => $vsetting) {
+				if($vsetting['available'] && $vsetting['showicon'] && $value['verify'.$vid] == 1) {
+					$srcurl = '';
+						if(!empty($vsetting['icon'])) {
+							$srcurl = $vsetting['icon'];
+						}
+					$thzaa_verify[$uid_p] .= "<a href=\"home.php?mod=spacecp&ac=profile&op=verify&vid=$vid\" target=\"_blank\">".(!empty($srcurl) ? '<img src="'.$srcurl.'" class="vm" alt="'.$vsetting['title'].'" title="'.$vsetting['title'].'" />' : $vsetting['title']).'</a>';
+				}
+			}
+
+		}
+	}
+// End Show the verified icon when to enabled only
+
 	if($icon=='alert')
 	{
 		$icon=$icon?img('alert', '/', lang('plugin/th_chat', 'jdj_th_chat_text_php_14')).' ':'';
@@ -33,8 +65,8 @@ function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is
 	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'inline\');" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'none\');" '.($is_init&&$touid?' style="background:#eef6ff;"':'').'>
 <td class="nzavatart"><a href="'.avatar($uid_p,'big',1).'" target="_blank"><img src="'.avatar($uid_p,'small',1).'" alt="avatar" class="nzchatavatar" onError="this.src=\'uc_server/images/noavatar_small.gif\';" /></a></td>
 <td class="nzcontentt"><div class="nzinnercontent"><span id="nzchatquota'.$id.'" class="nzcq">'.($uid!=$uid_p?'<a href="javascript:void(0);" onClick="nzAt(\''.$oldusername.'\');">@</a> ':'').'<a href="javascript:void(0);" onClick="nzQuota('.$id.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'</a>'.($uid!=$uid_p?' <a href="javascript:void(0);" onClick="nzTouid('.$uid_p.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_01').'</a>':'').(($config['chat_point']&&($uid!=$uid_p))?' <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',1);" style="color:green">+1</a> <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',-1);" style="color:red">-1</a>':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_08').'</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_43').'</a>':'').'</span>
-<span><a href="home.php?mod=space&uid='.$uid_p.'" class="nzca" target="_blank"><font color="'.$color.'"><span class="nzuname_'.$uid_p.'">'.$username.'</span></font></a> <span id="nzstatus" class="nzustatus_'.$uid_p.'">'.$status.'</span> ('.get_date($time).')</span><br />
-'.$icon.$text.'</span>'.($is_init?'':($touid?'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#BBB\').animate({ backgroundColor: \'#eef6ff\' }, 500,function(){nzchatobj("#nzrows_'.$id.'").css(\'background\',\'url(source/plugin/th_chat/images/bg.png) repeat\')});</script>':'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#DDD\').animate({ backgroundColor: \'#FFF\' }, 500 ,function(){nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'transparent\')});</script>')).'</div></td>
+<span>'.$icon.'<a href="home.php?mod=space&uid='.$uid_p.'" class="nzca" target="_blank"><font color="'.$color.'"><span class="nzuname_'.$uid_p.'">'.$username.'</span></font></a>'.(($config['verifyicon_contentchat']==1)?''.$thzaa_verify[$uid_p].'':'').' <span id="nzstatus" class="nzustatus_'.$uid_p.'">'.$status.'</span> ('.get_date($time).')</span><br />
+'.$text.'</span>'.($is_init?'':($touid?'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#BBB\').animate({ backgroundColor: \'#eef6ff\' }, 500,function(){nzchatobj("#nzrows_'.$id.'").css(\'background\',\'url(source/plugin/th_chat/images/bg.png) repeat\')});</script>':'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#DDD\').animate({ backgroundColor: \'#FFF\' }, 500 ,function(){nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'transparent\')});</script>')).'</div></td>
 </tr>';
 }
 function get_date($timestamp) 
@@ -289,15 +321,47 @@ function detect_os() {
 		else $code = 'lubuntu-2';
 		if (strlen($version) > 1) $title .= $version;
 	} elseif (preg_match('/Mac/i', $_SERVER['HTTP_USER_AGENT']) || preg_match('/Darwin/i', $_SERVER['HTTP_USER_AGENT'])) {
-		if (preg_match('/Mac OS X/i', $_SERVER['HTTP_USER_AGENT'])) {
-			$title = substr($_SERVER['HTTP_USER_AGENT'], strpos(strtolower($_SERVER['HTTP_USER_AGENT']), strtolower('Mac OS X')));
-			$title = substr($title, 0, strpos($title, ';'));
-			$title = str_replace('_', '.', $title);
+		if (preg_match('/Mac OS X Beta/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Beta (Kodiak)';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.0/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Cheetah';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.1/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Puma';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.2/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Jaguar';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.3/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Panther';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.4/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Tiger';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.5/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Leopard';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.6/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Snow Leopard';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.7/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Lion';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.8/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Mountain Lion';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.9/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Mavericks';
+			$code = 'mac-3';
+		} elseif (preg_match('/Mac OS X 10.10/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX Yosemite';
+			$code = 'mac-4';
+		} elseif (preg_match('/Mac OS X/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Mac OSX (Unknown)';
 			$code = 'mac-3';
 		} elseif (preg_match('/Mac OSX/i', $_SERVER['HTTP_USER_AGENT'])) {
-			$title = substr($_SERVER['HTTP_USER_AGENT'], strpos(strtolower($_SERVER['HTTP_USER_AGENT']), strtolower('Mac OSX')));
-			$title = substr($title, 0, strpos($title, ';'));
-			$title = str_replace('_', '.', $title);
+			$title = 'Mac OSX (Unknown)';
 			$code = 'mac-2';
 		} elseif (preg_match('/Darwin/i', $_SERVER['HTTP_USER_AGENT'])) {
 			$title = 'Mac OS Darwin';
@@ -370,7 +434,10 @@ function detect_os() {
 		$title = 'Palm webOS';
 		$code = 'palm';
 	} elseif (preg_match('/Windows/i', $_SERVER['HTTP_USER_AGENT']) || preg_match('/WinNT/i', $_SERVER['HTTP_USER_AGENT']) || preg_match('/Win32/i', $_SERVER['HTTP_USER_AGENT'])) {
-		if (preg_match('/Windows NT 6.3/i', $_SERVER['HTTP_USER_AGENT'])) {
+		if (preg_match('/Windows NT 6.4/i', $_SERVER['HTTP_USER_AGENT'])) {
+			$title = 'Windows 10';
+			$code = 'win-5';
+		} elseif (preg_match('/Windows NT 6.3/i', $_SERVER['HTTP_USER_AGENT'])) {
 			$title = 'Windows 8.1';
 			$code = 'win-5';
 		} elseif (preg_match('/Windows NT 6.2/i', $_SERVER['HTTP_USER_AGENT'])) {

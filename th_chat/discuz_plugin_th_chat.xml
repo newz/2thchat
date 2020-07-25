@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
 	<item id="Version"><![CDATA[X3.1]]></item>
-	<item id="Time"><![CDATA[2012-4-19 00:00]]></item>
+	<item id="Time"><![CDATA[2014-4-12 00:00]]></item>
 	<item id="From"><![CDATA[2th (http://2th.me)]]></item>
 	<item id="Data">
 		<item id="plugin">
@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[th_chat/]]></item>
 			<item id="copyright"><![CDATA[newz]]></item>
-			<item id="version"><![CDATA[2.05]]></item>
+			<item id="version"><![CDATA[2.10]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[chat]]></item>
@@ -43,6 +43,7 @@
 2. คุณไม่มีสิทธิ์ ลบหรือดัดแปลง ลิ้งก์ และเนื่อหาในส่วน copyright ไม่ว่าจะดัดแปลง เนื้อหาซอฟแวร์ไปเพียงใดก็ตาม]]></item>
 		<item id="installfile"><![CDATA[install.php]]></item>
 		<item id="uninstallfile"><![CDATA[uninstall.php]]></item>
+		<item id="upgradefile"><![CDATA[upgrade.php]]></item>
 		<item id="var">
 			<item id="0">
 				<item id="displayorder"><![CDATA[1]]></item>
@@ -184,7 +185,7 @@
 				<item id="value"><![CDATA[<center style="margin:20px 0;">
 <b>กรุณาสมัครสมาชิกหรือเข้าสู่ระบบก่อนนะจ๊ะ ^_^</b>
 <br />
-<a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href)">เข้าสู่ระบบ</a> หรือ <a href="member.php?mod=register" onclick="showWindow('register', this.href)">สมัครสมาชิก</a>
+<a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href)">เข้าสู่ระบบ</a> หรือ <a href="member.php?mod=register">สมัครสมาชิก</a>
 </center>]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
@@ -248,7 +249,7 @@
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[useimg]]></item>
 				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[1]]></item>
+				<item id="value"><![CDATA[0]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
 			<item id="29">
@@ -284,7 +285,7 @@
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[showos]]></item>
 				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
+				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
 			<item id="22">
@@ -320,7 +321,7 @@
 				<item id="description"><![CDATA[ใส่ 0 เพื่อให้ยาวได้ไม่จำกัด]]></item>
 				<item id="variable"><![CDATA[namemax]]></item>
 				<item id="type"><![CDATA[number]]></item>
-				<item id="value"><![CDATA[80]]></item>
+				<item id="value"><![CDATA[18]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
 			<item id="26">
@@ -358,7 +359,7 @@
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[editmsg]]></item>
 				<item id="type"><![CDATA[select]]></item>
-				<item id="value"><![CDATA[0]]></item>
+				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[0 = ปิดใช้งาน
 1 = ผู้ดูแลแก้ได้ทุกข้อความ
 2 = ผู้ดูแลแก้ได้เฉพาะข้อความของตนเอง
@@ -372,6 +373,33 @@
 				<item id="type"><![CDATA[text]]></item>
 				<item id="value"><![CDATA[]]></item>
 				<item id="extra"><![CDATA[สามารถใช้ comma (,) คั่น เช่น 5,95]]></item>
+			</item>
+			<item id="33">
+				<item id="displayorder"><![CDATA[32]]></item>
+				<item id="title"><![CDATA[แสดงไอคอนการตรวจสอบสมาชิก (Verify) ในรายการสนทนา]]></item>
+				<item id="description"><![CDATA[จะแสดงก็ต่อเมื่อเว็บไซต์ของคุณเปิดใช้คุณสมบติการตรวจสอบสมาชิก (Verify) ที่ admin.php?action=verify]]></item>
+				<item id="variable"><![CDATA[verifyicon_contentchat]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[0]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="34">
+				<item id="displayorder"><![CDATA[33]]></item>
+				<item id="title"><![CDATA[แสดงไอคอนการตรวจสอบสมาชิก (Verify) ในรายชื่อผู้ออนไลน์]]></item>
+				<item id="description"><![CDATA[จะแสดงก็ต่อเมื่อเว็บไซต์ของคุณเปิดใช้คุณสมบติการตรวจสอบสมาชิก (Verify) ที่ admin.php?action=verify]]></item>
+				<item id="variable"><![CDATA[verifyicon_onlinelist]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="35">
+				<item id="displayorder"><![CDATA[34]]></item>
+				<item id="title"><![CDATA[แสดงไอคอนการตรวจสอบสมาชิก (Verify) ในรายชื่อผู้ออนไลน์ Ajax]]></item>
+				<item id="description"><![CDATA[จะแสดงก็ต่อเมื่อเว็บไซต์ของคุณเปิดใช้คุณสมบติการตรวจสอบสมาชิก (Verify) ที่ admin.php?action=verify]]></item>
+				<item id="variable"><![CDATA[verifyicon_onlinelistajax]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
 			</item>
 		</item>
 		<item id="language">
