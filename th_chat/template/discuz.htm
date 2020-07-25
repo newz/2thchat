@@ -28,10 +28,10 @@ var nztime2 = 0;
 var nztouid=0;
 var nzquota=0;
 var nzmoreadd=0;
-var nzat=0;
 var nzlastid=0;
 var nzonol='no';
 var nzcolor = '';
+var nzcommandz = '';
 function nzolover() {nzonol='yes';}
 function nzolout() {nzonol='no';}
 nzchatobj(function() {
@@ -75,8 +75,19 @@ nztime2 = nztime1 + {$chat['delay']};
 nzchatobj('#nzcharnum').hide();
 nzchatobj('#nzsendingmsg').show();
 var nzdottime = window.setInterval (nzdot, 1000 );
-nzchatobj.post("plugin.php?id=th_chat:post", {'text':data,'color':nzcolor,'lastid':nzlastid,'touid':nztouid,'at':nzat,'quota':nzquota},function(data) {
-if(nzquota>0||nzat>0){
+nzchatobj.post("plugin.php?id=th_chat:post", {'text':data,'color':nzcolor,'lastid':nzlastid,'touid':nztouid,'quota':nzquota,'command':nzcommandz},function(data) {
+if(nzcommandz=='notice'){
+nzcommandz='';
+nzchatobj('#nznoticecheck').removeAttr('checked');
+}else{
+nzcommandz='';
+nzchatobj('.nzchatrow').each(function() {
+if(nzchatobj(this).css("background-color")=='rgb(255, 187, 187)'){
+nzchatobj(this).animate({ backgroundColor: '#FFF' }, 500);
+}
+});
+}
+if(nzquota>0){
 	nzTouid(0);
 }
 nzCharleft();
@@ -126,13 +137,20 @@ if(command=='')
 }else{
 if(command=='del'){var show='{lang th_chat:jdj_th_chat_text_htm_27}';var showid = ' ' + nzchatobj("#nzchatcontent"+xid).text();}
 else if(command=='edit'){
-var show='{lang th_chat:jdj_th_chat_text_htm_08}';
-var ed=prompt("{lang th_chat:jdj_th_chat_text_htm_05}",nzchatobj("#nzchatcontent"+xid).text())
-if (ed!=null && ed!="")
-{
-var showid = ' ' + nzchatobj("#nzchatcontent"+xid).text() + ' {lang th_chat:jdj_th_chat_text_htm_21} '+ ed;
-var xid = xid + "|:|" + ed;
-}else{return;}}
+var nzsamedit = false;
+nzchatobj('.nzchatrow').each(function() {
+if(nzchatobj(this).css("background-color")=='rgb(255, 187, 187)'){
+nzchatobj(this).animate({ backgroundColor: '#FFF' }, 500);
+if(nzchatobj(this).attr('id')=='nzrows_'+xid){nzcommandz='';nzsamedit = true;return;}
+}
+});
+if(nzcommandz=='notice'){nzchatobj('#nznoticecheck').removeAttr('checked');}
+if(!nzsamedit){
+nzcommandz='edit '+xid;
+nzchatobj('#nzrows_'+xid).animate({ backgroundColor: '#fbb' }, 500);
+nzchatobj("#nzchatmessage").val(nzchatobj("#nzchatcontent"+xid).text());
+nzchatobj("#nzchatmessage").focus();
+return;}else{return;}}
 else if(command=='ban'){var show='{lang th_chat:jdj_th_chat_text_htm_19}';var showid = ' ' + nzchatobj("#nzolpro_"+xid).text() + '(UID: '+xid+')';}
 else if(command=='unban'){var show='{lang th_chat:jdj_th_chat_text_htm_20}';var showid = ' ' + nzchatobj("#nzolpro_"+xid).text() + '(UID: '+xid+')';}
 else if(command=='point'){var show='{lang th_chat:jdj_th_chat_text_htm_34}';var n=xid.split("|");var showid = ' ' + n[1] + ' {lang th_chat:jdj_th_chat_text_htm_07} ' + nzchatobj("#nzolpro_"+n[0]).text() + '(UID: '+xid+')';}
@@ -182,6 +200,7 @@ if(nzonol=='no'){
 nzchatobj("#nzchatolcontent").html(data.datachatonline);
 }
 nzchatobj("#nzoltotal").html(data.chat_online_total);
+nzchatobj("#nzchatnotice").html(data.welcometext);
 setTimeout(nzLoadText,{$chat['reload']});
 });
 }
@@ -242,10 +261,7 @@ return;
 <!--{/if}-->
 }
 function nzAt(i){
-nzTouid(0);
-nzchatobj("#nztouid").html("(@<a href='home.php?mod=space&uid="+i+"' class='nzca' target='_blank'>"+nzchatobj(".nzuname_"+i).last().parent().parent().html()+"</a> (UID: "+i+") <a href='javascript:void(0);' onClick='nzTouid(0)'>{lang th_chat:jdj_th_chat_text_htm_25}</a>)");
-nzat = i;
-nzmoreadd = nzchatobj(".nzuname_"+i).last().text().length+2;
+seditor_insertunit('nzchat', '@'+i+' ', '');
 nzCharleft();
 nzchatobj("#nzchatmessage").focus();
 return;
@@ -279,13 +295,13 @@ nztouid = i;
 nzchatobj("#nztouid").html("");
 nzmoreadd = 0;
 nztouid = 0;
-nzat = 0;
 nzquota = 0;
 nzCharleft();
 }
 }
 function nzReload(){
 nzchatobj("#nzchatolcontent").html('');
+nzchatobj("#nzchatnotice").html('กำลังโหลดประกาศล่าสุด...');
 nzchatobj("#nzchatcontent").html('<br /><br /><br /><br /><br /><br /><center><img src="source/plugin/th_chat/images/loader.gif" alt="Load" /></center>');
 nzchatobj.post("plugin.php?id=th_chat:newinit",function(data){
 data = nzchatobj.parseJSON(data);
@@ -297,6 +313,7 @@ nzchatobj("#nzchatcontent").html('<table class="nzcallrow">'+data.datahtml+'<tr 
 nzScrollChat();
 <!--{/if}-->
 nzchatobj("#nzchatolcontent").html(data.datachatonline);
+nzchatobj("#nzchatnotice").html(data.welcometext);
 });
 }
 function nzOpenChat(i){
@@ -392,7 +409,8 @@ function nzskincolor() {
     <table id="nzchattable">
       <tr>
         <td><div class="nzchatanno">
-          {$chat[welcometext]} <a href="javascript:void(0);" onclick="nzChatBig();">{lang th_chat:jdj_th_chat_text_htm_10}</a> <a href="javascript:void(0);" onclick="nzChatSmall();">{lang th_chat:jdj_th_chat_text_htm_26}</a> <a href="javascript:void(0);" onclick="nzChatReset();">{lang th_chat:jdj_th_chat_text_htm_14}</a></td>
+          <div id="nzchatnotice" style="float:left;">กำลังโหลดประกาศล่าสุด...</div> <!--{if in_array($_G['adminid'],array(1,2,3))}--><input type="checkbox" id="nznoticecheck" onClick="if(nzchatobj(this).is(':checked')){nzcommandz='notice';nzchatobj('.nzchatrow').each(function() {if(nzchatobj(this).css('background-color')=='rgb(255, 187, 187)'){nzchatobj(this).animate({ backgroundColor: '#FFF' }, 500);}});nzchatobj('#nzchatmessage').val(nzchatobj('#nzchatnotice').text());
+nzchatobj('#nzchatmessage').focus();}else{nzcommandz='';}"/> แก้ไข <!--{/if}--><div style="float:right;"><a href="javascript:void(0);" onclick="nzChatBig();">{lang th_chat:jdj_th_chat_text_htm_10}</a> <a href="javascript:void(0);" onclick="nzChatSmall();">{lang th_chat:jdj_th_chat_text_htm_26}</a> <a href="javascript:void(0);" onclick="nzChatReset();">{lang th_chat:jdj_th_chat_text_htm_14}</a></div></td>
         <td><div class="nzchatanno"> <img src="source/plugin/th_chat/images/useron.gif" alt=""  align="absmiddle" /> {lang th_chat:jdj_th_chat_text_htm_09} <span id="nzoltotal">N/A</span> {lang th_chat:jdj_th_chat_text_htm_11}</div></td>
       </tr>
       <tr>
@@ -527,7 +545,7 @@ height: 27px;
 margin-top: 2px;
 color: #ffffff;
 background-color: #5bc0de;
-border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> & <a href="http://www.weza.in/" target="_blank">Weza</a> <strong>2.03</strong></span></span></td>
+border-color: #5bc0de;"><strong>{lang th_chat:jdj_th_chat_text_htm_29}</strong></button><span style="float:right; margin-top:3px; margin-right:1px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> & <a href="http://www.weza.in/" target="_blank">Weza</a> <strong>2.04</strong></span></span></td>
       </tr>
     </table>
   </div>

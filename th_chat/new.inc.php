@@ -28,7 +28,10 @@ while($c = DB::fetch($re)){
 		$body[$c['id']] .= '<script>nzchatobj("#nzrows_'.$c['text'].'").fadeOut(200);</script>';
 		continue;
 	}elseif($c['ip'] == 'edit'){
-		$body[$c['id']] .= '<script>nzchatobj("#nzchatcontent'.$c['icon'].'").html("'.$c['text'].'");</script>';
+		$body[$c['id']] .= '<script>nzchatobj("#nzchatcontent'.$c['icon'].'").html("'.addcslashes($c['text'],'"').'");</script>';
+		continue;
+	}elseif($c['ip'] == 'notice'){
+		$body[$c['id']] .= '<script>nzchatobj("#nzchatnotice").html("'.addcslashes($c['text'],'"').'");</script>';
 		continue;
 	}
 	if($config['namemode']==1){$c['status'] = $c['nick'];}
@@ -48,7 +51,7 @@ $seedd = $time.'_'.$uid.'_'.rand(1,999);
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
 	if(!$config['showos']&&$c['icon']!='alert')$c['icon']='';
-	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
+	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
 	if($c['ip']=='clear'){
 		break;
 	}

@@ -22,7 +22,7 @@ if($command == 'del' && $is_mod)
 	$banned = DB::query("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
 	$banned = DB::fetch($banned);
 	$uid_ban = $id;
-	if($uid_ban && !in_array($uid_ban,$banned)  && $uid_ban != $uid){
+	if(!in_array($uid_ban,$banned)  && $uid_ban != $uid){
 		$banned[] = $uid_ban;
 			$username_ban = DB::query("SELECT m.username AS name,m.groupid,g.color,n.name AS nick FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid_ban}' LIMIT 1");
 			$username_ban = DB::fetch($username_ban);
@@ -49,10 +49,10 @@ if($command == 'del' && $is_mod)
 	}
 }else if($command == 'unban' && $is_mod){
 	$icon = 'alert';
-	$uid_ban = $id;
 	$banned = DB::query("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
 	$banned = DB::fetch($banned);
-	if($uid_ban && in_array($uid_ban,$banned)){
+	$uid_ban = $id;
+	if(in_array($uid_ban,$banned)){
 		$key = array_search($uid_ban, $banned);
 		if($key !== FALSE) unset($banned[$key]);
 			$username_ban = DB::query("SELECT m.username AS name,m.groupid,g.color,n.name AS nick FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid_ban}' LIMIT 1");
@@ -166,48 +166,6 @@ if($command == 'del' && $is_mod)
 	$name = htmlspecialchars_decode($name);
 	DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','0','$icon','".lang('plugin/th_chat', 'jdj_th_chat_text_php_35').":$cid ".lang('plugin/th_chat', 'jdj_th_chat_text_php_60')." $name','$time','$ip')");
 	echo lang('plugin/th_chat', 'jdj_th_chat_text_php_34');
-	}
-}else if($command=='edit'&&($config['editmsg']!=0)){
-	if($config['editmsg']==1&&!$is_mod){
-		exit('Access Denied');
-	}
-	$pieces = explode("|:|", $id,2);
-	$user = DB::fetch(DB::query("SELECT uid FROM ".DB::table('newz_data')." WHERE id='{$pieces[0]}'"));
-	if($config['editmsg']==2&&(!$is_mod||$user['uid']!=$uid)){
-		exit('Access Denied');
-	}
-	else if($config['editmsg']==3&&($user['uid']!=$uid)){
-		exit('Access Denied');
-	}
-	$icon = 'alert';
-	if (get_magic_quotes_gpc()) {
-		$text = stripslashes($pieces[1]);
-	}else {
-		$text = $pieces[1];
-	}
-	$txtlen = strlen($text);
-	if($txtlen>$config['chat_strlen']){
-		$text = '... '.substr($text,$txtlen-$config['chat_strlen']);
-	}
-	$text = paddslashes(strip_tags($text));
-	if($text==''){
-		echo lang('plugin/th_chat', 'jdj_th_chat_text_php_04');
-	}
-	else{
-		$text .=' @'.get_date($time);
-		if($user['uid']!=$uid){
-			$userz = DB::query("SELECT m.username AS name,n.name AS nick FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid WHERE m.uid='{$uid}' LIMIT 1");
-			$userz = DB::fetch($userz);
-			if($userz['nick']){
-				$userz = $userz['nick'];
-			}else{
-				$userz = $userz['name'];
-			}
-			$text .=' '.lang('plugin/th_chat', 'jdj_th_chat_text_php_17').' '.$userz;
-		}
-		DB::query("UPDATE ".DB::table('newz_data')." SET text='{$text}',ip='{$ip}' WHERE id='{$pieces[0]}' LIMIT 1");
-		DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('{$uid}','0','{$pieces[0]}','{$text}','{$time}','edit')");
-		echo lang('plugin/th_chat', 'jdj_th_chat_text_php_09');
 	}
 }else{
 	echo lang('plugin/th_chat', 'jdj_th_chat_text_php_10');

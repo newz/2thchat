@@ -1,5 +1,22 @@
 <?
-function chatrow($id,$text,$uid_p,$username,$time,$color,$touid,$is_init,$icon,$mod,$status){
+function getat($attextn){
+	if(preg_match_all('/@(.*?)(\s|\z)/',$attextn,$atmatch)) {
+        foreach ($atmatch[1] as $atvalue) {
+    		$atuser = DB::query("SELECT m.uid,m.groupid,g.color,n.name FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.username='{$atvalue}' LIMIT 1");
+			$atuser = DB::fetch($atuser);
+			if($atuser && $atuser['name']!==""&&$config['namemode']==2){
+				$attext = '@<a class="nzca"><font color="'.$atuser['color'].'">'.addslashes(htmlspecialchars_decode($atuser['name'])).'</font></a> ';
+			}else if($atuser){
+				$attext = '@<a class="nzca"><font color="'.$atuser['color'].'">'.$atvalue.'</font></a> ';
+			}else{
+				$attext = '@'.$atvalue;
+			}
+			$attextn = str_replace("@".$atvalue,$attext,$attextn);
+		}    
+	}
+	return $attextn;
+}
+function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is_init,$icon,$mod,$status){
 	global $uid,$config;
 	if($icon=='alert')
 	{
@@ -15,7 +32,7 @@ function chatrow($id,$text,$uid_p,$username,$time,$color,$touid,$is_init,$icon,$
 	$status = htmlspecialchars_decode($status);
 	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'inline\');" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'none\');" '.($is_init&&$touid?' style="background:#eef6ff;"':'').'>
 <td class="nzavatart"><a href="'.avatar($uid_p,'big',1).'" target="_blank"><img src="'.avatar($uid_p,'small',1).'" alt="avatar" class="nzchatavatar" onError="this.src=\'uc_server/images/noavatar_small.gif\';" /></a></td>
-<td class="nzcontentt"><div class="nzinnercontent"><span id="nzchatquota'.$id.'" class="nzcq">'.($uid!=$uid_p?'<a href="javascript:void(0);" onClick="nzAt('.$uid_p.');">@</a> ':'').'<a href="javascript:void(0);" onClick="nzQuota('.$id.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'</a>'.($uid!=$uid_p?' <a href="javascript:void(0);" onClick="nzTouid('.$uid_p.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_01').'</a>':'').(($config['chat_point']&&($uid!=$uid_p))?' <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',1);" style="color:green">+1</a> <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',-1);" style="color:red">-1</a>':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_08').'</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_43').'</a>':'').'</span>
+<td class="nzcontentt"><div class="nzinnercontent"><span id="nzchatquota'.$id.'" class="nzcq">'.($uid!=$uid_p?'<a href="javascript:void(0);" onClick="nzAt(\''.$oldusername.'\');">@</a> ':'').'<a href="javascript:void(0);" onClick="nzQuota('.$id.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'</a>'.($uid!=$uid_p?' <a href="javascript:void(0);" onClick="nzTouid('.$uid_p.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_01').'</a>':'').(($config['chat_point']&&($uid!=$uid_p))?' <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',1);" style="color:green">+1</a> <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',-1);" style="color:red">-1</a>':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_08').'</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_43').'</a>':'').'</span>
 <span><a href="home.php?mod=space&uid='.$uid_p.'" class="nzca" target="_blank"><font color="'.$color.'"><span class="nzuname_'.$uid_p.'">'.$username.'</span></font></a> <span id="nzstatus" class="nzustatus_'.$uid_p.'">'.$status.'</span> ('.get_date($time).')</span><br />
 '.$icon.$text.'</span>'.($is_init?'':($touid?'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#BBB\').animate({ backgroundColor: \'#eef6ff\' }, 500,function(){nzchatobj("#nzrows_'.$id.'").css(\'background\',\'url(source/plugin/th_chat/images/bg.png) repeat\')});</script>':'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#DDD\').animate({ backgroundColor: \'#FFF\' }, 500 ,function(){nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'transparent\')});</script>')).'</div></td>
 </tr>';
@@ -62,6 +79,13 @@ function detect_device() {
 	} elseif (preg_match('/BlackBerry/i', $_SERVER['HTTP_USER_AGENT'])) {
 		$title = 'BlackBerry';
 		if (preg_match('/blackberry([.0-9a-zA-Z]+)\//i', $_SERVER['HTTP_USER_AGENT'], $regmatch)) $title .= ' ' . $regmatch[1];
+		$code = 'blackberry';
+	} elseif (preg_match('/BB/i', $_SERVER['HTTP_USER_AGENT'])) {
+		$title = 'BlackBerry';
+		if (preg_match('/BB([.0-9a-zA-Z]+)/i', $_SERVER['HTTP_USER_AGENT'], $regmatch)) $title .= ' ' . $regmatch[1];
+		$code = 'blackberry';
+	} elseif (preg_match('/PlayBook/i', $_SERVER['HTTP_USER_AGENT'])) {
+		$title = 'BlackBerry Tablet OS';
 		$code = 'blackberry';
 	} elseif (preg_match('/Dell Mini 5/i', $_SERVER['HTTP_USER_AGENT'])) {
 		$title = 'Dell Mini 5';
@@ -188,7 +212,7 @@ function detect_os() {
 		$code = 'amigaos';
 	} elseif (preg_match('/Android/i', $_SERVER['HTTP_USER_AGENT'])) {
 		$title = 'Android';
-		if(preg_match('/Android (\d+(?:\.\d+){1,2})]/i', $_SERVER['HTTP_USER_AGENT'], $regmatch)) $title .= ' ' . $regmatch[1];
+		if(preg_match('/Android (\d+(?:\.\d+){1,2})/i', $_SERVER['HTTP_USER_AGENT'], $regmatch)) $title .= ' ' . $regmatch[1];
 		$code = 'android';
 	} elseif (preg_match('/Arch/i', $_SERVER['HTTP_USER_AGENT'])) {
 		$title = 'Arch Linux';

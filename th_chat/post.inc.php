@@ -25,6 +25,7 @@ $f = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/discuz.htm')
 $id = intval($_POST['lastid']);
 $touid = intval($_POST['touid']);
 $quota = intval($_POST['quota']);
+$command = $_POST['command'];
 $at = intval($_POST['at']);
 $color = str_replace(array('\'','\\','"','<','>'),'',$_POST['color']);
 $ip = $_SERVER['REMOTE_ADDR'];
@@ -116,12 +117,28 @@ if($config['oldcommand']==1){
 			$at = $uid_point;
 			$quota = 0;
 		}
-	}else if(substr($text,0,7)=="!notice"&&$is_mod){
-		$notice = substr($text,8);
+	}
+	if($command=="notice"&&$is_mod){
 		$icon = 'alert';
 		$touid = 0;
-		$text = $notice;
 		$ip = 'notice';
+	}elseif(substr($command,0,4)=="edit"&&($config['editmsg']!=0)){
+		$editid = intval(substr($command,5));
+		if($config['editmsg']==1&&!$is_mod){
+			die(json_encode(array('type'=>1,'error'=>'Access Denied')));
+		}
+		$user = DB::fetch(DB::query("SELECT uid FROM ".DB::table('newz_data')." WHERE id='{$editid}'"));
+		if($config['editmsg']==2&&(!$is_mod||$user['uid']!=$uid)){
+			die(json_encode(array('type'=>1,'error'=>'Access Denied')));
+		}else if($config['editmsg']==3&&($user['uid']!=$uid)){
+			die(json_encode(array('type'=>1,'error'=>'Access Denied')));
+		}
+		$text .=' @'.get_date($time);
+		if($user['uid']!=$uid){
+			$text .=' '.lang('plugin/th_chat', 'jdj_th_chat_text_php_17').' '.$_G['username'];
+		}
+		$ip = 'edit';
+		$icon = $editid;
 	}
 }
 if(strpos($f,'&copy; <a href="http://2th.me/" target="_blank">2th Chat</a>')===false||strpos($a,'&copy; <a href="http://2th.me/" target="_blank">2th Chat</a>')===false)die();
@@ -158,8 +175,16 @@ $touid = 0;
 $text = lang('plugin/th_chat', 'jdj_th_chat_text_php_46');
 $needClear = 1;
 }
+$text = getat($text);
 if($color!='default'){
 	$text = '<span style="color:#'.$color.';">'.$text.'</span>';
+}
+if($ip == 'notice'){
+	DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$text}' WHERE variable='welcometext' AND displayorder='1' LIMIT 1");
+	include_once libfile('function/cache');
+	updatecache('plugin');
+}elseif($ip == 'edit'){
+	DB::query("UPDATE ".DB::table('newz_data')." SET text='{$text}' WHERE id='{$icon}' LIMIT 1");
 }
 if($quota>0 && $config['quota'] && $ip != 'clear'){
 	if($quo = DB::query("SELECT text FROM ".DB::table('newz_data')." WHERE id='{$quota}'"))
@@ -206,13 +231,17 @@ ORDER BY id DESC LIMIT 30");
 $body=array();
 while($c = DB::fetch($re)){
 	if ($c['ip'] == 'changename'){
-		$body[$c['id']] .= '<script>nzchatobj(".nzu'.$config['namemode']==1?'status':'name'.'_'.$c['uid'].'").html("'.htmlspecialchars_decode($c['text']).'");</script>';
+		$body[$c['id']] .= '<script>nzchatobj(".nzu'.$config['namemode']==1?'status':'name'.'_'.$c['uid'].'").html("'.addcslashes(htmlspecialchars_decode($c['text']),'"').'");</script>';
 		continue;
 	}elseif($c['ip'] == 'delete'){
 		$body[$c['id']] .= '<script>nzchatobj("#nzrows_'.$c['text'].'").fadeOut(200);</script>';
 		continue;
 	}elseif($c['ip'] == 'notice'){
-		DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$c['text']}' WHERE variable='welcometext' AND displayorder='1' LIMIT 1");
+		$body[$c['id']] .= '<script>nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);nzchatobj("#nzchatnotice").html("'.addcslashes($c['text'],'"').'");</script>';
+		continue;
+	}elseif($c['ip'] == 'edit'){
+		$body[$c['id']] .= '<script>nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);nzchatobj("#nzchatcontent'.$c['icon'].'").html("'.addcslashes($c['text'],'"').'");</script>';
+		continue;
 	}
 	if($config['namemode']==1){$c['status'] = $c['nick'];}
 	if((strval($c['nick'])===''&&$config['namemode']==2)||$config['namemode']!=2){$c['nick'] = $c['name'];}
@@ -232,7 +261,7 @@ while($c = DB::fetch($re)){
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
 	if(!$config['showos']&&$c['icon']!='alert')$c['icon']='';
-	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
+	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
 	if($c['ip']=='clear'){
 		break;
 	}

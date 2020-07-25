@@ -26,6 +26,8 @@ while($c = DB::fetch($re)){
 		continue;
 	}elseif($c['ip'] == 'edit'){
 		continue;
+	}elseif($c['ip'] == 'notice'){
+		continue;
 	}
 	if($config['namemode']==1){$c['status'] = $c['nick'];}
 	if((strval($c['nick'])===''&&$config['namemode']==2)||$config['namemode']!=2){$c['nick'] = $c['name'];}
@@ -44,7 +46,7 @@ while($c = DB::fetch($re)){
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
 	if(!$config['showos']&&$c['icon']!='alert')$c['icon']='';
-	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['nick'],$c['time'],$c['color'],$c['touid'],1,$c['icon'],$is_mod,$c['status']);
+	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],1,$c['icon'],$is_mod,$c['status']);
 	if($c['ip']=='clear'){
 		break;
 	}
@@ -54,6 +56,6 @@ if($config['chat_type']==2){
 	$body = array_reverse($body);
 }
 $body = implode('',$body);
-$body = array('lastid'=>$lastid,'datahtml'=>$body,'datachatonline'=>$body_online,'chat_online_total'=>$oltotal);
+$body = array('lastid'=>$lastid,'datahtml'=>$body,'datachatonline'=>$body_online,'chat_online_total'=>$oltotal,'welcometext'=>$config['welcometext']);
 echo json_encode($body);
 ?>
