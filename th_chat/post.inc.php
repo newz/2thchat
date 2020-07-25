@@ -232,7 +232,7 @@ if($needClear){
 }else{
 	DB::query("DELETE FROM ".DB::table('newz_data')." WHERE id<".($last-$config['chat_log']));
 }
-$re = DB::query("SELECT n.*,m.username AS name,mt.username AS toname,g.color,gt.color AS tocolor,ni.name AS nick,nt.name AS tonick 
+$re = DB::query("SELECT n.*,m.username AS name,mt.username AS toname,g.color,g.groupid,gt.groupid AS togroupid,gt.color AS tocolor,ni.name AS nick,nt.name AS tonick 
 FROM ".DB::table('newz_data')." n 
 LEFT JOIN ".DB::table('common_member')." m ON n.uid=m.uid 
 LEFT JOIN ".DB::table('common_member')." mt ON n.touid=mt.uid 
@@ -276,9 +276,11 @@ $c['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '$1', $c['text']);
 	}elseif($c['touid']==$uid){
 		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['uid']==$uid){
-		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$ucolor = get_effective_colorinfo($c['touid'],$c['togroupid'],$c['tocolor']);
+		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><span style="'.$ucolor.'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></span></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
-	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
+	$ucolor = get_effective_colorinfo($c['uid'],$c['groupid'],$c['color']);
+	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$ucolor,$c['touid'],0,$c['icon'],$is_mod,$c['status']);
 	if($c['ip']=='clear'){
 		break;
 	}
