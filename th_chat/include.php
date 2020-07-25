@@ -86,10 +86,5 @@ if($config['usemore']){
 if(in_array($_G['adminid'],array(1,2,3))){
 		$chat['editor'] .= '<a href="javascript:void(0);" onClick="nzCommand(\'clear\',\'\');" title="ล้างห้องแชท" style="width:20px;height:20px;background:url(source/plugin/th_chat/images/clear.png) no-repeat center">Clear</a>';
 }
-if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-    $showimgup = true;
-}else{
-	$showimgup = false;
-}
 $chat['welcometext'] = $config['welcometext'];
 ?>
