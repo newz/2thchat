@@ -166,7 +166,7 @@ if($command == 'del' && $is_mod)
 	DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,name,total,time) VALUES ('{$cid}','{$name}','1','{$time}') ON DUPLICATE KEY UPDATE name='{$name}'");
 	DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,text,time,ip) VALUES ('$cid','0','$name','$time','changename')");
 	$name = htmlspecialchars_decode($name);
-	DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','0','$icon','".lang('plugin/th_chat', 'jdj_th_chat_text_php_35').":$cid ".lang('plugin/th_chat', 'jdj_th_chat_text_php_60')." $name','$time','$ip')");
+	DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','0','$icon','".lang('plugin/th_chat', 'jdj_th_chat_text_php_35').":$cid ".lang('plugin/th_chat', 'jdj_th_chat_text_php_60')." <strong>$name</strong>','$time','$ip')");
 	echo lang('plugin/th_chat', 'jdj_th_chat_text_php_34');
 	}
 }else{
