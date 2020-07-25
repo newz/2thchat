@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
-	<item id="Version"><![CDATA[X3.0,X3.1,X3.2]]></item>
-	<item id="Time"><![CDATA[2014-4-12 00:00]]></item>
-	<item id="From"><![CDATA[2th (http://2th.me)]]></item>
+	<item id="Version"><![CDATA[X1.0,X1.5,X2.0,X2.5,X3.0,X3.1,X3.2,X3.3,X3.4]]></item>
+	<item id="Time"><![CDATA[2017-8-11 00:00]]></item>
+	<item id="From"><![CDATA[localhost]]></item>
 	<item id="Data">
 		<item id="plugin">
 			<item id="available"><![CDATA[1]]></item>
 			<item id="adminid"><![CDATA[1]]></item>
-			<item id="name"><![CDATA[Chat X]]></item>
+			<item id="name"><![CDATA[Chat X Final]]></item>
 			<item id="identifier"><![CDATA[th_chat]]></item>
 			<item id="description"><![CDATA[chatroom script]]></item>
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[th_chat/]]></item>
 			<item id="copyright"><![CDATA[newz]]></item>
-			<item id="version"><![CDATA[2.12]]></item>
+			<item id="version"><![CDATA[2.13b]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[chat]]></item>
@@ -24,28 +24,15 @@
 					<item id="adminid"><![CDATA[0]]></item>
 					<item id="displayorder"><![CDATA[0]]></item>
 				</item>
-				<item id="1">
-					<item id="name"><![CDATA[chat_full]]></item>
-					<item id="menu"><![CDATA[Chatbox]]></item>
-					<item id="url"><![CDATA[]]></item>
-					<item id="type"><![CDATA[5]]></item>
-					<item id="adminid"><![CDATA[0]]></item>
-					<item id="displayorder"><![CDATA[0]]></item>
-					<item id="navtitle"><![CDATA[]]></item>
-					<item id="navicon"><![CDATA[]]></item>
-					<item id="navsubname"><![CDATA[]]></item>
-					<item id="navsuburl"><![CDATA[]]></item>
-				</item>
 			</item>
 		</item>
-		<item id="version"><![CDATA[X3.0,X3.1,X3.2]]></item>
-		<item id="license"><![CDATA[ปลั๊กอินนี้สำหรับสมาชิกภายในกลุ่ม Discuz! Service Member เท่านั้น
-		ไม่อนุญาตให้นำไปเผยแพร่ให้บุคคลภายนอกยกเว้นแต่ได้รับอนุญาต]]></item>
+		<item id="version"><![CDATA[X1.0,X1.5,X2.0,X2.5,X3.0,X3.1,X3.2,X3.3,X3.4]]></item>
+		<item id="license"><![CDATA[]]></item>
 		<item id="installfile"><![CDATA[install.php]]></item>
 		<item id="uninstallfile"><![CDATA[uninstall.php]]></item>
 		<item id="upgradefile"><![CDATA[upgrade.php]]></item>
 		<item id="var">
-			<item id="0">
+			<item id="1">
 				<item id="displayorder"><![CDATA[1]]></item>
 				<item id="title"><![CDATA[ประกาศ]]></item>
 				<item id="description"><![CDATA[]]></item>
@@ -54,7 +41,7 @@
 				<item id="value"><![CDATA[ยินดีต้อนรับสู่ห้องแชท]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="1">
+			<item id="2">
 				<item id="displayorder"><![CDATA[2]]></item>
 				<item id="title"><![CDATA[จำนวนข้อความที่จะแสดงเริ่มต้น]]></item>
 				<item id="description"><![CDATA[]]></item>
@@ -63,7 +50,7 @@
 				<item id="value"><![CDATA[30]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="2">
+			<item id="3">
 				<item id="displayorder"><![CDATA[3]]></item>
 				<item id="title"><![CDATA[การ clear ข้อมูลเก่า]]></item>
 				<item id="description"><![CDATA[ถ้ามีไม่มีการ clear ข้อมูล log ของการ chat ทั้งหมดจะถูกเก็บไว้ และอาจจะกระตุกเมื่อ log มีจำนวนมาก (ต้อง reload page ใหม่)
@@ -75,7 +62,7 @@
 				<item id="extra"><![CDATA[0 = ไม่มีการ clear ข้อมูลเก่า
 1 = มีการ clear ข้อมูลเก่า]]></item>
 			</item>
-			<item id="3">
+			<item id="4">
 				<item id="displayorder"><![CDATA[4]]></item>
 				<item id="title"><![CDATA[จำนวน log ที่จะเก็บไว้สูงสุด]]></item>
 				<item id="description"><![CDATA[สามารถใช้คำสั่ง !clear เพื่อล้างข้อความทั้งหมดในห้องแชท
@@ -85,7 +72,7 @@
 				<item id="value"><![CDATA[150]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="4">
+			<item id="5">
 				<item id="displayorder"><![CDATA[5]]></item>
 				<item id="title"><![CDATA[ที่อยู่ไฟล์เสียง pm]]></item>
 				<item id="description"><![CDATA[เว้นว่างไว้ถ้าไม่ต้องการ]]></item>
@@ -94,7 +81,7 @@
 				<item id="value"><![CDATA[source/plugin/th_chat/images/msn.mp3]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="5">
+			<item id="6">
 				<item id="displayorder"><![CDATA[6]]></item>
 				<item id="title"><![CDATA[ที่อยู่ภาพพื้นหลัง]]></item>
 				<item id="description"><![CDATA[]]></item>
@@ -103,7 +90,7 @@
 				<item id="value"><![CDATA[]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="6">
+			<item id="7">
 				<item id="displayorder"><![CDATA[7]]></item>
 				<item id="title"><![CDATA[ตำแหน่งพื้นหลัง]]></item>
 				<item id="description"><![CDATA[]]></item>
@@ -120,7 +107,7 @@
 8 = ล่าง
 9 = ล่างขวา]]></item>
 			</item>
-			<item id="7">
+			<item id="8">
 				<item id="displayorder"><![CDATA[8]]></item>
 				<item id="title"><![CDATA[การทำซ้ำพื้นหลัง]]></item>
 				<item id="description"><![CDATA[]]></item>
@@ -132,7 +119,7 @@
 3 = ทำซ้ำแนวตั้ง
 4 = ทำซ้ำแนวนอนและแนวตั้ง]]></item>
 			</item>
-			<item id="8">
+			<item id="9">
 				<item id="displayorder"><![CDATA[9]]></item>
 				<item id="title"><![CDATA[ระบบ chatpoint]]></item>
 				<item id="description"><![CDATA[สามารถใช้คำสั่ง !point UID|POINT|REASON]]></item>
@@ -150,7 +137,7 @@
 8 = ใช้ extcredits8
 9 = ใช้ POINT สำหรับห้องแชท]]></item>
 			</item>
-			<item id="36">
+			<item id="10">
 				<item id="displayorder"><![CDATA[10]]></item>
 				<item id="title"><![CDATA[ดีเลย์การให้ chatpoint]]></item>
 				<item id="description"><![CDATA[หน่วยเป็นวินาที]]></item>
@@ -159,8 +146,8 @@
 				<item id="value"><![CDATA[10]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="9">
-				<item id="displayorder"><![CDATA[10]]></item>
+			<item id="11">
+				<item id="displayorder"><![CDATA[11]]></item>
 				<item id="title"><![CDATA[การแสดงข้อความในแชท]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[chat_type]]></item>
@@ -169,8 +156,8 @@
 				<item id="extra"><![CDATA[1 = ข้อความใหม่อยู่ด้านบน
 2 = ข้อความใหม่อยู่ด้านล่าง]]></item>
 			</item>
-			<item id="10">
-				<item id="displayorder"><![CDATA[11]]></item>
+			<item id="12">
+				<item id="displayorder"><![CDATA[12]]></item>
 				<item id="title"><![CDATA[เวลารีโหลดแชท]]></item>
 				<item id="description"><![CDATA[หน่วยเป็นมิลลิวินาที (1000 = 1 วินาที ,2000 = 2 วินาที) ยิ่งน้อยยิ่งเร็ว แต่จะยิ่งทำให้ server ทำงานหนัก]]></item>
 				<item id="variable"><![CDATA[chat_reload]]></item>
@@ -178,8 +165,8 @@
 				<item id="value"><![CDATA[5000]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="11">
-				<item id="displayorder"><![CDATA[12]]></item>
+			<item id="13">
+				<item id="displayorder"><![CDATA[13]]></item>
 				<item id="title"><![CDATA[ดีเลย์ในแชท (ป้องกันคนฟลัด)]]></item>
 				<item id="description"><![CDATA[หน่วยเป็นมิลลิวินาที (1000 = 1 วินาที ,2000 = 2 วินาที)]]></item>
 				<item id="variable"><![CDATA[chat_delay]]></item>
@@ -187,21 +174,21 @@
 				<item id="value"><![CDATA[1000]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="12">
-				<item id="displayorder"><![CDATA[13]]></item>
+			<item id="14">
+				<item id="displayorder"><![CDATA[14]]></item>
 				<item id="title"><![CDATA[ข้อความที่แสดงสำหรับผู้ที่ไม่ได้เข้าสู่ระบบ]]></item>
 				<item id="description"><![CDATA[สามารถใช้ html ได้, ถ้าปล่อยว่างไว้จะแสดงข้อความแชทปกติ]]></item>
 				<item id="variable"><![CDATA[guest_show]]></item>
 				<item id="type"><![CDATA[textarea]]></item>
 				<item id="value"><![CDATA[<center style="margin:20px 0;">
-<b>กรุณาสมัครสมาชิกหรือเข้าสู่ระบบก่อนนะจ๊ะ ^_^</b>
+<b>กรุณาสมัครสมาชิกหรือเข้าสู่ระบบก่อนใช้งานห้องแชท</b>
 <br />
 <a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href)">เข้าสู่ระบบ</a> หรือ <a href="member.php?mod=register">สมัครสมาชิก</a>
 </center>]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="13">
-				<item id="displayorder"><![CDATA[14]]></item>
+			<item id="15">
+				<item id="displayorder"><![CDATA[15]]></item>
 				<item id="title"><![CDATA[ความยาวข้อความสูงสุด]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[chat_strlen]]></item>
@@ -209,8 +196,8 @@
 				<item id="value"><![CDATA[500]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="14">
-				<item id="displayorder"><![CDATA[15]]></item>
+			<item id="16">
+				<item id="displayorder"><![CDATA[16]]></item>
 				<item id="title"><![CDATA[UID ที่ห้ามใช้งานห้องแชท]]></item>
 				<item id="description"><![CDATA[คั่นด้วย , เช่น 221,223,119 หรือสามารถพิมพ์ !ban/!unban ตามด้วย UID เพื่อแบนได้จาก Chatbox]]></item>
 				<item id="variable"><![CDATA[chat_ban]]></item>
@@ -218,17 +205,17 @@
 				<item id="value"><![CDATA[]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="15">
-				<item id="displayorder"><![CDATA[16]]></item>
+			<item id="17">
+				<item id="displayorder"><![CDATA[17]]></item>
 				<item id="title"><![CDATA[ใช้งาน HTML]]></item>
-				<item id="description"><![CDATA[]]></item>
+				<item id="description"><![CDATA[ไม่แนะนำให้เปิดอย่างยิ่ง เฉพาะบอร์ดส่วนบุคคลเท่านั้น]]></item>
 				<item id="variable"><![CDATA[usehtml]]></item>
 				<item id="type"><![CDATA[radio]]></item>
 				<item id="value"><![CDATA[0]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="16">
-				<item id="displayorder"><![CDATA[17]]></item>
+			<item id="18">
+				<item id="displayorder"><![CDATA[18]]></item>
 				<item id="title"><![CDATA[ใช้งานตัวยิ้ม]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[useemo]]></item>
@@ -236,8 +223,8 @@
 				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="17">
-				<item id="displayorder"><![CDATA[18]]></item>
+			<item id="19">
+				<item id="displayorder"><![CDATA[19]]></item>
 				<item id="title"><![CDATA[ใช้งาน Discuz! Code]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[usedzc]]></item>
@@ -245,62 +232,54 @@
 				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="18">
-				<item id="displayorder"><![CDATA[19]]></item>
+			<item id="20">
+				<item id="displayorder"><![CDATA[20]]></item>
+				<item id="title"><![CDATA[ใช้งาน BBCODE ที่เพิ่มขึ้นเอง]]></item>
+				<item id="description"><![CDATA[ต้องเปิดออฟชั่นข้างล่างด้วยถึงจะเห็นผล]]></item>
+				<item id="variable"><![CDATA[usemore]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="21">
+				<item id="displayorder"><![CDATA[21]]></item>
 				<item id="title"><![CDATA[ใช้งาน Discuz! Code บางส่วนที่ไม่จำเปิด]]></item>
-				<item id="description"><![CDATA[หากเปิดการใช้งานส่วนนี้ โค้ดบางส่วนที่ไม่มีปุ่มก็แสดงผลได้เช่น [table] เป็นต้น]]></item>
+				<item id="description"><![CDATA[จำเป็นหากต้องการเปิดใช้งาน BBCODE ที่เพิ่มขึ้นเอง
+หากเปิดการใช้งานส่วนนี้ โค้ดบางส่วนที่ไม่มีปุ่มก็แสดงผลได้เช่น [table] เป็นต้น]]></item>
 				<item id="variable"><![CDATA[useunshowdzc]]></item>
 				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
+				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="19">
-				<item id="displayorder"><![CDATA[20]]></item>
+			<item id="22">
+				<item id="displayorder"><![CDATA[22]]></item>
 				<item id="title"><![CDATA[ใช้งานรูปภาพ]]></item>
-				<item id="description"><![CDATA[]]></item>
+				<item id="description"><![CDATA[จะมีปุ่มกดเพื่อแสดงรูปแสดงแทนฝังรูปไว้ในแชท]]></item>
 				<item id="variable"><![CDATA[useimg]]></item>
 				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
+				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="29">
-				<item id="displayorder"><![CDATA[20]]></item>
+			<item id="23">
+				<item id="displayorder"><![CDATA[23]]></item>
 				<item id="title"><![CDATA[ใช้งาน Media Code]]></item>
-				<item id="description"><![CDATA[โค้ดวีดีโอและแฟลช]]></item>
+				<item id="description"><![CDATA[จะมีปุ่มกดเพื่อแสดงวีดีโอแสดงแทนการฝังวีดีโอไว้ในแชท]]></item>
 				<item id="variable"><![CDATA[mediacode]]></item>
 				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
+				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="30">
-				<item id="displayorder"><![CDATA[20]]></item>
-				<item id="title"><![CDATA[ใช้งาน Spoiler]]></item>
-				<item id="description"><![CDATA[ต้องโมไฟล์ก่อนใช้งาน]]></item>
-				<item id="variable"><![CDATA[spoiler]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
-			<item id="20">
-				<item id="displayorder"><![CDATA[21]]></item>
-				<item id="title"><![CDATA[ตรวจสอบ url อัตโนมัติ]]></item>
+			<item id="24">
+				<item id="displayorder"><![CDATA[24]]></item>
+				<item id="title"><![CDATA[ตรวจสอบ URL อัตโนมัติ]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[autourl]]></item>
 				<item id="type"><![CDATA[radio]]></item>
 				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="21">
-				<item id="displayorder"><![CDATA[22]]></item>
-				<item id="title"><![CDATA[แสดง Icon OS ผู้ใช้งาน]]></item>
-				<item id="description"><![CDATA[]]></item>
-				<item id="variable"><![CDATA[showos]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[1]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
-			<item id="22">
-				<item id="displayorder"><![CDATA[23]]></item>
+			<item id="25">
+				<item id="displayorder"><![CDATA[25]]></item>
 				<item id="title"><![CDATA[เปิดการอัพโหลดรูปจาก upic.me]]></item>
 				<item id="description"><![CDATA[หากเปิดแชทจะสวยงามน้อยลง]]></item>
 				<item id="variable"><![CDATA[upicme]]></item>
@@ -308,8 +287,8 @@
 				<item id="value"><![CDATA[0]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="23">
-				<item id="displayorder"><![CDATA[24]]></item>
+			<item id="26">
+				<item id="displayorder"><![CDATA[26]]></item>
 				<item id="title"><![CDATA[เข้าแชทอัตโนมัติ]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[autoconnect]]></item>
@@ -317,8 +296,8 @@
 				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="24">
-				<item id="displayorder"><![CDATA[25]]></item>
+			<item id="27">
+				<item id="displayorder"><![CDATA[27]]></item>
 				<item id="title"><![CDATA[ความยาวต่ำสุดของชื่อ/สถานะ]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[namemin]]></item>
@@ -326,8 +305,8 @@
 				<item id="value"><![CDATA[4]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="25">
-				<item id="displayorder"><![CDATA[26]]></item>
+			<item id="28">
+				<item id="displayorder"><![CDATA[28]]></item>
 				<item id="title"><![CDATA[ความยาวสูงสุดของชื่อ/สถานะ]]></item>
 				<item id="description"><![CDATA[ใส่ 0 เพื่อให้ยาวได้ไม่จำกัด]]></item>
 				<item id="variable"><![CDATA[namemax]]></item>
@@ -335,8 +314,8 @@
 				<item id="value"><![CDATA[18]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="26">
-				<item id="displayorder"><![CDATA[27]]></item>
+			<item id="29">
+				<item id="displayorder"><![CDATA[29]]></item>
 				<item id="title"><![CDATA[โหมดการแสดงชื่อ]]></item>
 				<item id="description"><![CDATA[สามารถใช้คำสั่ง !name UID|:|NAME เพื่อเปลี่ยนชื่อ]]></item>
 				<item id="variable"><![CDATA[namemode]]></item>
@@ -346,17 +325,17 @@
 1 = แสดง Username + Status
 2 = แสดง Name ที่ตั้งขึ้น]]></item>
 			</item>
-			<item id="27">
-				<item id="displayorder"><![CDATA[28]]></item>
+			<item id="30">
+				<item id="displayorder"><![CDATA[30]]></item>
 				<item id="title"><![CDATA[เปิดการอ้างอิงแบบเต็ม]]></item>
 				<item id="description"><![CDATA[หากเปิดจะอ้างอิงรูป อีโมเป็นต้นได้]]></item>
 				<item id="variable"><![CDATA[quota]]></item>
 				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
+				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
 			<item id="31">
-				<item id="displayorder"><![CDATA[30]]></item>
+				<item id="displayorder"><![CDATA[31]]></item>
 				<item id="title"><![CDATA[การแก้ไขข้อความ]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[editmsg]]></item>
@@ -368,40 +347,13 @@
 3 = ทุกคนแก้ข้อความตนเองได้]]></item>
 			</item>
 			<item id="32">
-				<item id="displayorder"><![CDATA[31]]></item>
+				<item id="displayorder"><![CDATA[32]]></item>
 				<item id="title"><![CDATA[บอทออนไลน์หน้าแชท]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[onlinebot]]></item>
 				<item id="type"><![CDATA[text]]></item>
 				<item id="value"><![CDATA[]]></item>
 				<item id="extra"><![CDATA[สามารถใช้ comma (,) คั่น เช่น 5,95]]></item>
-			</item>
-			<item id="33">
-				<item id="displayorder"><![CDATA[32]]></item>
-				<item id="title"><![CDATA[แสดงไอคอนการตรวจสอบสมาชิก (Verify) ในรายการสนทนา]]></item>
-				<item id="description"><![CDATA[จะแสดงก็ต่อเมื่อเว็บไซต์ของคุณเปิดใช้คุณสมบติการตรวจสอบสมาชิก (Verify) ที่ admin.php?action=verify]]></item>
-				<item id="variable"><![CDATA[verifyicon_contentchat]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
-			<item id="34">
-				<item id="displayorder"><![CDATA[33]]></item>
-				<item id="title"><![CDATA[แสดงไอคอนการตรวจสอบสมาชิก (Verify) ในรายชื่อผู้ออนไลน์]]></item>
-				<item id="description"><![CDATA[จะแสดงก็ต่อเมื่อเว็บไซต์ของคุณเปิดใช้คุณสมบติการตรวจสอบสมาชิก (Verify) ที่ admin.php?action=verify]]></item>
-				<item id="variable"><![CDATA[verifyicon_onlinelist]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[1]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
-			<item id="35">
-				<item id="displayorder"><![CDATA[34]]></item>
-				<item id="title"><![CDATA[แสดงไอคอนการตรวจสอบสมาชิก (Verify) ในรายชื่อผู้ออนไลน์ Ajax]]></item>
-				<item id="description"><![CDATA[จะแสดงก็ต่อเมื่อเว็บไซต์ของคุณเปิดใช้คุณสมบติการตรวจสอบสมาชิก (Verify) ที่ admin.php?action=verify]]></item>
-				<item id="variable"><![CDATA[verifyicon_onlinelistajax]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[1]]></item>
-				<item id="extra"><![CDATA[]]></item>
 			</item>
 		</item>
 		<item id="language">
@@ -447,7 +399,7 @@
 				<item id="jdj_th_chat_text_php_39"><![CDATA[เพลง]]></item>
 				<item id="jdj_th_chat_text_php_40"><![CDATA[เพิ่มเพื่อน]]></item>
 				<item id="jdj_th_chat_text_php_41"><![CDATA[แฟลช]]></item>
-				<item id="jdj_th_chat_text_php_42"><![CDATA[ยินดีต้อนรับสู่ห้องแชท คุณสามารถเริ่มพิมพ์ข้อความของคุณได้ด้านล่างนี้ ^_^]]></item>
+				<item id="jdj_th_chat_text_php_42"><![CDATA[ยินดีต้อนรับสู่ห้องแชท คุณสามารถเริ่มพิมพ์ข้อความของคุณได้ด้านล่างนี้~!]]></item>
 				<item id="jdj_th_chat_text_php_43"><![CDATA[ลบ]]></item>
 				<item id="jdj_th_chat_text_php_44"><![CDATA[ลบสำเร็จแล้ว!]]></item>
 				<item id="jdj_th_chat_text_php_45"><![CDATA[ล้างข้อความสำเร็จแล้ว!]]></item>

@@ -55,25 +55,14 @@ if($_POST['sound_1']!=""&&$_POST['sound_2']!="")
 	if(DB::fetch_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='{$name}' AND uid!='{$uid}'")){
 		die(lang('plugin/th_chat', 'jdj_th_chat_text_php_15'));
 	}
-	if($is_mod)
-	{
-		$re = DB::query("SELECT uid,total,time FROM ".DB::table('newz_nick')." WHERE uid='{$uid}'");
-		if($re = DB::fetch($re)){
-			if($time-$re['time']<86400){
-				if($re['total']>1&&$config['namemode']==2){
-					die(lang('plugin/th_chat', 'jdj_th_chat_text_php_33'));
-				}else{
-					DB::query("UPDATE ".DB::table('newz_nick')." SET name='{$name}',total=2,sound_1='{$_POST['sound_1']}',sound_2='{$_POST['sound_2']}' WHERE uid='{$uid}' LIMIT 1");
-				}
-			}else{
-				DB::query("UPDATE ".DB::table('newz_nick')." SET name='{$name}',total=1,time='{$time}',sound_1='{$_POST['sound_1']}',sound_2='{$_POST['sound_2']}' WHERE uid='{$uid}' LIMIT 1");
-			}
-		}else{
-			DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,name,total,time,sound_1,sound_2) VALUES ('{$uid}','{$name}','1','{$time}',{$_POST['sound_1']},{$_POST['sound_2']})");
-		}
+	$re = DB::query("SELECT uid,total,time FROM ".DB::table('newz_nick')." WHERE uid='{$uid}'");
+	if($re = DB::fetch($re)){
+		DB::query("UPDATE ".DB::table('newz_nick')." SET name='{$name}',total=1,time='{$time}',sound_1='{$_POST['sound_1']}',sound_2='{$_POST['sound_2']}' WHERE uid='{$uid}' LIMIT 1");
+	}else{
+		DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,name,total,time,sound_1,sound_2) VALUES ('{$uid}','{$name}','1','{$time}',{$_POST['sound_1']},{$_POST['sound_2']})");
 	}
 	DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,text,time,ip) VALUES ('{$uid}','0','{$name}','{$time}','changename')");
-	exit('อัพเดทการตั้งค่าสำเร็จ!');
+	exit('เปลี่ยนการตั้งค่าสำเร็จ!<script>hideWindow("th_chat_setting", 0, 1);nzalert("เปลี่ยนการตั้งค่าสำเร็จ!");</script>');
 }else{
 	$olddata = DB::fetch_first("SELECT name,sound_1,sound_2 FROM ".DB::table('newz_nick')." WHERE uid='{$_G['uid']}'");
 	$olddata['sound_1'] = $olddata['sound_1']=='1'?$olddatas1='checked':$olddatas2='checked';

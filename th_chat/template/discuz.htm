@@ -2,7 +2,7 @@
 <!-- begin 2th chat -->
 <!--{if $chat['guest_show']&&!$_G['uid']}-->
 {$chat['guest_show']}
-<div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="http://2th.me">2th</a></span></div>
+<div style="text-align:right;height:20px;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.13</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></div>
 <!--{else}--> 
 <script src="source/plugin/th_chat/js/jquery-1.6.4.min.js" type="text/javascript"></script> 
 <script src="source/plugin/th_chat/js/jba.js" type="text/javascript"></script>
@@ -33,6 +33,7 @@ var nzonol='no';
 var nzcolor = '';
 var nzcommandz = '';
 var formhash = '';
+var nzChatPopupContent = '';
 function nzolover() {nzonol='yes';}
 function nzolout() {nzonol='no';}
 function nzalert(text){
@@ -49,6 +50,11 @@ nzSend();
 nzLoadTextInit();
 <!--{/if}-->
 });
+function nzChatPopup(con){
+	nzChatPopupContent = nzchatobj(con).next(".nzchatpopuph").html();
+	nzchatobj('#th_chat_popup_box').html(nzChatPopupContent);
+	showWindow('th_chat_popup', 'plugin.php?id=th_chat:popup');
+}
 function nzChatBig(){
 if(nzchatheight<830){
 nzchatheight+=50;
@@ -89,7 +95,7 @@ nzchatobj('#nznoticecheck').removeAttr('checked');
 nzcommandz='';
 nzchatobj('.nzchatrow').each(function() {
 if(nzchatobj(this).css("background-color")=='rgb(255, 187, 187)'){
-nzchatobj(this).animate({ backgroundColor: '#FFF' }, 500);
+nzchatobj(this).animate({ backgroundColor: 'transparent' }, 500);
 }
 });
 }
@@ -162,7 +168,7 @@ else if(command=='edit'){
 var nzsamedit = false;
 nzchatobj('.nzchatrow').each(function() {
 if(nzchatobj(this).css("background-color")=='rgb(255, 187, 187)'){
-nzchatobj(this).animate({ backgroundColor: '#EEE' }, 500);
+nzchatobj(this).animate({ backgroundColor: 'transparent' }, 500);
 if(nzchatobj("#nzchatmessage").val()==nzchatobj("#nzchatcontent"+xid).text()){nzchatobj("#nzchatmessage").val('');}
 if(nzchatobj(this).attr('id')=='nzrows_'+xid){nzcommandz='';nzsamedit = true;return;}
 }
@@ -256,10 +262,12 @@ nzchatrr.first().remove();
 <!--{/if}-->
 }
 <!--{/if}-->
+if(data.chat_online){
 if(nzonol=='no'){
 nzchatobj("#nzchatolcontent").html(data.chat_online);
 }
 nzchatobj("#nzoltotal").html(data.chat_online_total);
+}
 }
 });
 setTimeout(nzLoadText,{$chat['reload']});
@@ -303,7 +311,7 @@ nzCharleft();
 function nzReload(){
 nzchatobj("#nzchatolcontent").html('');
 nzchatobj("#nzchatnotice").html('{lang th_chat:jdj_th_chat_text_htm_40}');
-nzchatobj("#nzchatcontent").html('<br /><br /><br /><br /><br /><br /><center><img src="source/plugin/th_chat/images/loader.gif" alt="Load" /></center>');
+nzchatobj("#nzchatcontent").html('<br /><br /><br /><br /><br /><br /><center><img src="source/plugin/th_chat/images/loading.svg" alt="Load" /></center>');
 nzchatobj.post("plugin.php?id=th_chat:newinit",function(data){
 data = nzchatobj.parseJSON(data);
 nzlastid=data.lastid;
@@ -403,7 +411,7 @@ function nzskincolor() {
     <table id="nzchattable">
       <tr>
         <td><div class="nzchatanno">
-          <div id="nzchatnotice" style="float:left;">{lang th_chat:jdj_th_chat_text_htm_40}</div><div style="float:right;"><!--{if in_array($_G['adminid'],array(1,2,3))}--><input style="position:hidden" type="checkbox" id="nznoticecheck" title="แก้ไข" onChange="if(nzchatobj(this).is(':checked')){nzcommandz='notice';nzchatobj('.nzchatrow').each(function() {if(nzchatobj(this).css('background-color')=='rgb(255, 187, 187)'){nzchatobj(this).animate({ backgroundColor: '#FFF' }, 500);}});nzchatobj('#nzchatmessage').val(nzchatobj('#nzchatnotice').text());
+          <div id="nzchatnotice" style="float:left;">{lang th_chat:jdj_th_chat_text_htm_40}</div><div style="float:right;"><!--{if in_array($_G['adminid'],array(1,2,3))}--><input style="position:hidden" type="checkbox" id="nznoticecheck" title="แก้ไข" onChange="if(nzchatobj(this).is(':checked')){nzcommandz='notice';nzchatobj('.nzchatrow').each(function() {if(nzchatobj(this).css('background-color')=='rgb(255, 187, 187)'){nzchatobj(this).animate({ backgroundColor: 'transparent' }, 500);}});nzchatobj('#nzchatmessage').val(nzchatobj('#nzchatnotice').text());
 nzchatobj('#nzchatmessage').focus();}else{if(nzchatobj('#nzchatmessage').val()==nzchatobj('#nzchatnotice').text()){nzchatobj('#nzchatmessage').val('');nzchatobj('#nzchatmessage').focus();}nzcommandz='';}"/> {lang th_chat:jdj_th_chat_text_htm_39} <!--{/if}--><a href="javascript:void(0);" onclick="nzChatBig();">{lang th_chat:jdj_th_chat_text_htm_10}</a> <a href="javascript:void(0);" onclick="nzChatSmall();">{lang th_chat:jdj_th_chat_text_htm_26}</a> <a href="javascript:void(0);" onclick="nzChatReset();">{lang th_chat:jdj_th_chat_text_htm_14}</a></div></td>
         <td><div class="nzchatanno" style="text-align: center;"> <img src="source/plugin/th_chat/images/message.png" alt=""  align="absmiddle" /> {lang th_chat:jdj_th_chat_text_htm_09} <span id="nzoltotal">N/A</span> {lang th_chat:jdj_th_chat_text_htm_11}</div></td>
       </tr>
@@ -416,7 +424,7 @@ nzchatobj('#nzchatmessage').focus();}else{if(nzchatobj('#nzchatmessage').val()==
               <br />
               <br />
               <center>
-                <!--{if $chat['autoconnect']==1}--><img src="source/plugin/th_chat/images/loader.gif" alt="Load" /><!--{else}-->
+                <!--{if $chat['autoconnect']==1}--><img src="source/plugin/th_chat/images/loading.svg" alt="Load" /><!--{else}-->
               <br />
 			  <br />
 			  <br />
@@ -438,20 +446,19 @@ border-color: #5bc0de;"><strong> {lang th_chat:jdj_th_chat_text_htm_12}<!--{/if}
       </tr>
 	  <tr>
 	  <td colspan="2">
-	  <div id="nzalertbox" style="display:none;background:rgba(167, 226, 255, 0.9);width: 100%;height: 25px;margin-top: -25px;position: relative;font-size: 16px;box-sizing: border-box;padding-left: 10px;">ทดสอบ</div>
+	  <div id="nzalertbox" style="display:none;background:rgba(255, 224, 169, 0.9);width: 100%;height: 30px;margin-top: -30px;position: relative;font-size: 16px;box-sizing: border-box;padding-left: 10px;color: #8a6d3b;line-height: 30px;"></div>
 	  <div style="margin-bottom: 2px;"><input name="mtname" type="text" id="nzchatmessage" onKeyUp="nzCharleft();" maxlength="{$chat['chat_strlen']}" placeholder="กรอกข้อความแล้วกดปุ่ม Enter เพื่อส่งข้อความ"/></div>
 	  <div style="background:#eaeaea;border: #CCC 1px solid;border-radius:3px;"><table style="width: 100%;">
 	  <tr>
         <td style="vertical-align: middle;padding:4px;padding-bottom: 0px;width:100%;">
 		<script src="static/js/seditor.js" type="text/javascript"></script>
-		<div class="fpd">
-            <p style="float:left;"></p>
+		<div class="fpd nzchatbbcode">
             {$chat['editor']} <a href="javascript:void(0);" title="{lang th_chat:jdj_th_chat_text_htm_01}" onClick="nzReload();" style="background:url(source/plugin/th_chat/images/reload.png) no-repeat center">Reload</a> <a href="plugin.php?id=th_chat:chat_full" title="{lang th_chat:jdj_th_chat_text_htm_16}" style="background:url(source/plugin/th_chat/images/fullscreen.png) no-repeat center">Zoom</a> 
-			<a href="javascript:void(0);" style="background: url(source/plugin/th_chat/images/settings.png) no-repeat 0 2px;" title="{lang th_chat:jdj_th_chat_text_htm_17}" onclick="showWindow('th_chat_setting', 'plugin.php?id=th_chat:setting');return false;">Settings</a>
+			<a href="javascript:void(0);" style="background: url(source/plugin/th_chat/images/settings.png) no-repeat 2px 2px;" title="{lang th_chat:jdj_th_chat_text_htm_17}" onclick="showWindow('th_chat_setting', 'plugin.php?id=th_chat:setting');return false;">Settings</a>
             <script src="data/cache/common_smilies_var.js?{VERHASH}" type="text/javascript" reload="1"></script> 
             <script type="text/javascript" reload="1">smilies_show('nzchatsmiliesdiv', 9, 'nzchat');</script>
             <select id="nzchatskin" onChange="nzskincolor();">
-              <option value="default" selected="selected">Skin Default</option>
+              <option value="default" style="background-color: #34495e;color: #ffffff;" selected="selected">Skin Default</option>
               <option value="000000" style="background-color: #000000;color: #ffffff;">Black</option>
               <option value="a0522d" style="background-color: #a0522d;color: #ffffff;">Sienna</option>
               <option value="006400" style="background-color: #006400;color: #ffffff;">DarkGreen</option>
@@ -464,7 +471,7 @@ border-color: #5bc0de;"><strong> {lang th_chat:jdj_th_chat_text_htm_12}<!--{/if}
               <option value="008000" style="background-color: #008000;color: #ffffff;">Green</option>
               <option value="008080" style="background-color: #008080;color: #ffffff;">Teal</option>
               <option value="0000ff" style="background-color: #0000ff;color: #ffffff;">Blue</option>
-              <option value="ff0000" style="background-color: #ff0000;color: #000000;">Red</option>
+              <option value="ff0000" style="background-color: #ff0000;color: #ffffff;">Red</option>
               <option value="f4a460" style="background-color: #f4a460;color: #000000;">SandyBrown</option>
               <option value="9acd32" style="background-color: #9acd32;color: #000000;">YellowGreen</option>
               <option value="2e8b57" style="background-color: #2e8b57;color: #ffffff;">SeaGreen</option>
@@ -475,7 +482,7 @@ border-color: #5bc0de;"><strong> {lang th_chat:jdj_th_chat_text_htm_12}<!--{/if}
               <option value="ff00ff" style="background-color: #ff00ff;color: #000000;">Magenta</option>
               <option value="ffa500" style="background-color: #ffa500;color: #000000;">Orange</option>
               <option value="00bfff" style="background-color: #00bfff;color: #000000;">DeepSkyBlue</option>
-              <option value="9932cc" style="background-color: #9932cc;color: #000000;">DarkOrchid</option>
+              <option value="9932cc" style="background-color: #9932cc;color: #ffffff;">DarkOrchid</option>
               <option value="c0c0c0" style="background-color: #c0c0c0;color: #000000;">Silver</option>
               <option value="ffc0cb" style="background-color: #ffc0cb;color: #000000;">Pink</option>
               <option value="98fb98" style="background-color: #98fb98;color: #000000;">PaleGreen</option>
@@ -494,7 +501,7 @@ border-color: #5bc0de;"><strong> {lang th_chat:jdj_th_chat_text_htm_12}<!--{/if}
       <tr>
 	  <td colspan="2" style="padding-left: 10px;">
 	  <span><span id="nztouid"></span></span>
-        <span style="float:right; margin-top:3px; margin-right:10px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.12</strong> <a href="https://www.facebook.com/groups/discuzservice/" target="_blank">(DZS Edition)</a></span></span></td>	
+        <span style="float:right; margin-top:3px; margin-right:10px;text-align:right;"><span id="n_copyright">&copy; <a href="http://2th.me/" target="_blank">2th Chat</a> <strong>2.13</strong> by <a href="https://www.chaohost.com/client/aff.php?aff=10" target="_blank">ChaoHost</a></span></span></td>	
 	  </td>
 	  </tr>
 	  </table></div></td>

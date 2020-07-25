@@ -44,18 +44,9 @@ if($is_mod)
 }else{
 $re = DB::query("SELECT uid,total,time FROM ".DB::table('newz_nick')." WHERE uid='{$uid}'");
 if($re = DB::fetch($re)){
-	if($time-$re['time']<86400){
-		if($re['total']>1&&$config['namemode']!=1){
-			die(lang('plugin/th_chat', 'jdj_th_chat_text_php_33'));
-		}else{
-			DB::query("UPDATE ".DB::table('newz_nick')." SET name='{$name}',total=2 WHERE uid='{$uid}' LIMIT 1");
-		}
-	}else{
 		DB::query("UPDATE ".DB::table('newz_nick')." SET name='{$name}',total=1,time='{$time}' WHERE uid='{$uid}' LIMIT 1");
-	}
 }else{
 	DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,name,total,time) VALUES ('{$uid}','{$name}','1','{$time}')");
-}
 }
 DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,text,time,ip) VALUES ('{$uid}','0','{$name}','{$time}','changename')");
 echo 'ok';

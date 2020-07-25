@@ -9,9 +9,8 @@ include 'functions.php';
 if($uid<1){
 	die(json_encode(array('type'=>1,'error'=>''.lang('plugin/th_chat', 'jdj_th_chat_text_php_05').'')));
 }
-$banned = DB::query("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
-$banned = DB::fetch($banned);
-eval("\$banned = array({$banned['value']});");
+$banned = DB::fetch_first("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='16' LIMIT 1");
+$banned = explode(",",$banned['value']);
 if((in_array($gid,array(4,5))||in_array($uid,$banned))&&!$is_mod){
 	die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_11'))));
 }
@@ -21,11 +20,15 @@ if (get_magic_quotes_gpc()) {
 else {
 	$text = $_POST['text'];
 }
-$f = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/discuz.htm');
 $id = intval($_POST['lastid']);
 $touid = intval($_POST['touid']);
 $quota = intval($_POST['quota']);
 $command = $_POST['command'];
+if(preg_match("/([a-f0-9]{3}){1,2}\b/i",$_POST['color'])){
+	$color = $_POST['color'];
+}else{
+	$color = 'default';
+}
 $color = str_replace(array('\'','\\','"','<','>'),'',$_POST['color']);
 $ip = $_SERVER['REMOTE_ADDR'];
 $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
@@ -74,50 +77,26 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 		$uid_ban = intval(substr($text,4));
 		if($uid_ban && !in_array($uid_ban,$banned) && $uid_ban != $uid){
 			$banned[] = $uid_ban;
-			$username_ban = DB::query("SELECT m.username AS name,m.groupid,g.color,n.name AS nick FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid_ban}' LIMIT 1");
-			$username_ban = DB::fetch($username_ban);
-			if($username_ban['nick']&&$config['namemode']==2){
-				$username_banz = $username_ban['nick'];
-			}else{
-				$username_banz = $username_ban['name'];
-			}
+			$username_ban = DB::fetch_first("SELECT username FROM ".DB::table('common_member')." WHERE uid='{$uid_ban}' LIMIT 1");
+			$username_ban = '@'.addslashes($username_ban['username']);
 			$icon = 'alert';
 			$touid = 0;
-			$username_ban = empty($username_ban['color'])?htmlspecialchars_decode($username_banz):'[color='.$username_ban['color'].']'.htmlspecialchars_decode($username_banz).'[/color]';
-			$text = '[url=home.php?mod=space&uid='.$uid_ban.'][b]'.$username_ban.'[/b][/url] [color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_23').'[/color]';
-			$banned_new = array();
-			foreach($banned as $uid_banned){
-				if($uid_banned&&!in_array($uid_banned,$banned_new)){
-					$banned_new[] = $uid_banned;
-				}
-			}
-			$banned = implode(',',$banned_new);
-			DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$banned}' WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
+			$text = $username_ban.' [color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_23').'[/color]';
+			$bannedq = implode(',',$banned);
+			DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$bannedq}' WHERE variable='chat_ban' AND displayorder='16' LIMIT 1");
 		}
 	}elseif(substr($text,0,6)=="!unban"&&$is_mod){
 		$uid_ban = intval(substr($text,6));
 		if($uid_ban && in_array($uid_ban,$banned)){
 			$key = array_search($uid_ban, $banned);
 			if($key !== FALSE) unset($banned[$key]);
-			$username_ban = DB::query("SELECT m.username AS name,m.groupid,g.color,n.name AS nick FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid_ban}' LIMIT 1");
-			$username_ban = DB::fetch($username_ban);
-			if($username_ban['nick']&&$config['namemode']==2){
-				$username_banz = $username_ban['nick'];
-			}else{
-				$username_banz = $username_ban['name'];
-			}
+			$username_ban = DB::fetch_first("SELECT username FROM ".DB::table('common_member')." WHERE uid='{$uid_ban}' LIMIT 1");
+			$username_ban = '@'.addslashes($username_ban['username']);
 			$icon = 'alert';
 			$touid = 0;
-			$username_ban = empty($username_ban['color'])?htmlspecialchars_decode($username_banz):'[color='.$username_ban['color'].']'.htmlspecialchars_decode($username_banz).'[/color]';
-			$text = '[color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_28').'[/color] [url=home.php?mod=space.php&uid='.$uid_ban.'][b]'.$username_ban.'[/b][/url]';
-			$banned_new = array();
-			foreach($banned as $uid_banned){
-				if($uid_banned&&!in_array($uid_banned,$banned_new)){
-					$banned_new[] = $uid_banned;
-				}
-			}
-			$banned = implode(',',$banned_new);
-			DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$banned}' WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
+			$text = '[color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_28').'[/color] '.$username_ban;
+			$bannedq = implode(',',$banned);
+			DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$bannedq}' WHERE variable='chat_ban' AND displayorder='16' LIMIT 1");
 		}
 	}elseif(substr($text,0,6)=="!point"&&$config['chat_point']){
 		$point = explode('|',substr($text,6));
@@ -186,7 +165,6 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 		$ip = 'edit';
 		$icon = $editid;
 	}
-if(strpos($f,'&copy; <a href="http://2th.me/" target="_blank">2th Chat</a>')===false||strpos($a,'&copy; <a href="http://2th.me/" target="_blank">2th Chat</a>')===false)die();
 $txtlen = strlen($text);
 if($txtlen>$config['chat_strlen']){
 	$text = '... '.substr($text,$txtlen-$config['chat_strlen']);
@@ -198,28 +176,31 @@ include(DISCUZ_ROOT.'/source/function/function_discuzcode.php');
 $config['useemo'] = $config['useemo']?0:1;
 $config['usedzc'] = $config['usedzc']?0:1;
 $config['useunshowdzc'] = $config['useunshowdzc']?0:1;
-if(strpos($f,'&copy; <a href="http://2th.me">2th</a>')===false)die();
 if($config['autourl']){
 	$text= preg_replace('#(^|\s)([a-z]+://([^\s\w/]?[\w/])*)#is', '\\1[url]\\2[/url]', $text);
 	$text = preg_replace('#(^|\s)((www|ftp)\.([^\s\w/]?[\w/])*)#is', '\\1[url]\\2[/url]', $text);
 }
+
 if($config['mediacode']){
-$text = preg_replace("/\[media=([\w,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/ies", "", $text);
-if($config['spoiler']){
-$text = str_replace("[media]", "[spoil][media=x,480,360]", $text);
-$text = str_replace("[/media]", "[/media][/spoil]", $text);
-}else{
-$text = str_replace("[media]", "[media=x,252,189]", $text);
+$text = preg_replace("/\[media=([\w,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/is", "", $text);
+$text = str_replace("[media]", "[mpopup][media=x,640,480]", $text);
+$text = str_replace("[/media]", "[/media][/mpopup]", $text);
 }
+if($config['useimg']){
+$text = str_replace("[img]", "[ipopup][img]", $text);
+$text = str_replace("[/img]", "[/img][/ipopup]", $text);
+}
+
 $query_bw = DB::query("SELECT * FROM ".DB::table('common_word'));
 while ($bw = DB::fetch($query_bw))
 {
-	if($bw['replacement']=='{MOD}'&&$config['spoiler']){$bw['replacement'] = '[spoil]'.$bw['find'].'[/spoil]';}
 	$text = str_replace($bw['find'],$bw['replacement'],$text);
 }
-}
 $text = preg_replace('/\[quota\](.*?)\[\/quota\]/', '[quota]$1[[color=#fff][/color]/quota]', $text);
-$text = paddslashes(discuzcode($text,$config['useemo'],$config['usedzc'],$config['usehtml'],1,1,$config['useimg'],1,0,$config['useunshowdzc'],0, $config['mediacode']));
+if($config['usemore']){$usemore = -$_G['groupid'];}else{$usemore = 1;}
+$text = discuzcode($text,$config['useemo'],$config['usedzc'],$config['usehtml'],1,$usemore,$config['useimg'],1,0,$config['useunshowdzc'],0, $config['mediacode']);
+$text = preg_replace('/\[ipopup\](.*?)\[\/ipopup\]/', '<div class="nzchatpopup" onclick="nzChatPopup(this)">คลิกเพื่อดูรูป</div><div class="nzchatpopuph">$1</div>', $text);
+$text = paddslashes(preg_replace('/\[mpopup\](.*?)\[\/mpopup\]/', '<div class="nzchatpopup" onclick="nzChatPopup(this)">คลิกเพื่อดูวีดีโอ</div><div class="nzchatpopuph">$1</div>', $text));
 if(($is_mod>0)&&$text=='!clear'){
 $ip = 'clear';
 $icon = 'alert';
@@ -239,57 +220,8 @@ if($ip == 'notice'){
 	DB::query("UPDATE ".DB::table('newz_data')." SET text='{$text}' WHERE id='{$icon}' LIMIT 1");
 }
 if($quota>0 && $config['quota'] && $ip != 'clear'){
-	if($quo = DB::query("SELECT text FROM ".DB::table('newz_data')." WHERE id='{$quota}'"))
-	{
-		$quo = DB::fetch($quo);
-		$quo['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '', $quo['text']);
-		$text = '[quota]'.paddslashes($quo['text']).' // [/quota]'.$text;
-	}
+	$text = getquota($quota).$text;
 }
-
-	/**
-	 * Log chat within txt files
-	 * @add Jaieejung007
-	 *
-	 * @since 2.04.2
-	 *
-	 * @param string $logf   Config your path of log files.
-	 * @param string $tab  Add a tab between the characters in the file.
-	 */
-$logf = DISCUZ_ROOT.'./data/thzaa_log/'.date('d-m-Y');
-dmkdir($logf);
-	$f = fopen($logf . '/all.txt', 'a');
-	if (get_magic_quotes_gpc()) {
-		$oldtext = stripslashes($_POST['text']);
-	} else {
-		$oldtext = $_POST['text'];
-	}
-	$tab .= "\t";
-	$msg = $uid . ( $touid ? ' To ' . $touid : '' ) . ''.$tab.'Say: ' . $oldtext . ''.$tab.'Time: ' . time() . ''.$tab.'Time(Simple): '.date('d-m-Y H:i:s').''.$tab.'IP: ' . $_SERVER['REMOTE_ADDR'];
-	
-	if($ip == "clear"&&$is_mod) {
-		$msg .= ' Cmd: Clear';
-	} elseif(substr($text, 0, 4) == "/ban"&&$is_mod) {
-		$msg .= ' Cmd: Ban ' . intval(substr($text, 4));
-	} elseif(substr($text, 0, 6) == "/unban"&&$is_mod) {
-		$msg .= ' Cmd: Un Ban ' . intval(substr($text, 6));
-	}
-	
-	$msg .= "\r\n";
-
-	fwrite($f, $msg);
-	fclose($f);
-	
-	if($touid) {
-		$sort = array($uid, $touid); asort($sort);
-		$logfile = $logf . '/' . implode('-', $sort) . '.txt';
-		
-		$f = fopen($logfile, 'a');
-		fwrite($f, $msg);
-		fclose($f);
-	}
-
-$icon==''?$icon=checkOs():$icon=$icon;
 DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','$touid','$icon','$text','".time()."','$ip')");
 
 /*RESEND*/
@@ -340,13 +272,12 @@ $c['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '$1', $c['text']);
 	}elseif($c['icon']=='alert'){
 		$c['text'] = '<span style="color:red">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==0){
-		$c['text'] = '<span style="color:#3366CC">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_38').'</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = '<span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==$uid){
 		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['uid']==$uid){
 		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
-	if(!$config['showos']&&$c['icon']!='alert')$c['icon']='';
 	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
 	if($c['ip']=='clear'){
 		break;
