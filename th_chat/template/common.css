@@ -1,0 +1,142 @@
+/*2th_chat css*/
+table#nzchattable{
+width:99%;
+border-collapse:collapse;
+border:none;
+margin:0 auto;
+}
+table#nzchattable td{
+vertical-align:top;
+}
+#nzchatonline{
+width:200px;
+padding:5px 0 0 5px;
+}
+.nzchatanno{
+border: #D4D4D4 1px solid;
+color: #515151;
+clear: both;
+padding: 8px;
+height:16px;
+background: #F1F6EC;
+border-radius: 6px;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+}
+#nzchatbd{
+margin:4px 0;
+border:#7fcae2 1px solid;
+padding:5px;
+background:#ebf2f8;
+}
+#nzchatcontent{
+padding:4px;
+overflow-y:scroll;
+overflow-x:hidden;
+}
+#nzchatolcontent{
+width:200px;
+border:#7fcae2 1px solid;
+overflow-y:scroll;
+}
+#nzchatmessage{
+border: 1px solid #bbb;
+line-height: normal;
+border-radius: 2px;
+width: 99%;
+padding: 5px;
+}
+.nzchatavatar{
+height:30px;
+width:30px;
+padding:2px;
+border:#dddbd3 1px solid;
+margin-right:4px;
+border-radius: 21px;
+}
+#afterme{
+width:704px;
+}
+.nzcq{
+display:none;
+float:right;
+}
+a.nzca{
+font-weight:bold;
+}
+a.nzca:hover{
+text-decoration:underline;
+}
+table.nzcallrow{
+border:none;
+border-collapse:collapse;
+padding:0;
+margin:0;
+width:99%;
+}
+table.nzcallrow tr,table.nzcallrow td{
+border:none;
+}
+.nzavatart{
+width:35px;
+}
+.nzolac{
+}
+.nzolrow{
+list-style:none;
+}
+.nzavsm{
+width:21px;
+height:21px;
+}
+.nzavsm2{
+width:21px;
+height:21px;
+transition: opacity .25s ease-in-out;
+-moz-transition: opacity .25s ease-in-out;
+-webkit-transition: opacity .25s ease-in-out;
+cursor:pointer;
+}
+.nzavsm2:hover{
+opacity: 0.2;
+}
+.nzchatpro{
+width:150px;background:#FFF;border:1px solid #dddbd3;text-align:center;padding-top:12px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;-moz-box-shadow:5px 5px 5px #ccc;-webkit-box-shadow:5px 5px 5px #ccc;box-shadow:5px 5px 5px #ccc
+}
+#nzchat{
+text-align:left;
+margin-bottom:8px;
+}
+tr.nzchatrow td{
+padding:2px 0;
+border-bottom:1px dashed #E1E1E1;
+}
+#nzchatolcontent li{
+list-style:none;
+}
+#nzchatolcontent img.nzavsm{
+margin-right:3px;
+}
+#nzchat a.nzbtn{
+padding: 2px 3px;
+display:inline-block;
+border: 1px solid #999;
+background: #E5E5E5 url(static/image/common/pn.png) repeat-x 0 0;
+-moz-box-shadow: 0 1px 0 #E5E5E5;
+-webkit-box-shadow: 0 1px 0 #E5E5E5;
+box-shadow: 0 1px 0 #E5E5E5;
+cursor: pointer;
+font-size: 13px;
+color: #333;
+}
+#nzchat a.nzbtn:hover{ text-decoration:none;color:#666;}
+#nzchat a.nzbtn:active{ background:#CCC;color:#333;}
+.nzinnercontent{
+word-break: break-all;
+}
+#nzosicon{
+vertical-align: bottom;
+}
+#nzstatus{
+color:#999;
+}
