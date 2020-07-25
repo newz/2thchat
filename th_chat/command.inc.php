@@ -21,6 +21,7 @@ if($command == 'del' && $is_mod)
 	$icon = 'alert';
 	$banned = DB::query("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
 	$banned = DB::fetch($banned);
+	eval("\$banned = array({$banned['value']});");
 	$uid_ban = $id;
 	if(!in_array($uid_ban,$banned)  && $uid_ban != $uid){
 		$banned[] = $uid_ban;
@@ -51,6 +52,7 @@ if($command == 'del' && $is_mod)
 	$icon = 'alert';
 	$banned = DB::query("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='15' LIMIT 1");
 	$banned = DB::fetch($banned);
+	eval("\$banned = array({$banned['value']});");
 	$uid_ban = $id;
 	if(in_array($uid_ban,$banned)){
 		$key = array_search($uid_ban, $banned);
