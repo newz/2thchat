@@ -2,15 +2,8 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-$p = DISCUZ_ROOT . './data/necz.net';
-if(!is_dir($p))
-mkdir($p,0777);
-$p .= '/2thchat';
-if(!is_dir($p))
-mkdir($p,0777);
 $time = time();
 $ip = $_SERVER['REMOTE_ADDR'];
-$jdj_th_chat_text_php_42 = lang('plugin/th_chat', 'jdj_th_chat_text_php_42');
 $sql = <<<EOF
 
 DROP TABLE IF EXISTS `pre_newz_data`;
@@ -38,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `pre_newz_nick` (
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `pre_newz_data` (`uid`, `touid`, `icon`, `text`, `time`,`ip`) VALUES (1, 0, 'alert', '$jdj_th_chat_text_php_42', $time, '$ip');
+INSERT INTO `pre_newz_data` (`uid`, `touid`, `icon`, `text`, `time`,`ip`) VALUES (1, 0, 'alert', 'ยินดีต้อนรับสู่ห้องแชท คุณสามารถเริ่มพิมพ์ข้อความของคุณได้ด้านล่างนี้~!', $time, '$ip');
 
 EOF;
 runquery($sql);

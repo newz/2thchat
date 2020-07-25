@@ -7,12 +7,12 @@ $gid = $_G['groupid'];
 $is_mod = in_array($_G['adminid'],array(1,2,3));
 include 'functions.php';
 if($uid<1){
-	die(json_encode(array('type'=>1,'error'=>''.lang('plugin/th_chat', 'jdj_th_chat_text_php_05').'')));
+	die(json_encode(array('type'=>1,'error'=>'กรุณาเข้าสู่ระบบ')));
 }
 $banned = DB::fetch_first("SELECT value FROM ".DB::table('common_pluginvar')." WHERE variable='chat_ban' AND displayorder='16' LIMIT 1");
 $banned = explode(",",$banned['value']);
 if((in_array($gid,array(4,5))||in_array($uid,$banned))&&!$is_mod){
-	die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_11'))));
+	die(json_encode(array('type'=>1,'error'=>'ขออภัย คุณถูกแบนอยู่')));
 }
 if (get_magic_quotes_gpc()) {
 	$text = stripslashes($_POST['text']);
@@ -36,7 +36,7 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 		$id = intval(substr($text,4));
 		DB::query("DELETE FROM ".DB::table('newz_data')." WHERE id=$id LIMIT 1");
 		DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,text,time,ip) VALUES ('$uid','0','$id','$time','delete')");
-		die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_44'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);nzLoadText();')));
+		die(json_encode(array('type'=>1,'error'=>'ลบสำเร็จแล้ว!')));
 	}
 	elseif(substr($text,0,5)=="!name" && $is_mod){
 		$icon = 'alert';
@@ -50,28 +50,28 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 		$cid=intval($pieces[0]);
 		$name = paddslashes(htmlspecialchars(preg_replace("/<script[^\>]*?>(.*?)<\/script>/i","", htmlspecialchars_decode($name))));
 		if($name==''){
-			die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_06'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);')));
+			die(json_encode(array('type'=>1,'error'=>'กรุณาใส่ชื่อ')));
 		}
 		else if($config['namemax']!=0 && dstrlen($name) > $config['namemax']){
-			die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_55').' '.$config['namemax'].' '.lang('plugin/th_chat', 'jdj_th_chat_text_php_22'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);')));
+			die(json_encode(array('type'=>1,'error'=>'ห้ามตั้งชื่อ/สถานะเกิน '.$config['namemax'].' ตัวอักษร')));
 		}else if(dstrlen($name) < $config['namemin']){
-			die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_56').' '.$config['namemin'].' '.lang('plugin/th_chat', 'jdj_th_chat_text_php_22'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);')));
+			die(json_encode(array('type'=>1,'error'=>'ห้ามตั้งชื่อ/สถานะต่ำกว่า '.$config['namemin'].' ตัวอักษร')));
 		}
 		else if(strpos($name, " ") !== FALSE){
-			die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_54'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);')));
+			die(json_encode(array('type'=>1,'error'=>'ห้ามใช้ตัวช่องว่าง!')));
 		}
 		else if(DB::fetch_first("SELECT uid FROM ".DB::table('newz_nick')." WHERE name='{$name}' AND uid!='{$cid}'")){
-			die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_15'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);')));
+			die(json_encode(array('type'=>1,'error'=>'ขออภัย ชื่อนี้มีคนอื่นใช้ไปแล้ว')));
 		}
 		else if(DB::fetch_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='{$name}' AND uid!='{$cid}'")){
-			die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_15'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);')));
+			die(json_encode(array('type'=>1,'error'=>'ขออภัย ชื่อนี้มีคนอื่นใช้ไปแล้ว')));
 		}
 		else{
 			DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,name,total,time) VALUES ('{$cid}','{$name}','1','{$time}') ON DUPLICATE KEY UPDATE name='{$name}'");
 			DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,text,time,ip) VALUES ('$cid','0','$name','$time','changename')");
 			$name = htmlspecialchars_decode($name);
-			DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','0','$icon','".lang('plugin/th_chat', 'jdj_th_chat_text_php_35').":$cid ".lang('plugin/th_chat', 'jdj_th_chat_text_php_60')." $name','$time','$ip')");
-			die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_34'),'script_add'=>1,'script'=>'nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);nzLoadText();')));
+			DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','0','$icon','เปลี่ยนชื่อ/สถานะให้กับ UID:$cid เป็น $name','$time','$ip')");
+			die(json_encode(array('type'=>1,'error'=>'เปลี่ยนชื่อหรือสถานะสำเร็จ!')));
 		}
 	}elseif(substr($text,0,4)=="!ban"&&$is_mod){
 		$uid_ban = intval(substr($text,4));
@@ -81,7 +81,7 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 			$username_ban = '@'.addslashes($username_ban['username']);
 			$icon = 'alert';
 			$touid = 0;
-			$text = $username_ban.' [color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_23').'[/color]';
+			$text = $username_ban.' [color=red]ถูกแบน[/color]';
 			$bannedq = implode(',',$banned);
 			DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$bannedq}' WHERE variable='chat_ban' AND displayorder='16' LIMIT 1");
 		}
@@ -94,7 +94,7 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 			$username_ban = '@'.addslashes($username_ban['username']);
 			$icon = 'alert';
 			$touid = 0;
-			$text = '[color=red]'.lang('plugin/th_chat', 'jdj_th_chat_text_php_28').'[/color] '.$username_ban;
+			$text = '[color=red]ปลดแบน[/color] '.$username_ban;
 			$bannedq = implode(',',$banned);
 			DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='{$bannedq}' WHERE variable='chat_ban' AND displayorder='16' LIMIT 1");
 		}
@@ -107,7 +107,7 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 			$re = DB::query("SELECT uid,point_time FROM ".DB::table('newz_nick')." WHERE uid='{$uid}'");
 			if($re = DB::fetch($re)){
 				if($time-$re['point_time']<$config['point_time']){
-					die(json_encode(array('type'=>1,'error'=>lang('plugin/th_chat', 'jdj_th_chat_text_php_12'))));
+					die(json_encode(array('type'=>1,'error'=>'คุณสามารถให้คะแนนได้ 1 ครั้งภายใน 10 วินาที')));
 				}else{
 					DB::query("UPDATE ".DB::table('newz_nick')." SET point_time='{$time}' WHERE uid='{$uid}' LIMIT 1");
 				}
@@ -160,7 +160,7 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 		}
 		$text .=' @'.get_date($time);
 		if($user['uid']!=$uid){
-			$text .=' '.lang('plugin/th_chat', 'jdj_th_chat_text_php_17').' '.$_G['username'];
+			$text .=' โดย '.$_G['username'];
 		}
 		$ip = 'edit';
 		$icon = $editid;
@@ -186,10 +186,6 @@ $text = preg_replace("/\[media=([\w,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/is", "
 $text = str_replace("[media]", "[mpopup][media=x,640,480]", $text);
 $text = str_replace("[/media]", "[/media][/mpopup]", $text);
 }
-if($config['useimg']){
-$text = str_replace("[img]", "[ipopup][img]", $text);
-$text = str_replace("[/img]", "[/img][/ipopup]", $text);
-}
 
 $query_bw = DB::query("SELECT * FROM ".DB::table('common_word'));
 while ($bw = DB::fetch($query_bw))
@@ -199,13 +195,12 @@ while ($bw = DB::fetch($query_bw))
 $text = preg_replace('/\[quota\](.*?)\[\/quota\]/', '[quota]$1[[color=#fff][/color]/quota]', $text);
 if($config['usemore']){$usemore = -$_G['groupid'];}else{$usemore = 1;}
 $text = discuzcode($text,$config['useemo'],$config['usedzc'],$config['usehtml'],1,$usemore,$config['useimg'],1,0,$config['useunshowdzc'],0, $config['mediacode']);
-$text = preg_replace('/\[ipopup\](.*?)\[\/ipopup\]/', '<div class="nzchatpopup" onclick="nzChatPopup(this)">คลิกเพื่อดูรูป</div><div class="nzchatpopuph">$1</div>', $text);
 $text = paddslashes(preg_replace('/\[mpopup\](.*?)\[\/mpopup\]/', '<div class="nzchatpopup" onclick="nzChatPopup(this)">คลิกเพื่อดูวีดีโอ</div><div class="nzchatpopuph">$1</div>', $text));
 if(($is_mod>0)&&$text=='!clear'){
 $ip = 'clear';
 $icon = 'alert';
 $touid = 0;
-$text = lang('plugin/th_chat', 'jdj_th_chat_text_php_46');
+$text = 'ล้างข้อมูล';
 $needClear = 1;
 }
 $text = getat($text);
@@ -232,7 +227,7 @@ if($needClear){
 }else{
 	DB::query("DELETE FROM ".DB::table('newz_data')." WHERE id<".($last-$config['chat_log']));
 }
-$re = DB::query("SELECT n.*,m.username AS name,mt.username AS toname,g.color,g.groupid,gt.groupid AS togroupid,gt.color AS tocolor,ni.name AS nick,nt.name AS tonick 
+$re = DB::query("SELECT n.*,m.username AS name,mt.username AS toname,g.color,gt.color AS tocolor,ni.name AS nick,nt.name AS tonick 
 FROM ".DB::table('newz_data')." n 
 LEFT JOIN ".DB::table('common_member')." m ON n.uid=m.uid 
 LEFT JOIN ".DB::table('common_member')." mt ON n.touid=mt.uid 
@@ -255,32 +250,29 @@ $c['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '$1', $c['text']);
 		DB::query("UPDATE ".DB::table('common_pluginvar')." SET value='".addslashes($c['text'])."' WHERE variable='welcometext' AND displayorder='1' LIMIT 1");
 		include_once libfile('function/cache');
 		updatecache('plugin');
-		$body[$c['id']] .= '<script>nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);nzchatobj("#nzchatnotice").html("'.addcslashes($c['text'],'"').'");</script>';
+		$body[$c['id']] .= '<script>nzchatobj("#nzchatnotice").html("'.addcslashes($c['text'],'"').'");</script>';
 		continue;
 	}elseif($c['ip'] == 'edit'){
-		$body[$c['id']] .= '<script>nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);nzchatobj("#nzchatcontent'.$c['icon'].'").html("'.addcslashes($c['text'],'"').'");</script>';
+		$body[$c['id']] .= '<script>nzchatobj("#nzchatcontent'.$c['icon'].'").html("'.addcslashes($c['text'],'"').'");</script>';
 		continue;
 	}
 	if($config['namemode']==1){$c['status'] = $c['nick'];}
 	if((strval($c['nick'])===''&&$config['namemode']==2)||$config['namemode']!=2){$c['nick'] = $c['name'];}
 	if((strval($c['tonick'])===''&&$config['namemode']==2)||$config['namemode']!=2){$c['tonick'] = $c['toname'];}
 	$c['tonick'] = htmlspecialchars_decode($c['tonick']);
-	$c['text'] .='<script type="text/javascript">nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);</script>';
 	if($c['ip']=='clear'){
 		$seedd = $time.'_'.$uid.'_'.rand(1,999);
-		$c['text'] = '<span style="color:red" id="del_'.$seedd.'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_46').'<script type="text/javascript">nzchatobj("#del_'.$seedd.'").parent().parent().parent().'.($config['chat_type']==1?'next':'prev').'Until().remove();nzchatobj("#nzsendingmsg").hide();nzchatobj("#nzcharnum").show();window.clearInterval(nzdot);</script>';
+		$c['text'] = '<span style="color:red" id="del_'.$seedd.'">แจ้งเตือน:</span> <span id="nzchatcontent'.$c['id'].'">ล้างข้อมูล<script type="text/javascript">nzchatobj("#del_'.$seedd.'").parent().parent().parent().'.($config['chat_type']==1?'next':'prev').'Until().remove();</script>';
 	}elseif($c['icon']=='alert'){
-		$c['text'] = '<span style="color:red">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = '<span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==0){
 		$c['text'] = '<span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==$uid){
-		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = ($config['pm_sound']?'<embed name="pmsoundplayer" width="0" height="0" src="source/plugin/th_chat/images/player.swf" flashvars="sFile='.$config['pm_sound'].'" menu="false" allowscriptaccess="sameDomain" swliveconnect="true" type="application/x-shockwave-flash"></embed>':'').'<span style="color:#FF9900">กระซิบถึงคุณ <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['uid']==$uid){
-		$ucolor = get_effective_colorinfo($c['touid'],$c['togroupid'],$c['tocolor']);
-		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><span style="'.$ucolor.'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></span></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = '<span style="color:#FF9900">กระซิบกับ <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
-	$ucolor = get_effective_colorinfo($c['uid'],$c['groupid'],$c['color']);
-	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$ucolor,$c['touid'],0,$c['icon'],$is_mod,$c['status']);
+	$body[$c['id']]  .= chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],0,$c['icon'],$is_mod,$c['status']);
 	if($c['ip']=='clear'){
 		break;
 	}

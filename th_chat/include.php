@@ -40,28 +40,28 @@ $chat['chat_strlen'] = $config['chat_strlen'];
 $chat['namemode'] = $config['namemode'];
 $chat['editor'] = '';
 if($config['usedzc']){
-	$chat['editor'] .= '<a href="javascript:void(0);" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_21').'" class="fbld" onclick="seditor_insertunit(\'nzchat\', \'[b]\', \'[/b]\')">B</a>
-<a href="javascript:void(0);" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_19').'" style="background-position: -40px 0px;" onclick="seditor_insertunit(\'nzchat\', \'[u]\', \'[/u]\')">U</a>
+	$chat['editor'] .= '<a href="javascript:void(0);" title="ตัวหนา" class="fbld" onclick="seditor_insertunit(\'nzchat\', \'[b]\', \'[/b]\')">B</a>
+<a href="javascript:void(0);" title="ตัวขีดเส้นใต้" style="background-position: -40px 0px;" onclick="seditor_insertunit(\'nzchat\', \'[u]\', \'[/u]\')">U</a>
 ';
-	$chat['editor'] .= '<a href="javascript:void(0);" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_50').'" class="fclr" id="nzchatforecolor" onclick="showColorBox(this.id, 2, \'nzchat\');doane(event)">Color</a>
+	$chat['editor'] .= '<a href="javascript:void(0);" title="สี" class="fclr" id="nzchatforecolor" onclick="showColorBox(this.id, 2, \'nzchat\');doane(event)">Color</a>
 ';
 }
 if($config['useimg']){
-	$chat['editor'] .= '<a id="nzchatimg" href="javascript:void(0);" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_53').'" class="fmg" onclick="seditor_insertunit(\'nzchat\', \'[img]\', \'[/img]\')">Image</a>
+	$chat['editor'] .= '<a id="nzchatimg" href="javascript:void(0);" title="ใส่รูป" class="fmg" onclick="seditor_insertunit(\'nzchat\', \'[img]\', \'[/img]\')">Image</a>
 ';
 }
 if($config['usedzc']){
-	$chat['editor'] .= '<a id="nzchaturl" href="javascript:void(0);" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_16').'" class="flnk" onclick="seditor_menu(\'nzchat\', \'url\')">Link</a>
+	$chat['editor'] .= '<a id="nzchaturl" href="javascript:void(0);" title="เชื่อมโยงลิ้งก์" class="flnk" onclick="seditor_menu(\'nzchat\', \'url\')">Link</a>
 ';
 }
 if($config['useemo']){
-	$chat['editor'] .= '<a href="javascript:void(0);" class="fsml" id="nzchatsml" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_20').'" onclick="showMenu({\'ctrlid\':this.id,\'evt\':\'click\',\'layer\':2});return false;">Smilies</a>
+	$chat['editor'] .= '<a href="javascript:void(0);" class="fsml" id="nzchatsml" title="ตัวยิ้ม" onclick="showMenu({\'ctrlid\':this.id,\'evt\':\'click\',\'layer\':2});return false;">Smilies</a>
 ';
 }
 if($config['useunshowdzc']){
-	$chat['editor'] .= '<a id="nzchatquote" href="javascript:void(0);" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'" class="fqt" onclick="seditor_menu(\'nzchat\', \'quote\')">Quote</a>
+	$chat['editor'] .= '<a id="nzchatquote" href="javascript:void(0);" title="อ้างอิง" class="fqt" onclick="seditor_menu(\'nzchat\', \'quote\')">Quote</a>
 ';
-	$chat['editor'] .= '<a id="nzchatcode" href="javascript:void(0);" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_13').'" class="fcd" onclick="seditor_menu(\'nzchat\', \'code\')">Code</a>
+	$chat['editor'] .= '<a id="nzchatcode" href="javascript:void(0);" title="โค้ด" class="fcd" onclick="seditor_menu(\'nzchat\', \'code\')">Code</a>
 ';
 	$chat['editor'] .= '<a id="nzchatat" href="javascript:void(0);" title="@" class="fat" onclick="seditor_menu(\'nzchat\', \'at\')">At</a>
 ';
@@ -77,7 +77,7 @@ background-position: -220px -20px;
 text-indent: -9999px;
 line-height: 20px;
 overflow: hidden;
-" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_39').'" onclick="seditor_insertunit(\'nzchat\', \'[audio]\', \'[/audio]\')">Audio</a>
+" title="เพลง" onclick="seditor_insertunit(\'nzchat\', \'[audio]\', \'[/audio]\')">Audio</a>
 <a id="nzchatvideo" href="javascript:void(0);" style="
 float: left;
 margin: 2px 5px 0 0;
@@ -88,7 +88,7 @@ background-position: -240px -20px;
 text-indent: -9999px;
 line-height: 20px;
 overflow: hidden;
-" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_48').'" onclick="seditor_insertunit(\'nzchat\', \'[media]\', \'[/media]\')">Video</a>
+" title="วีดีโอ" onclick="seditor_insertunit(\'nzchat\', \'[media]\', \'[/media]\')">Video</a>
 <a id="nzchatflash" href="javascript:void(0);" style="
 float: left;
 margin: 2px 5px 0 0;
@@ -99,7 +99,7 @@ background-position: -260px -20px;
 text-indent: -9999px;
 line-height: 20px;
 overflow: hidden;
-" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_41').'" onclick="seditor_insertunit(\'nzchat\', \'[flash]\', \'[/flash]\')">Flash</a>
+" title="แฟลช" onclick="seditor_insertunit(\'nzchat\', \'[flash]\', \'[/flash]\')">Flash</a>
 ';
 }
 if($config['usemore']){
@@ -118,7 +118,7 @@ if($config['usemore']){
 	}
 }
 if(in_array($_G['adminid'],array(1,2,3))){
-		$chat['editor'] .= '<a href="javascript:void(0);" onClick="nzCommand(\'clear\',\'\');" title="'.lang('plugin/th_chat', 'jdj_th_chat_text_php_47').'" style="width:20px;height:20px;background:url(source/plugin/th_chat/images/clear.png) no-repeat center">Clear</a>';
+		$chat['editor'] .= '<a href="javascript:void(0);" onClick="nzCommand(\'clear\',\'\');" title="ล้างห้องแชท" style="width:20px;height:20px;background:url(source/plugin/th_chat/images/clear.png) no-repeat center">Clear</a>';
 }
 $chat['welcometext'] = $config['welcometext'];
 $chat['sort'] = $config['chat_type'];

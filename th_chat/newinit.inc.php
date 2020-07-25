@@ -5,7 +5,7 @@ $config = $_G['cache']['plugin']['th_chat'];
 $uid = $_G['uid'];
 $is_mod = in_array($_G['adminid'],array(1,2,3));
 include 'functions.php';
-$re = DB::query("SELECT n.*,m.username AS name,mt.username AS toname,g.color,g.groupid,gt.groupid AS togroupid,gt.color AS tocolor,ni.name AS nick,nt.name AS tonick 
+$re = DB::query("SELECT n.*,m.username AS name,mt.username AS toname,g.color,gt.color AS tocolor,ni.name AS nick,nt.name AS tonick 
 FROM ".DB::table('newz_data')." n 
 LEFT JOIN ".DB::table('common_member')." m ON n.uid=m.uid 
 LEFT JOIN ".DB::table('common_member')." mt ON n.touid=mt.uid 
@@ -36,19 +36,17 @@ while($c = DB::fetch($re)){
 	$c['tonick'] = htmlspecialchars_decode($c['tonick']);
 	if($c['ip']=='clear'){
 		$seedd = $time.'_'.$uid.'_'.rand(1,999);
-		$c['text'] = '<span style="color:red" id="del_'.$seedd.'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_46').'';
+		$c['text'] = '<span style="color:red" id="del_'.$seedd.'">แจ้งเตือน:</span> <span id="nzchatcontent'.$c['id'].'">ล้างข้อมูล';
 	}elseif($c['icon']=='alert'){
-		$c['text'] = '<span style="color:red">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_14').'</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = '<span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==0){
 		$c['text'] = '<span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['touid']==$uid){
-		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_03').' <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = '<span style="color:#FF9900">กระซิบถึงคุณ <a href="javascript:;" onClick="nzTouid('.$c['uid'].')">(ตอบกลับ)</a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}elseif($c['uid']==$uid){
-		$ucolor = get_effective_colorinfo($c['touid'],$c['togroupid'],$c['tocolor']);
-		$c['text'] = '<span style="color:#FF9900">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_02').' <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><span style="'.$ucolor.'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></span></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
+		$c['text'] = '<span style="color:#FF9900">กระซิบกับ <a href="home.php?mod=space&uid='.$c['touid'].'" class="nzca" target="_blank"><font color="'.$c['tocolor'].'"><span class="nzuname_'.$c['touid'].'">'.$c['tonick'].'</span></font></a>:</span> <span id="nzchatcontent'.$c['id'].'">' . $c['text'];
 	}
-	$ucolor = get_effective_colorinfo($c['uid'],$c['groupid'],$c['color']);
-	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$ucolor,$c['touid'],1,$c['icon'],$is_mod,$c['status']);
+	$body[] = chatrow($c['id'],$c['text'],$c['uid'],$c['name'],$c['nick'],$c['time'],$c['color'],$c['touid'],1,$c['icon'],$is_mod,$c['status']);
 	if($c['ip']=='clear'){
 		break;
 	}

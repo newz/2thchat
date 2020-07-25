@@ -21,22 +21,22 @@ $name = paddslashes(htmlspecialchars(preg_replace("/<script[^\>]*?>(.*?)<\/scrip
 $name= paddslashes(htmlspecialchars(strip_tags(htmlspecialchars_decode($name))));
 }
 if($name===''){
-	die(lang('plugin/th_chat', 'jdj_th_chat_text_php_06'));
+	die('กรุณาใส่ชื่อ');
 }
 if($config['namemax']!=0 && dstrlen($name) > $config['namemax']){
-	die(lang('plugin/th_chat', 'jdj_th_chat_text_php_55').' '.$config['namemax'].' '.lang('plugin/th_chat', 'jdj_th_chat_text_php_22'));
+	die('ห้ามตั้งชื่อ/สถานะเกิน '.$config['namemax'].' ตัวอักษร');
 }
 if(dstrlen($name) < $config['namemin']){
-	die(lang('plugin/th_chat', 'jdj_th_chat_text_php_56').' '.$config['namemin'].' '.lang('plugin/th_chat', 'jdj_th_chat_text_php_22'));
+	die('ห้ามตั้งชื่อ/สถานะต่ำกว่า '.$config['namemin'].' ตัวอักษร');
 }
 if(strpos($name, " ") !== FALSE){
-	die(lang('plugin/th_chat', 'jdj_th_chat_text_php_54'));
+	die('ห้ามใช้ตัวช่องว่าง!');
 }
 if(DB::fetch_first("SELECT uid FROM ".DB::table('newz_nick')." WHERE name='{$name}' AND uid!='{$uid}'")){
-	die(lang('plugin/th_chat', 'jdj_th_chat_text_php_15'));
+	die('ขออภัย ชื่อนี้มีคนอื่นใช้ไปแล้ว');
 }
 if(DB::fetch_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='{$name}' AND uid!='{$uid}'")){
-	die(lang('plugin/th_chat', 'jdj_th_chat_text_php_15'));
+	die('ขออภัย ชื่อนี้มีคนอื่นใช้ไปแล้ว');
 }
 if($is_mod)
 {
