@@ -5,13 +5,6 @@ if(!defined('IN_DISCUZ')) {
 loadcache('plugin');
 $chat = array();
 $config = $_G['cache']['plugin']['th_chat'];
-if($_G['uid']){
-	if(!in_array($_G['groupid'],unserialize($config['allow_group']))){
-		$permission = true;
-	}else{
-		$permission = false;
-	}
-}
 $chat['bgcss'] = 'background:#EEE';
 if($config['chat_bg']){
 	$chat['bgcss'] .= ' url('.$config['chat_bg'].')';

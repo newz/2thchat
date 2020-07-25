@@ -8,9 +8,6 @@ $is_mod = in_array($_G['adminid'],array(1,2,3));
 if($uid<1){
 	die('Login');
 }
-if(!in_array($_G['groupid'],unserialize($config['allow_group']))){
-	die('no_permission');
-}
 if (!get_magic_quotes_gpc()) {
 	$name = stripslashes($_POST['new']);
 }

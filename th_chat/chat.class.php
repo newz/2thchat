@@ -7,6 +7,7 @@ class plugin_th_chat_forum{
 		global $_G;
 		include 'include.php';
 		include template('th_chat:discuz');
+		$formhash = formhash();
 		return $return;
 	}
 }
