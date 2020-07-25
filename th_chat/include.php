@@ -5,7 +5,7 @@ if(!defined('IN_DISCUZ')) {
 loadcache('plugin');
 $chat = array();
 $config = $_G['cache']['plugin']['th_chat'];
-$chat['bgcss'] = 'background:#eaeaea;';
+$chat['bgcss'] = 'background: ';
 if($config['chat_bg']){
 	$chat['bgcss'] .= ' url('.$config['chat_bg'].')';
 	switch($config['chat_bgpos']){
@@ -27,7 +27,7 @@ if($config['chat_bg']){
 	}
 	$chat['bgcss'] .= ' '.$x.' '.$y;
 }
-$chat['bgcss'] .= ';';
+$chat['bgcss'] .= ' #eaeaea;';
 $chat['delay'] = intval($config['chat_delay']);
 $chat['reload'] = intval($config['chat_reload']);
 $chat['guest_show'] = $config['guest_show'];
