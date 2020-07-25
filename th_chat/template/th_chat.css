@@ -59,9 +59,7 @@ table#nzchattable td {
     clear: both;
     padding: 8px;
     height: 16px;
-    border-radius: 2px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+    border-radius: 4px;
 }
 
 .nzchatanno a {
@@ -112,10 +110,10 @@ table#nzchattable td {
 #nzchatmessage {
     border: 1px solid rgb(204, 204, 204);
     line-height: normal;
-    border-radius: 2px;
+    border-radius: 4px;
     width: 100%;
     box-sizing: border-box;
-    padding: 5px;
+    padding: 5px 7px;
 }
 
 #n_copyright a {
@@ -219,8 +217,6 @@ table.nzcallrow td {
     width: 21px;
     height: 21px;
     transition: opacity .25s ease-in-out;
-    -moz-transition: opacity .25s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
     cursor: pointer;
 }
 
@@ -235,10 +231,6 @@ table.nzcallrow td {
     text-align: center;
     padding-top: 12px;
     border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -moz-box-shadow: 5px 5px 5px #ccc;
-    -webkit-box-shadow: 5px 5px 5px #ccc;
     box-shadow: 5px 5px 5px #ccc
 }
 
@@ -284,8 +276,6 @@ tr.nzchatrow td {}
     display: inline-block;
     border: 1px solid #999;
     background: #E5E5E5 url('../../../../static/image/common/pn.png') repeat-x 0 0;
-    -moz-box-shadow: 0 1px 0 #E5E5E5;
-    -webkit-box-shadow: 0 1px 0 #E5E5E5;
     box-shadow: 0 1px 0 #E5E5E5;
     cursor: pointer;
     font-size: 13px;
@@ -440,9 +430,9 @@ tr.nzchatrow td {}
     width: 24px;
     height: 24px;
 	margin-right: 2px;
-    background: url('../../../../source/plugin/th_chat/images/img.png');
+    background: url('../../../../source/plugin/th_chat/images/img.png') #fff;
 	border: 1px solid #ccc;
-	border-radius: 2px;
+	border-radius: 4px;
 	padding-right: 2px;
 }
 
@@ -455,9 +445,9 @@ tr.nzchatrow td {}
     cursor: pointer;
     width: 24px;
     height: 24px;
-    background: url('../../../../source/plugin/th_chat/images/emoji.png');
+    background: url('../../../../source/plugin/th_chat/images/emoji.png') #fff;
 	border: 1px solid #ccc;
-	border-radius: 2px;
+	border-radius: 4px;
 }
 
 .nzolname {
@@ -492,7 +482,7 @@ tr.nzchatrow td {}
 .nztoolbar{
 	background:#eaeaea;
 	border: #CCC 1px solid;
-	border-radius:2px;
+	border-radius:4px;
 }
 
 .nzcancel {
@@ -515,6 +505,7 @@ tr.nzchatrow td {}
 	padding: 2px 6px;
 	margin-right: 4px;
 	margin-left: -6px;
+	text-shadow:none;
 }
 
 .nztag2 {
