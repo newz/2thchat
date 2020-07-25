@@ -9,7 +9,7 @@ $dataarr = array(
 'ip3'=>$ip3,
 'ip4'=>$ip4,
 'uid'=>$_G['member']['uid'],
-'username'=>daddslashes($_G['member']['username']),
+'username'=>paddslashes($_G['member']['username']),
 'groupid'=>$_G['member']['groupid'],
 'invisible'=>$_G['member']['invisible'],
 'action'=>APPTYPEID,
@@ -39,14 +39,14 @@ $banned = DB::fetch($banned);
 eval("\$banned = array({$banned['value']});");
 
 if($config['chat_point']){
-	$re = DB::query("SELECT s.uid,s.username,s.groupid,s.lastactivity,g.color,n.name,p.extcredits{$config['chat_point']} AS point FROM ".DB::table('common_session')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid LEFT JOIN ".DB::table('common_member_count')." p ON s.uid=p.uid WHERE s.uid>0 AND invisible=0 AND action IN (2,127) AND fid=0 AND tid=0");
+	$re = DB::query("SELECT s.uid,s.username,s.groupid,s.lastactivity,g.color,n.name,n.point_total".($config['chat_point']!='9'?",p.extcredits{$config['chat_point']} AS point":"")." FROM ".DB::table('common_session')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid LEFT JOIN ".DB::table('common_member_count')." p ON s.uid=p.uid WHERE s.uid>0 AND invisible=0 AND action IN (2,127) AND fid=0 AND tid=0");
 	if(!empty($config['onlinebot'])){
-		$re2 = DB::query("SELECT s.uid,s.username,s.groupid,g.color,n.name,p.extcredits{$config['chat_point']} AS point FROM ".DB::table('common_member')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid LEFT JOIN ".DB::table('common_member_count')." p ON s.uid=p.uid WHERE s.uid IN (".$config['onlinebot'].")");
+		$re2 = DB::query("SELECT s.uid,s.username,s.groupid,g.color,n.name,n.point_total".($config['chat_point']!='9'?",p.extcredits{$config['chat_point']} AS point":"")." FROM ".DB::table('common_member')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid LEFT JOIN ".DB::table('common_member_count')." p ON s.uid=p.uid WHERE s.uid IN (".$config['onlinebot'].")");
 	}
 }else{
-	$re = DB::query("SELECT s.uid,s.username,s.groupid,s.lastactivity,g.color,n.name FROM ".DB::table('common_session')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid WHERE s.uid>0 AND invisible=0 AND action IN (2,127) AND fid=0 AND tid=0");
+	$re = DB::query("SELECT s.uid,s.username,s.groupid,s.lastactivity,g.color,n.name,n.point_total FROM ".DB::table('common_session')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid WHERE s.uid>0 AND invisible=0 AND action IN (2,127) AND fid=0 AND tid=0");
 	if(!empty($config['onlinebot'])){
-		$re2 = DB::query("SELECT s.uid,s.username,s.groupid,g.color,n.name FROM ".DB::table('common_member')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid WHERE s.uid IN (".$config['onlinebot'].")");
+		$re2 = DB::query("SELECT s.uid,s.username,s.groupid,g.color,n.name,n.point_total FROM ".DB::table('common_member')." s LEFT JOIN ".DB::table('common_usergroup')." g ON s.groupid=g.groupid LEFT JOIN ".DB::table('newz_nick')." n ON s.uid=n.uid WHERE s.uid IN (".$config['onlinebot'].")");
 	}
 }
 while($r = DB::fetch($re) OR $r = DB::fetch($re2)){
@@ -70,10 +70,25 @@ while($r = DB::fetch($re) OR $r = DB::fetch($re2)){
 	}
 	$r['name'] = stripslashes($r['name']);
 	if($config['chat_point']){
-		if($r['point']<0){
-			$r['point'] = '<font color="red">'.$r['point'].'</font>';
-		}elseif($r['point']>0){
-			$r['point'] = '<font color="green">+'.$r['point'].'</font>';
+		if($config['chat_point']!='9'){
+			if($r['point']<0){
+				$r['point'] = '<font color="red">'.$r['point'].'</font>';
+			}elseif($r['point']>0){
+				$r['point'] = '<font color="green">+'.$r['point'].'</font>';
+			}else{
+				$r['point'] = '<font color="green">'.$r['point'].'</font>';
+			}
+		}else{
+			if(empty($r['point_total'])){
+				$r['point_total'] = 0;
+			}
+			if($r['point_total']<0){
+				$r['point'] = '<font color="red">'.$r['point_total'].'</font>';
+			}elseif($r['point_total']>0){
+				$r['point'] = '<font color="green">+'.$r['point_total'].'</font>';
+			}else{
+				$r['point'] = '<font color="green">'.$r['point_total'].'</font>';
+			}
 		}
 	}
 

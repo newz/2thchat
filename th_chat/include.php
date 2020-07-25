@@ -5,7 +5,7 @@ if(!defined('IN_DISCUZ')) {
 loadcache('plugin');
 $chat = array();
 $config = $_G['cache']['plugin']['th_chat'];
-$chat['bgcss'] = 'background:#FFF';
+$chat['bgcss'] = 'background:#EEE';
 if($config['chat_bg']){
 	$chat['bgcss'] .= ' url('.$config['chat_bg'].')';
 	switch($config['chat_bgpos']){
@@ -36,7 +36,6 @@ $chat['iscleardata'] = $config['typechatrow'];
 $chat['autoconnect'] = $config['autoconnect'];
 $chat['upicme'] = $config['upicme'];
 $chat['quota'] = $config['quota'];
-$chat['oldcommand'] = $config['oldcommand'];
 $chat['chat_strlen'] = $config['chat_strlen'];
 $chat['namemode'] = $config['namemode'];
 $chat['editor'] = '';

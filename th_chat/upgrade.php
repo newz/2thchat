@@ -7,11 +7,15 @@ if (! defined ( 'IN_DISCUZ' )) {
 }
 
 if ($_GET['fromversion'] <= "1.11") {
-	//$var1= DB::table('dbtb1');
-	//$var2 = DB::table('dbtb2');
 	$sql = <<<EOF
 ALTER TABLE  `pre_newz_data` CHANGE  `icon`  `icon` MEDIUMTEXT NOT NULL;
 ALTER TABLE  `pre_newz_nick` ADD  `sound_1` INT(1) NOT NULL DEFAULT 0, ADD  `sound_2` INT(1) NOT NULL DEFAULT 1;
+EOF;
+	runquery($sql);
+}
+if ($_GET['fromversion'] <= "2.10") {
+	$sql = <<<EOF
+ALTER TABLE  `pre_newz_nick` CHANGE  `point_total`  `point_total` SMALLINT(3) NOT NULL DEFAULT 0;
 EOF;
 	runquery($sql);
 }

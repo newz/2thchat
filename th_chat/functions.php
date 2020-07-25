@@ -53,20 +53,28 @@ function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is
 	if($icon=='alert')
 	{
 		$icon=$icon?img('alert', '/', lang('plugin/th_chat', 'jdj_th_chat_text_php_14')).' ':'';
+		$type='border-color: transparent #F00;';
+		$type2='border-left: 3px solid #F00;';
 	}else if($icon=='bot')
 	{
 		$icon=$icon?img('bot', '/', lang('plugin/th_chat', 'jdj_th_chat_text_php_58')).' ':'';
+		$type='border-color: transparent #5C5C5C;';
+		$type2='border-left: 3px solid #5C5C5C;';
 	}else{
 		$icons = explode("|", $icon,3);
 		$icon=$icon?img($icons[2], '/'.$icons[0].'/', $icons[1]).' ':'';
 	}
+	if($touid){
+		$type='border-color: transparent #F90;';
+		$type2='border-left: 3px solid #F90;';
+	}
 	$username = htmlspecialchars_decode($username);
 	$status = htmlspecialchars_decode($status);
-	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'inline\');" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'none\');" '.($is_init&&$touid?' style="background:#eef6ff;"':'').'>
+	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'inline\');" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').css(\'display\',\'none\');">
 <td class="nzavatart"><a href="'.avatar($uid_p,'big',1).'" target="_blank"><img src="'.avatar($uid_p,'small',1).'" alt="avatar" class="nzchatavatar" onError="this.src=\'uc_server/images/noavatar_small.gif\';" /></a></td>
-<td class="nzcontentt"><div class="nzinnercontent"><span id="nzchatquota'.$id.'" class="nzcq">'.($uid!=$uid_p?'<a href="javascript:void(0);" onClick="nzAt(\''.$oldusername.'\');">@</a> ':'').'<a href="javascript:void(0);" onClick="nzQuota('.$id.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'</a>'.($uid!=$uid_p?' <a href="javascript:void(0);" onClick="nzTouid('.$uid_p.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_01').'</a>':'').(($config['chat_point']&&($uid!=$uid_p))?' <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',1);" style="color:green">+1</a> <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',-1);" style="color:red">-1</a>':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_08').'</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_43').'</a>':'').'</span>
-<span>'.$icon.'<a href="home.php?mod=space&uid='.$uid_p.'" class="nzca" target="_blank"><font color="'.$color.'"><span class="nzuname_'.$uid_p.'">'.$username.'</span></font></a>'.(($config['verifyicon_contentchat']==1)?''.$thzaa_verify[$uid_p].'':'').' <span id="nzstatus" class="nzustatus_'.$uid_p.'">'.$status.'</span> ('.get_date($time).')</span><br />
-'.$text.'</span>'.($is_init?'':($touid?'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#BBB\').animate({ backgroundColor: \'#eef6ff\' }, 500,function(){nzchatobj("#nzrows_'.$id.'").css(\'background\',\'url(source/plugin/th_chat/images/bg.png) repeat\')});</script>':'<script>nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'#DDD\').animate({ backgroundColor: \'#FFF\' }, 500 ,function(){nzchatobj("#nzrows_'.$id.'").css(\'backgroundColor\',\'transparent\')});</script>')).'</div></td>
+<td class="nzcontentt"><div class="nzinnercontent-before" style="'.$type.'"></div><div class="nzinnercontent" style="'.$type2.'"><span id="nzchatquota'.$id.'" class="nzcq">'.($uid!=$uid_p?'<a href="javascript:void(0);" onClick="nzAt(\''.$oldusername.'\');">@</a> ':'').'<a href="javascript:void(0);" onClick="nzQuota('.$id.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_59').'</a>'.($uid!=$uid_p?' <a href="javascript:void(0);" onClick="nzTouid('.$uid_p.')">'.lang('plugin/th_chat', 'jdj_th_chat_text_php_01').'</a>':'').(($config['chat_point']&&($uid!=$uid_p))?' <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',1);" style="color:green">+1</a> <a href="javascript:void(0);" onClick="nzPlusone('.$uid_p.',-1);" style="color:red">-1</a>':'').((($config['editmsg']==1)&&$mod)||(($config['editmsg']==2)&&$mod&&($uid==$uid_p))||(($config['editmsg']==3)&&($uid==$uid_p))?' <a href="javascript:;" onClick=\'nzCommand("edit","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_08').'</a>':'').($mod?' <a href="javascript:;" onClick=\'nzCommand("del","'.$id.'");\'>'.lang('plugin/th_chat', 'jdj_th_chat_text_php_43').'</a>':'').'</span>
+<span><a href="home.php?mod=space&uid='.$uid_p.'" class="nzca" target="_blank"><font color="'.$color.'">'.$icon.'<span class="nzuname_'.$uid_p.'">'.$username.'</span></font></a>'.(($config['verifyicon_contentchat']==1)?''.$thzaa_verify[$uid_p].'':'').' <span id="nzstatus" class="nzustatus_'.$uid_p.'">'.$status.'</span> ('.get_date($time).')</span><br />
+'.$text.'</span>'.($is_init?'':($touid?'<script></script>':'<script></script>')).'</div></td>
 </tr>';
 }
 function get_date($timestamp) 

@@ -29,9 +29,18 @@ border:#7fcae2 1px solid;
 background:#ebf2f8;
 }
 #nzchatcontent{
-padding:4px;
 overflow-y:scroll;
 overflow-x:hidden;
+}
+.nzinnercontent-before{
+content: '';
+position: relative;
+border-style: solid;
+border-width: 7px 10px 7px 0;
+border-color: transparent #00ABFF;
+display: block;
+width: 0;
+top: 15px;
 }
 #nzchatolcontent{
 width:203px;
@@ -48,11 +57,20 @@ padding: 5px;
 .nzchatavatar{
 height:30px;
 width:30px;
-padding:2px;
 border:#dddbd3 1px solid;
-margin-right:4px;
+margin-top:5px;
+margin-left:4px;
 border-radius: 21px;
 }
+div.child {
+   position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   opacity: .6;
+   background: #fff;
+} 
 #afterme{
 width:704px;
 }
@@ -108,7 +126,6 @@ margin-bottom:8px;
 }
 tr.nzchatrow td{
 padding:2px 0;
-border-bottom:1px dashed #E1E1E1;
 }
 #nzchatolcontent li{
 list-style:none;
@@ -131,6 +148,15 @@ color: #333;
 #nzchat a.nzbtn:hover{ text-decoration:none;color:#666;}
 #nzchat a.nzbtn:active{ background:#CCC;color:#333;}
 .nzinnercontent{
+position: relative;
+width: auto;
+height: auto;
+padding: 0px;
+margin-left: 8px;
+background: #FFF;
+padding: 3px;
+border-left: 3px solid #00ABFF;
+margin-top:-13px;
 word-break: break-all;
 }
 #nzosicon{

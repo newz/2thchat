@@ -2,6 +2,9 @@
 if (!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
+if($_G['uid']<1){
+	exit('Please Login');
+}
 if($_POST['sound_1']!=""&&$_POST['sound_2']!="")
 {
 	DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,name,total,time,sound_1,sound_2) VALUES ('{$_G['uid']}','{$_G['username']}','0','".time()."',{$_POST['sound_1']},{$_POST['sound_2']}) ON DUPLICATE KEY UPDATE  sound_1='{$_POST['sound_1']}',sound_2='{$_POST['sound_2']}'");
@@ -14,6 +17,17 @@ if($_POST['sound_1']!=""&&$_POST['sound_2']!="")
 ?>
 <html>
 <title><?=lang('plugin/th_chat', 'jdj_th_chat_text_php_18');?></title>
+<style>
+.command {
+padding: 1px;
+border-radius: 3px;
+color: #FFF;
+background-color: gold;
+}
+a {
+cursor: pointer;
+}
+</style>
 <body style="font-size: 14px;background-color: #f5f5f5;">
 <center><h3><?=lang('plugin/th_chat', 'jdj_th_chat_text_php_18');?></h3><br/>
 <form action="" method="post">
@@ -55,6 +69,31 @@ color: #fff;" onClick="window.close();"></td>
 </tr>
 </table>
 </form>
+<br>
+<h3>คำสั่งในห้องแชท</h3>
+<?
+if(in_array($_G['adminid'],array(1,2,3)))
+{
+echo '
+<span class="command"><strong>!clear</strong></span> ล้างข้อความทั้งหมดในห้องแชท<br/><br/>
+<span class="command"><strong>!ban <a title="หมายเลข UID ของผู้ที่ต้องการแบน" style="color:red">UID</a></strong></span> แบนผู้ใช้<br/><br/>
+<span class="command"><strong>!unban <a title="หมายเลข UID ของผู้ที่ต้องการปลดแบน" style="color:red">UID</a></strong></span> ปลดแบนผู้ใช้<br/><br/>
+<span class="command"><strong>!del <a title="หมายเลข ID ของข้อความที่ต้องการลบ" style="color:red">ID</a></strong></span> ลบข้อความ<br/><br/>
+<span class="command"><strong>!name <a title="หมายเลข UID ของผู้ที่ต้องเปลี่ยนชื่อให้" style="color:red">UID</a>|:|<a title="ชื่อที่ต้องการเปลี่ยนให้" style="color:red">NAME</a></strong></span> เปลี่ยนชื่อให้สมาชิก<br/><br/>
+';
+}
+loadcache('plugin');
+$config = $_G['cache']['plugin']['th_chat'];
+if($config['chat_point'])
+{
+echo '<span class="command"><strong>!point <a title="หมายเลข UID ของผู้ที่ต้องการให้คะแนน" style="color:red">UID</a>|<a title="จำนวนคะแนนที่ต้องการให้" style="color:blue">POINT</a>|<a title="เหตุผลของการให้คะแนน" style="color:#2E8B57">REASON</a></strong></span> เพิ่มคะแนนให้แก่ผู้ใช้<br/>';
+if(!in_array($_G['adminid'],array(1,2,3)))
+{
+echo '<font color="blue">point</font> จะต้องเป็น "1" หรือ "-1" เท่านั้น<br/>
+';
+}
+}
+?>
 </center>
 </body>
 </html>

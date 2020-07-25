@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
-	<item id="Version"><![CDATA[X3.1]]></item>
+	<item id="Version"><![CDATA[X3.0,X3.1,X3.2]]></item>
 	<item id="Time"><![CDATA[2014-4-12 00:00]]></item>
 	<item id="From"><![CDATA[2th (http://2th.me)]]></item>
 	<item id="Data">
@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[th_chat/]]></item>
 			<item id="copyright"><![CDATA[newz]]></item>
-			<item id="version"><![CDATA[2.10]]></item>
+			<item id="version"><![CDATA[2.11]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[chat]]></item>
@@ -38,7 +38,7 @@
 				</item>
 			</item>
 		</item>
-		<item id="version"><![CDATA[X3.1]]></item>
+		<item id="version"><![CDATA[X3.0,X3.1,X3.2]]></item>
 		<item id="license"><![CDATA[1. เนื้อหาซอฟแวร์ของเราดาวน์โหลดฟรีได้ที่ www.discuzthai.com
 2. คุณไม่มีสิทธิ์ ลบหรือดัดแปลง ลิ้งก์ และเนื่อหาในส่วน copyright ไม่ว่าจะดัดแปลง เนื้อหาซอฟแวร์ไปเพียงใดก็ตาม]]></item>
 		<item id="installfile"><![CDATA[install.php]]></item>
@@ -146,7 +146,17 @@
 5 = ใช้ extcredits5
 6 = ใช้ extcredits6
 7 = ใช้ extcredits7
-8 = ใช้ extcredits8]]></item>
+8 = ใช้ extcredits8
+9 = ใช้ POINT สำหรับห้องแชท]]></item>
+			</item>
+			<item id="36">
+				<item id="displayorder"><![CDATA[10]]></item>
+				<item id="title"><![CDATA[ดีเลย์การให้ chatpoint]]></item>
+				<item id="description"><![CDATA[หน่วยเป็นวินาที]]></item>
+				<item id="variable"><![CDATA[point_time]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[10]]></item>
+				<item id="extra"><![CDATA[]]></item>
 			</item>
 			<item id="9">
 				<item id="displayorder"><![CDATA[10]]></item>
@@ -344,15 +354,6 @@
 				<item id="value"><![CDATA[0]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="28">
-				<item id="displayorder"><![CDATA[29]]></item>
-				<item id="title"><![CDATA[ใช้งานคำสั่งแบบเก่า]]></item>
-				<item id="description"><![CDATA[คำสั่งเขียนมือจะทำงานได้หากเปิดออฟชั่นนี้]]></item>
-				<item id="variable"><![CDATA[oldcommand]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[1]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
 			<item id="31">
 				<item id="displayorder"><![CDATA[30]]></item>
 				<item id="title"><![CDATA[การแก้ไขข้อความ]]></item>
@@ -505,6 +506,8 @@
 				<item id="jdj_th_chat_text_htm_36"><![CDATA[เปลี่ยนสถานะ]]></item>
 				<item id="jdj_th_chat_text_htm_37"><![CDATA[ใส่สถานะใหม่]]></item>
 				<item id="jdj_th_chat_text_htm_38"><![CDATA[เปลี่ยนสถานะใหม่แล้ว]]></item>
+				<item id="jdj_th_chat_text_htm_39"><![CDATA[แก้ไข]]></item>
+				<item id="jdj_th_chat_text_htm_40"><![CDATA[กำลังโหลดประกาศล่าสุด...]]></item>
 			</item>
 		</item>
 
