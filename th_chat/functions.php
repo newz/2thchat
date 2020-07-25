@@ -3,12 +3,10 @@ function getat($attextn){
 	global $config;
 	if(preg_match_all('/@(.*?)(\s|\z)/',$attextn,$atmatch)) {
         foreach ($atmatch[1] as $atvalue) {
-    		$atuser = DB::query("SELECT m.uid,m.groupid,g.color,n.name FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.username='{$atvalue}' LIMIT 1");
+    		$atuser = DB::query("SELECT m.uid,m.groupid,g.color FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.username='{$atvalue}' LIMIT 1");
 			$atuser = DB::fetch($atuser);
-			if($atuser&&!empty($atuser['name'])&&$config['namemode']==2){
-				$attext = paddslashes('<a class="nzuserat nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atvalue.'\');"><font color="'.$atuser['color'].'">'.htmlspecialchars_decode($atuser['name']).'</font></a> ');
-			}else if($atuser){
-				$attext = paddslashes('<a class="nzuserat nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atvalue.'\');"><font color="'.$atuser['color'].'">'.$atvalue.'</font></a> ');
+			if($atuser){
+				$attext = paddslashes('<a class="nzuserat nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atvalue.'\');"'.($atuser['color']?' style="background:'.$atuser['color'].'"':'').'>@'.$atvalue.'</a> ');
 			}else{
 				$attext = '@'.$atvalue;
 			}
@@ -19,13 +17,16 @@ function getat($attextn){
 }
 function getat2($uid){
 	global $config;
-	$atuser = DB::query("SELECT m.uid,m.username,m.groupid,g.color,n.name FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('newz_nick')." n ON m.uid=n.uid LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid}' LIMIT 1");
+	$atuser = DB::query("SELECT m.uid,m.username,m.groupid,g.color FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid}' LIMIT 1");
 	$atuser = DB::fetch($atuser);
-	if(!empty($atuser['name'])&&$config['namemode']==2){
-		$attext = '<a class="nzuserat nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atuser['username'].'\');"><font color="'.$atuser['color'].'">'.htmlspecialchars_decode($atuser['name']).'</font></a>';
-	}else{
-		$attext = '<a class="nzuserat nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atuser['username'].'\');"><font color="'.$atuser['color'].'">'.$atuser['username'].'</font></a>';
-	}
+	$attext = '<a class="nzuserat2 nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atuser['username'].'\');"'.($atuser['color']?' style="color:'.$atuser['color'].'"':'').'>'.$atuser['username'].'</a>';
+	return $attext;
+}
+function getat3($uid){
+	global $config;
+	$atuser = DB::query("SELECT m.uid,m.username,m.groupid,g.color FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid WHERE m.uid='{$uid}' LIMIT 1");
+	$atuser = DB::fetch($atuser);
+	$attext = '<a class="nzuserat nzat_'.$atuser['uid'].'" onclick="nzAt(\''.$atuser['username'].'\');"'.($atuser['color']?' style="background:'.$atuser['color'].'"':'').'>'.$atuser['username'].'</a>';
 	return $attext;
 }
 function getquota($quota){
@@ -34,12 +35,12 @@ function getquota($quota){
 	{
 		$quo = DB::fetch($quo);
 		$quo['text'] = preg_replace('/\[quota\](.*?)\[\/quota\]/', '', $quo['text']);
-		$attext = getat2($quo['uid']);
+		$attext = getat3($quo['uid']);
 		$text = '[quota]'.paddslashes('<blockquote class="nzblockquote">'.$attext.': '.$quo['text'].'</blockquote>').'[/quota]';
 	}
 	return $text;
 }
-function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is_init,$icon,$mod,$status){
+function chatrow($id,$text,$uid_p,$username,$time,$touid,$is_init,$icon,$mod){
 	global $uid,$config,$_G;
 	if($icon=='alert')
 	{
@@ -56,8 +57,6 @@ function chatrow($id,$text,$uid_p,$oldusername,$username,$time,$color,$touid,$is
 	if($touid){
 		$type2='border-color: #F90;';
 	}
-	$username = htmlspecialchars_decode($username);
-	$status = htmlspecialchars_decode($status);
 	return '<tr class="nzchatrow" id="nzrows_'.$id.'" onMouseOver="nzchatobj(\'#nzchatquota'.$id.'\').show();" onMouseOut="nzchatobj(\'#nzchatquota'.$id.'\').hide();">
 <td class="nzavatart"><a href="javascript:void(0);" onclick="showWindow(\'th_chat_profile\', \'plugin.php?id=th_chat:profile&uid='.$uid_p.'\');return false;"><img src="'.avatar($uid_p,'small',1).'" title="'.$username.'" class="nzchatavatar nzchatavatar'.$uid_p.'" onError="this.src=\'uc_server/images/noavatar_small.gif\';" /></a></td>
 <td class="nzcontentt"></div><div class="nzinnercontent" style="'.$type2.'">

@@ -78,15 +78,21 @@ overflow-y:scroll;
 	font-weight: bold;
 	cursor: pointer;
 	background: #e7edf3;
-	color: #667d99;
+	color: #fff !important;
 	border-radius: 4px;
 	padding: 2px 5px;
 	border: 0 !important;
 }
+.nzuserat2{
+	font-weight: bold;
+	cursor: pointer;
+	padding: 2px 5px;
+}
 #nzchatmessage{
 border: 1px solid rgb(204, 204, 204);
 line-height: normal;
-border-radius: 2px;
+border-bottom-left-radius: 2px;
+border-top-left-radius: 2px;
 width: 100%;
 box-sizing: border-box;
 padding: 5px;
@@ -251,9 +257,10 @@ word-break: break-all;
 	border-radius: 4px;
 	text-align: center;
 	margin-top:6px;
+	color: #fff !important;
 }
 .nznametop span, .nznametop2 span{
-	color: #fff;
+	color: #fff !important;
 }
 .nzlist{
 	overflow:hidden;
@@ -292,4 +299,63 @@ vertical-align: bottom;
 }
 #nzstatus{
 color:#999;
+}
+#nzimgupload{
+	display:none;
+}
+#nzimguploadl{
+	display: inline-block;
+	padding: 2px 12px;
+	cursor: pointer;
+	border-radius: 10px;
+	background: #2185d0;
+	color: #fff;
+}
+#nzemoji{
+	font-size: 1rem;
+	background: #DDDDDD;
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+	cursor: pointer;
+	outline: none;
+	border: none;
+	margin: 0;
+}
+#nznewmessage{
+	display:none;
+	background:rgba(52,152,215,0.8);
+	width: 250px;
+	height: 30px;
+	position: relative;
+	font-size: 16px;
+	box-sizing: border-box;
+	padding-left: 10px;
+	color: #fff;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+	margin: -40px auto 0 auto;
+	border-radius: 2px;
+}
+#nzalertbox{
+	display:none;
+	background:rgba(255, 224, 169, 0.9);
+	width: 100%;
+	height: 30px;
+	margin-top: -30px;
+	position: relative;
+	font-size: 16px;
+	box-sizing: border-box;
+	padding-left: 10px;
+	color: #8a6d3b;
+	line-height: 30px;
+}
+.nzbbcode{
+	float: left;
+	margin: 2px 5px 0 0;
+	width: 20px;
+	height: 20px;
+	text-indent: -9999px;
+	line-height: 20px;
+	overflow: hidden;
 }

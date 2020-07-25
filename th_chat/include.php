@@ -67,59 +67,24 @@ if($config['useunshowdzc']){
 ';
 }
 if($config['mediacode']){
-	$chat['editor'] .= '<a id="nzchataudio" href="javascript:void(0);" style="
-float: left;
-margin: 2px 5px 0 0;
-width: 20px;
-height: 20px;
+	$chat['editor'] .= '<a id="nzchataudio" class="nzbbcode" href="javascript:void(0);" style="background: url(static/image/editor/editor.gif) no-repeat;
+background-position: -220px -20px;" title="เพลง" onclick="seditor_insertunit(\'nzchat\', \'[audio]\', \'[/audio]\')">Audio</a>
+<a id="nzchatvideo" class="nzbbcode" href="javascript:void(0);" style="background: url(static/image/editor/editor.gif) no-repeat;
+background-position: -240px -20px;" title="วีดีโอ" onclick="seditor_insertunit(\'nzchat\', \'[media]\', \'[/media]\')">Video</a>
+<a id="nzchatflash" class="nzbbcode" href="javascript:void(0);" style="
 background: url(static/image/editor/editor.gif) no-repeat;
-background-position: -220px -20px;
-text-indent: -9999px;
-line-height: 20px;
-overflow: hidden;
-" title="เพลง" onclick="seditor_insertunit(\'nzchat\', \'[audio]\', \'[/audio]\')">Audio</a>
-<a id="nzchatvideo" href="javascript:void(0);" style="
-float: left;
-margin: 2px 5px 0 0;
-width: 20px;
-height: 20px;
-background: url(static/image/editor/editor.gif) no-repeat;
-background-position: -240px -20px;
-text-indent: -9999px;
-line-height: 20px;
-overflow: hidden;
-" title="วีดีโอ" onclick="seditor_insertunit(\'nzchat\', \'[media]\', \'[/media]\')">Video</a>
-<a id="nzchatflash" href="javascript:void(0);" style="
-float: left;
-margin: 2px 5px 0 0;
-width: 20px;
-height: 20px;
-background: url(static/image/editor/editor.gif) no-repeat;
-background-position: -260px -20px;
-text-indent: -9999px;
-line-height: 20px;
-overflow: hidden;
-" title="แฟลช" onclick="seditor_insertunit(\'nzchat\', \'[flash]\', \'[/flash]\')">Flash</a>
+background-position: -260px -20px;" title="แฟลช" onclick="seditor_insertunit(\'nzchat\', \'[flash]\', \'[/flash]\')">Flash</a>
 ';
 }
 if($config['usemore']){
 	loadcache('bbcodes_display');
 	foreach($_G['cache']['bbcodes_display'][$_G['groupid']] as $tag => $bbcode){
-		$chat['editor'] .= '<a id="nzchat'.$tag.'" href="javascript:void(0);" style="
-	float: left;
-	margin: 2px 5px 0 0;
-	width: 20px;
-	height: 20px;
-	background: url('.STATICURL.'image/common/'.$bbcode['icon'].') no-repeat;
-	text-indent: -9999px;
-	line-height: 20px;
-	overflow: hidden;
-	" title="'.$tag.'" onclick="seditor_insertunit(\'nzchat\', \'['.$tag.']\', \'[/'.$tag.']\')">'.$tag.'</a>';
+		$chat['editor'] .= '<a id="nzchat'.$tag.'" class="nzbbcode" href="javascript:void(0);" style="
+	background: url('.STATICURL.'image/common/'.$bbcode['icon'].') no-repeat;" title="'.$tag.'" onclick="seditor_insertunit(\'nzchat\', \'['.$tag.']\', \'[/'.$tag.']\')">'.$tag.'</a>';
 	}
 }
 if(in_array($_G['adminid'],array(1,2,3))){
 		$chat['editor'] .= '<a href="javascript:void(0);" onClick="nzCommand(\'clear\',\'\');" title="ล้างห้องแชท" style="width:20px;height:20px;background:url(source/plugin/th_chat/images/clear.png) no-repeat center">Clear</a>';
 }
 $chat['welcometext'] = $config['welcometext'];
-$chat['sort'] = $config['chat_type'];
 ?>

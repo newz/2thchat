@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
-	<item id="Version"><![CDATA[X1.0,X1.5,X2.0,X2.5,X3.0,X3.1,X3.2,X3.3,X3.4]]></item>
-	<item id="Time"><![CDATA[2017-8-11 00:00]]></item>
-	<item id="From"><![CDATA[localhost]]></item>
+	<item id="Version"><![CDATA[X3.4]]></item>
+	<item id="Time"><![CDATA[2019-1-1 00:00]]></item>
+	<item id="From"><![CDATA[https://www.discuz.in.th]]></item>
 	<item id="Data">
 		<item id="plugin">
 			<item id="available"><![CDATA[1]]></item>
@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[th_chat/]]></item>
 			<item id="copyright"><![CDATA[newz]]></item>
-			<item id="version"><![CDATA[2.15]]></item>
+			<item id="version"><![CDATA[2.16]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[chat]]></item>
@@ -146,16 +146,6 @@
 				<item id="value"><![CDATA[10]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="11">
-				<item id="displayorder"><![CDATA[11]]></item>
-				<item id="title"><![CDATA[การแสดงข้อความในแชท]]></item>
-				<item id="description"><![CDATA[]]></item>
-				<item id="variable"><![CDATA[chat_type]]></item>
-				<item id="type"><![CDATA[select]]></item>
-				<item id="value"><![CDATA[2]]></item>
-				<item id="extra"><![CDATA[1 = ข้อความใหม่อยู่ด้านบน
-2 = ข้อความใหม่อยู่ด้านล่าง]]></item>
-			</item>
 			<item id="12">
 				<item id="displayorder"><![CDATA[12]]></item>
 				<item id="title"><![CDATA[เวลารีโหลดแชท]]></item>
@@ -271,7 +261,7 @@
 			</item>
 			<item id="24">
 				<item id="displayorder"><![CDATA[24]]></item>
-				<item id="title"><![CDATA[ตรวจสอบ URL อัตโนมัติ]]></item>
+				<item id="title"><![CDATA[แปลง URL อัตโนมัติ]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[autourl]]></item>
 				<item id="type"><![CDATA[radio]]></item>
@@ -283,44 +273,6 @@
 				<item id="title"><![CDATA[เข้าแชทอัตโนมัติ]]></item>
 				<item id="description"><![CDATA[]]></item>
 				<item id="variable"><![CDATA[autoconnect]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[1]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
-			<item id="27">
-				<item id="displayorder"><![CDATA[27]]></item>
-				<item id="title"><![CDATA[ความยาวต่ำสุดของชื่อ/สถานะ]]></item>
-				<item id="description"><![CDATA[]]></item>
-				<item id="variable"><![CDATA[namemin]]></item>
-				<item id="type"><![CDATA[number]]></item>
-				<item id="value"><![CDATA[4]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
-			<item id="28">
-				<item id="displayorder"><![CDATA[28]]></item>
-				<item id="title"><![CDATA[ความยาวสูงสุดของชื่อ/สถานะ]]></item>
-				<item id="description"><![CDATA[ใส่ 0 เพื่อให้ยาวได้ไม่จำกัด]]></item>
-				<item id="variable"><![CDATA[namemax]]></item>
-				<item id="type"><![CDATA[number]]></item>
-				<item id="value"><![CDATA[18]]></item>
-				<item id="extra"><![CDATA[]]></item>
-			</item>
-			<item id="29">
-				<item id="displayorder"><![CDATA[29]]></item>
-				<item id="title"><![CDATA[โหมดการแสดงชื่อ]]></item>
-				<item id="description"><![CDATA[สามารถใช้คำสั่ง !name UID|:|NAME เพื่อเปลี่ยนชื่อ]]></item>
-				<item id="variable"><![CDATA[namemode]]></item>
-				<item id="type"><![CDATA[select]]></item>
-				<item id="value"><![CDATA[2]]></item>
-				<item id="extra"><![CDATA[0 = แสดง Username
-1 = แสดง Username + Status
-2 = แสดง Name ที่ตั้งขึ้น]]></item>
-			</item>
-			<item id="30">
-				<item id="displayorder"><![CDATA[30]]></item>
-				<item id="title"><![CDATA[เปิดการอ้างอิงแบบเต็ม]]></item>
-				<item id="description"><![CDATA[หากเปิดจะอ้างอิงรูป อีโมเป็นต้นได้]]></item>
-				<item id="variable"><![CDATA[quota]]></item>
 				<item id="type"><![CDATA[radio]]></item>
 				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>

@@ -20,5 +20,14 @@ EOF;
 	runquery($sql);
 }
 
+if ($_GET['fromversion'] <= "2.15") {
+	$sql = <<<EOF
+ALTER TABLE `pre_newz_nick` DROP `name`;
+ALTER TABLE `pre_newz_data` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `pre_newz_nick` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EOF;
+	runquery($sql);
+}
+
 $finish = TRUE;
 ?>

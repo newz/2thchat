@@ -6,7 +6,7 @@ width: 120px;
 </style>
 <script>
 function nzSaveSetting(){
-	nzchatobj.post("plugin.php?id=th_chat:setting"+formhash, {'chatname':nzchatobj('#nzchatname').val(),'sound_1':nzchatobj('input[name=nzsound_1]:checked').val(),'sound_2':nzchatobj('input[name=nzsound_2]:checked').val()},function(data) {
+	nzchatobj.post("plugin.php?id=th_chat:setting"+formhash, {'sound_1':nzchatobj('input[name=nzsound_1]:checked').val(),'sound_2':nzchatobj('input[name=nzsound_2]:checked').val()},function(data) {
 		nzchatobj('#nzsettingreply').html(data);
 	});
 }
@@ -14,14 +14,6 @@ function nzSaveSetting(){
 <div style="padding: 10px;overflow:hidden;background: #eaeaea;" id="th_chat_setting_box">
 <center>
 <table style="font-size: 14px;">
-<!--{if $config['namemode']!=0}-->
-<tr>
-<td><!--{if $config['namemode']==2}-->ชื่อในห้องแชท<!--{else}-->สถานะ<!--{/if}--></td>
-<td><input type="text" value="{$olddata['name']}" id="nzchatname" style="border: 1px solid rgb(204, 204, 204);
-border-radius: 2px;
-padding: 5px;"></td>
-</tr>
-<!--{/if}-->
 <tr>
 <td>เสียงทั่วไป</td>
 <td><input type="radio" value="1" name="nzsound_1" {$olddatas1}>เปิด <input type="radio" value="0" name="nzsound_1" {$olddatas2}>ปิด</td>
