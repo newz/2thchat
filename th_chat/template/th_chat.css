@@ -517,3 +517,10 @@ tr.nzchatrow td {}
 	border: 1px solid #fb8c00;
 	padding:1px 6px
 }
+
+.nztag3 {
+	color: #F4511E;
+	border: 1px solid #F4511E;
+	border-radius: 4px;
+	padding: 0 4px;
+}

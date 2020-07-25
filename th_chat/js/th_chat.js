@@ -1,4 +1,5 @@
 var nzchatobj = jQuery.noConflict();
+
 var nzsid = getcookie('sid', true);
 var nztime1 = new Date().getTime();
 var nztime2 = 0;
@@ -21,11 +22,20 @@ function nzolout() {
 
 function nzalert(text) {
 	nzchatobj('#nzalertbox').text(text);
-	nzchatobj('#nzalertbox').slideDown();
+	nzchatobj('#nzalertbox').slideDown(200);
 	setTimeout(function () {
-		nzchatobj('#nzalertbox').slideUp();
-	}, 3000);
+		nzchatobj('#nzalertbox').slideUp(200);
+	}, 2000);
 }
+
+nzchatobj.ajaxSetup({
+	timeout: 2000,
+	error: function(jqXHR, textStatus, errorThrown) {
+		nzalert('เกิดข้อผิดพลาด: ไม่สามารถเชื่อมต่อกับเซิฟเวอร์ได้');
+		setTimeout(nzLoadText, nzsetting.reload);
+    }
+});
+
 nzchatobj(function () {
 	nzchatobj("#nzchatmessage").keydown(function (event) {
 		if (event.keyCode == '13') {
@@ -199,14 +209,13 @@ function nzSend() {
 			'quota': nzquota,
 			'command': nzcommandz
 		}, function (data) {
-			
 			if (nzquota > 0 || nzcommandz == 'notice' || nzcommandz.substr(0, 4) == 'edit') {
 				nzTouid(0);
 			}
 			data = JSON.parse(data);
 			if (data.type == 1) {
 				nzalert(data.error);
-				if (data.script_add == 1) {
+				if (data.script == 1) {
 					eval(data.script);
 				}
 			} else {
@@ -248,10 +257,14 @@ function nzCommand(command, xid) {
 			nzcommandz = 'edit ' + xid;
 			nzchatobj(".nzquoteboxi").html('<div><div class="nzquoteboxh">แก้ไขข้อความ</div>' + nzchatobj("#nzrows_" + xid + " .nzinnercontent")[0].outerHTML + '</div><div class="nzcancel" onclick="nzTouid(0)" title="ยกเลิก"></div>');
 			nzchatobj(".nzquoteboxi .nzcq").remove();
+			nzchatobj(".nzquoteboxi .nzblockquote").remove();
+			nzchatobj(".nzquoteboxi .nztag").remove();
+			nzchatobj(".nzquoteboxi .nztag2").remove();
+			nzchatobj(".nzquoteboxi .nztag3").remove();
 			nzchatobj(".nzquoteboxo").show();
 			nzchatobj("#nzchatcontent").css('height',nzchatheight - nzchatobj(".nzquoteboxo").height() - 2);
 			nzScrollChat(true);
-			nzchatobj("#nzchatmessage").val(nzchatobj("#nzchatcontent" + xid).text());
+			nzchatobj("#nzchatmessage").val(nzchatobj(".nzquoteboxi .nzinnercontent").text());
 			nzchatobj("#nzchatmessage").focus();
 			return;
 		} else if (command == 'ban') {
@@ -323,36 +336,34 @@ function nzLoadText() {
 	nzchatobj.post("plugin.php?id=th_chat:new", {
 		'lastid': nzlastid
 	}, function (data) {
-		if (data != 'not') {
-			data = JSON.parse(data);
-			var listmess = sortObject(data.chat_row);
-			nzReadyForScroll();
-			nzchatobj.each(listmess, function (k, v) {
-				k = parseInt(k);
-				if (k > nzlastid) {
-					nzlastid = k;
-					nzchatobj("#afterme").before(v);
-					nzScrollChat();
-				}
-			});
-			nzchatobj('.nzinnercontent img').one('load', function () {
+		data = JSON.parse(data);
+		var listmess = sortObject(data.chat_row);
+		nzReadyForScroll();
+		nzchatobj.each(listmess, function (k, v) {
+			k = parseInt(k);
+			if (k > nzlastid) {
+				nzlastid = k;
+				nzchatobj("#afterme").before(v);
 				nzScrollChat();
-			});
-			if (nzsetting.iscleardata == 1) {
-				var nzchatrr = nzchatobj(".nzchatrow");
-				if (nzchatrr.size() > nzsetting.chatrowmax) {
-					nzchatrr.first().remove();
-				}
 			}
-			if (data.chat_online) {
-				if (!nzonol) {
-					nzchatobj("#nzchatolcontent").html(data.chat_online);
-				}
-				nzchatobj("#nzoltotal").html(data.chat_online_total);
+		});
+		nzchatobj('.nzinnercontent img').one('load', function () {
+			nzScrollChat();
+		});
+		if (nzsetting.iscleardata == 1) {
+			var nzchatrr = nzchatobj(".nzchatrow");
+			if (nzchatrr.size() > nzsetting.chatrowmax) {
+				nzchatrr.first().remove();
 			}
 		}
+		if (data.chat_online) {
+			if (!nzonol) {
+				nzchatobj("#nzchatolcontent").html(data.chat_online);
+			}
+			nzchatobj("#nzoltotal").html(data.chat_online_total);
+			}
+		setTimeout(nzLoadText, nzsetting.reload);
 	});
-	setTimeout(nzLoadText, nzsetting.reload);
 }
 
 function nzQuota(i) {

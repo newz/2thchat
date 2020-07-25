@@ -11,7 +11,7 @@ LEFT JOIN ".DB::table('common_member')." m ON n.uid=m.uid
 LEFT JOIN ".DB::table('common_member')." mt ON n.touid=mt.uid 
 LEFT JOIN ".DB::table('common_usergroup')." g ON m.groupid=g.groupid 
 LEFT JOIN ".DB::table('common_usergroup')." gt ON mt.groupid=gt.groupid 
-WHERE (n.touid='0' OR n.touid='$uid' OR n.uid='$uid') AND n.ip != 'delete'
+WHERE (n.touid='0' OR n.touid='$uid' OR n.uid='$uid') AND n.ip NOT IN ('delete','edit','notice')
 ORDER BY id DESC LIMIT {$config['chat_init']}");
 $body=array();
 $lastid=0;

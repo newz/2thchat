@@ -24,10 +24,10 @@ while($c = DB::fetch($re)){
 		$body[$c['id']] .= '<script>nzchatobj("#nzrows_'.$c['text'].'").fadeOut(200);</script>';
 		continue;
 	}elseif($c['ip'] == 'edit'){
-		$body[$c['id']] .= '<script>nzchatobj("#nzchatcontent'.$c['icon'].'").html("'.addcslashes($c['text'],'"').'");</script>';
+		$body[$c['id']] .= '<script>nzchatobj("#nzchatcontent'.$c['icon'].'").html("'.addslashes($c['text']).'");</script>';
 		continue;
 	}elseif($c['ip'] == 'notice'){
-		$body[$c['id']] .= '<script>nzchatobj("#nzchatnotice").html("'.addcslashes($c['text'],'"').'");</script>';
+		$body[$c['id']] .= '<script>nzchatobj("#nzchatnotice").html("'.addslashes($c['text']).'");</script>';
 		continue;
 	}
 	if($c['ip']=='clear'){
@@ -48,8 +48,8 @@ $seedd = $time.'_'.$uid.'_'.rand(1,999);
 	}
 }
 session_start();
-if(time()-$_SESSION['th_chat_online']>15){
-	$_SESSION['th_chat_online'] = time();
+if(TIMESTAMP-$_SESSION['th_chat_online']>15){
+	$_SESSION['th_chat_online'] = TIMESTAMP;
 	include 'online.php';
 }
 echo json_encode(array('chat_row'=>$body,'chat_online'=>$body_online,'chat_online_total'=>$oltotal));

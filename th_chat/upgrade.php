@@ -1,7 +1,4 @@
 <?php
-// Added by Jaideejung007
-// Files Upgrade for th_chat plugin v.1.11 to v.2.04.2
-
 if (! defined ( 'IN_DISCUZ' )) {
 	exit ( 'Access Denied' );
 }
@@ -25,6 +22,13 @@ if ($_GET['fromversion'] <= "2.15") {
 ALTER TABLE `pre_newz_nick` DROP `name`;
 ALTER TABLE `pre_newz_data` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `pre_newz_nick` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EOF;
+	runquery($sql);
+}
+
+if ($_GET['fromversion'] < "2.19") {
+	$sql = <<<EOF
+ALTER TABLE `pre_newz_nick` ADD `ban` INT(10) UNSIGNED NOT NULL DEFAULT '0' AFTER `sound_2`; 
 EOF;
 	runquery($sql);
 }

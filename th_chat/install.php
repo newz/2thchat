@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `pre_newz_nick` (
   `point_total` smallint(3) NOT NULL DEFAULT '0',
   `sound_1` int(1) NOT NULL DEFAULT '0',
   `sound_2` int(1) NOT NULL DEFAULT '1',
+  `ban` INT(10) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
