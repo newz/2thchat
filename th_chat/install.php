@@ -23,8 +23,6 @@ CREATE TABLE IF NOT EXISTS `pre_newz_nick` (
   `uid` mediumint(8) unsigned NOT NULL,
   `total` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `time` int(10) unsigned NOT NULL DEFAULT '0',
-  `point_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `point_total` smallint(3) NOT NULL DEFAULT '0',
   `sound_1` int(1) NOT NULL DEFAULT '0',
   `sound_2` int(1) NOT NULL DEFAULT '1',
   `ban` INT(10) UNSIGNED NOT NULL DEFAULT '0',

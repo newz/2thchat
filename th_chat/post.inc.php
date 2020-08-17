@@ -62,50 +62,6 @@ $a = file_get_contents(DISCUZ_ROOT.'/source/plugin/th_chat/template/big.htm');
 		$icon = 'alert';
 		$touid = 0;
 		$text = '[color=red]ปลดแบน[/color] '.$username_ban;
-	}elseif(substr($text,0,6)=="!point"&&$config['chat_point']){
-		$point = explode('|',substr($text,6));
-		$uid_point = intval($point[0]);
-		$res = $point[2];
-		$point = intval($point[1]);
-		if($uid_point&&($point==1||$point==-1)&&($uid_point!=$uid)||$uid==1){
-			$re = DB::query("SELECT uid,point_time FROM ".DB::table('newz_nick')." WHERE uid='{$uid}'");
-			if($re = DB::fetch($re)){
-				if($time-$re['point_time']<$config['point_time']){
-					die(json_encode(array('type'=>1,'error'=>'คุณสามารถให้คะแนนได้ 1 ครั้งภายใน 10 วินาที')));
-				}else{
-					DB::update('newz_nick', array(
-						'point_time' => $time
-					), '`uid`='.$uid);
-				}
-			}else{
-				DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,point_time) VALUES ('{$uid}','{$time}')");
-			}
-			if($point>0){
-				$point = '+'.$point;
-			}
-			if($touid!=$uid_point){
-				$touid=0;
-			}
-			$this_username_name = DB::query("SELECT username FROM ".DB::table('common_member')." WHERE uid='{$uid_point}' LIMIT 1");
-			$this_username_name = DB::fetch($this_username_name);
-			if($config['chat_point']!='9'){
-				updatemembercount($uid_point, array("extcredits".$config['chat_point'] => $point));
-				$username_point = DB::fetch_first("SELECT extcredits{$config['chat_point']} AS point FROM ".DB::table('common_member_count')." WHERE uid='{$uid_point}' LIMIT 1");
-			}else{
-				DB::query("INSERT INTO ".DB::table('newz_nick')." (uid,point_total) VALUES ('{$uid_point}',{$point}) ON DUPLICATE KEY UPDATE point_total=point_total{$point}");
-				$username_point = DB::fetch_first("SELECT point_total AS point FROM ".DB::table('newz_nick')." WHERE uid='{$uid_point}' LIMIT 1");
-			}
-			$total_point = $username_point['point'];
-			if($point>0||$point==0){
-				$point='[color=green]'.$point.'[/color]';
-			}else{
-				$point='[color=red]'.$point.'[/color]';
-			}
-			$icon = 'alert';
-			$touid = 0;
-			$text = '@'.$this_username_name['username'].' '.$point.' = '.$total_point.' '.$res;
-			$quota = 0;
-		}
 	}
 	if($command=="notice"&&$is_mod){
 		$icon = 'alert';
@@ -174,9 +130,8 @@ if(($is_mod>0)&&$text=='!clear'){
 }
 $text = getat($text);
 if($ip == 'notice'){
-	$pluginid = C::t('common_plugin')->fetch_by_identifier('th_chat');
-	$pluginid = $pluginid['pluginid'];
-	C::t('common_pluginvar')->update_by_variable($pluginid, 'welcometext', $text);
+	$plugin = C::t('common_plugin')->fetch_by_identifier('th_chat');
+	C::t('common_pluginvar')->update_by_variable($plugin['pluginid'], 'welcometext', array('value' => $text));
 	include_once libfile('function/cache');
 	updatecache('plugin');
 	DB::query("INSERT INTO ".DB::table('newz_data')." (uid,touid,icon,text,time,ip) VALUES ('$uid','0','alert','$text','".TIMESTAMP."','".$_G['clientip']."')");

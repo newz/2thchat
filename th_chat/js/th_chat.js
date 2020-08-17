@@ -273,10 +273,6 @@ function nzCommand(command, xid) {
 		} else if (command == 'unban') {
 			var show = 'ปลดแบน';
 			var showid = ' ' + nzchatobj("#nzolpro_" + xid).text() + '(UID: ' + xid + ')';
-		} else if (command == 'point') {
-			var show = 'ให้คะแนน';
-			var n = xid.split("|");
-			var showid = ' ' + n[1] + ' แก่ ' + nzchatobj("#nzolpro_" + n[0]).text() + '(UID: ' + xid + ')';
 		} else if (command == 'clear') {
 			var show = 'ล้างห้องแชท';
 			var showid = '';
@@ -459,14 +455,6 @@ function nzCheckImg(i) {
 		i.width = (maxheight / h) * w;
 		i.height = maxheight;
 	}
-}
-
-function nzPlusone(nz_uid, nz_type) {
-	var nz_res = prompt('เหตุผล');
-	if (nz_res == null) {
-		nz_res = "";
-	}
-	nzCommand('point', nz_uid + '|' + nz_type + '|' + nz_res);
 }
 
 function sortObject(a) {

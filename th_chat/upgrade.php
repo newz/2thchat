@@ -28,7 +28,8 @@ EOF;
 
 if ($_GET['fromversion'] < "2.19") {
 	$sql = <<<EOF
-ALTER TABLE `pre_newz_nick` ADD `ban` INT(10) UNSIGNED NOT NULL DEFAULT '0' AFTER `sound_2`; 
+ALTER TABLE `pre_newz_nick` ADD `ban` INT(10) UNSIGNED NOT NULL DEFAULT '0' AFTER `sound_2`;
+ALTER TABLE `pre_newz_nick` DROP `point_time`, DROP `point_total`;
 EOF;
 	runquery($sql);
 }

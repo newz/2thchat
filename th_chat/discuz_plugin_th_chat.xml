@@ -119,24 +119,6 @@
 3 = ทำซ้ำแนวตั้ง
 4 = ทำซ้ำแนวนอนและแนวตั้ง]]></item>
 			</item>
-			<item id="9">
-				<item id="displayorder"><![CDATA[9]]></item>
-				<item id="title"><![CDATA[ระบบ chatpoint]]></item>
-				<item id="description"><![CDATA[สามารถใช้คำสั่ง !point UID|POINT|REASON]]></item>
-				<item id="variable"><![CDATA[chat_point]]></item>
-				<item id="type"><![CDATA[select]]></item>
-				<item id="value"><![CDATA[0]]></item>
-				<item id="extra"><![CDATA[0 = ปิดใช้งาน
-1 = ใช้ extcredits1
-2 = ใช้ extcredits2
-3 = ใช้ extcredits3
-4 = ใช้ extcredits4
-5 = ใช้ extcredits5
-6 = ใช้ extcredits6
-7 = ใช้ extcredits7
-8 = ใช้ extcredits8
-9 = ใช้ POINT สำหรับห้องแชท]]></item>
-			</item>
 			<item id="10">
 				<item id="displayorder"><![CDATA[10]]></item>
 				<item id="title"><![CDATA[ดีเลย์การให้ chatpoint]]></item>
